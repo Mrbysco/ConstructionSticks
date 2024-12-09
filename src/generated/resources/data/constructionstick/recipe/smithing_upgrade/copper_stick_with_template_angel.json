@@ -1,0 +1,20 @@
+{
+  "type": "constructionstick:smithing_upgrade",
+  "addition": {
+    "tag": "c:feathers"
+  },
+  "base": {
+    "item": "constructionstick:copper_stick"
+  },
+  "result": {
+    "components": {
+      "constructionstick:angel": true
+    },
+    "count": 1,
+    "id": "constructionstick:copper_stick"
+  },
+  "template": {
+    "item": "constructionstick:template_angel"
+  },
+  "upgrade": "constructionstick:upgrade_angel"
+}

@@ -1,0 +1,20 @@
+{
+  "parent": "minecraft:item/handheld",
+  "overrides": [
+    {
+      "model": "constructionstick:item/netherite_stick_angel",
+      "predicate": {
+        "constructionstick:angel_selected": 1.0
+      }
+    },
+    {
+      "model": "constructionstick:item/netherite_stick_destruction",
+      "predicate": {
+        "constructionstick:destruction_selected": 1.0
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "constructionstick:item/netherite_stick"
+  }
+}

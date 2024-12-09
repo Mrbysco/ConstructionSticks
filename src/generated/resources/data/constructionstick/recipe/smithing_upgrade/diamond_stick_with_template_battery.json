@@ -1,0 +1,20 @@
+{
+  "type": "constructionstick:smithing_upgrade",
+  "addition": {
+    "tag": "c:storage_blocks/copper"
+  },
+  "base": {
+    "item": "constructionstick:diamond_stick"
+  },
+  "result": {
+    "components": {
+      "constructionstick:battery": 0
+    },
+    "count": 1,
+    "id": "constructionstick:diamond_stick"
+  },
+  "template": {
+    "item": "constructionstick:template_battery"
+  },
+  "upgrade": "constructionstick:upgrade_battery"
+}

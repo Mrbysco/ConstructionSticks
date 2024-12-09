@@ -1,0 +1,20 @@
+{
+  "type": "constructionstick:smithing_upgrade",
+  "addition": {
+    "tag": "c:storage_blocks/redstone"
+  },
+  "base": {
+    "item": "constructionstick:iron_stick"
+  },
+  "result": {
+    "components": {
+      "constructionstick:destruction": true
+    },
+    "count": 1,
+    "id": "constructionstick:iron_stick"
+  },
+  "template": {
+    "item": "constructionstick:template_destruction"
+  },
+  "upgrade": "constructionstick:upgrade_destruction"
+}
