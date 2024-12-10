@@ -39,6 +39,8 @@ public class RecipeGenerator extends RecipeProvider {
 
 		templateRecipe(output, ModItems.TEMPLATE_ANGEL.get(), IngredientPredicate.fromTag(Tags.Items.FEATHERS), IngredientPredicate.fromTag(Tags.Items.INGOTS_GOLD));
 		templateRecipe(output, ModItems.TEMPLATE_DESTRUCTION.get(), IngredientPredicate.fromItem(Items.TNT), IngredientPredicate.fromItem(Items.DIAMOND_PICKAXE));
+		templateRecipe(output, ModItems.TEMPLATE_UNBREAKABLE.get(), IngredientPredicate.fromTag(Tags.Items.NETHER_STARS), IngredientPredicate.fromTag(Tags.Items.OBSIDIANS_CRYING));
+		templateRecipe(output, ModItems.TEMPLATE_BATTERY.get(), IngredientPredicate.fromItem(Items.POTATO), IngredientPredicate.fromTag(Tags.Items.DUSTS_REDSTONE));
 
 		templateUpgradeRecipe(output, ModItems.TEMPLATE_ANGEL, IngredientPredicate.fromTag(Tags.Items.FEATHERS), ModDataComponents.ANGEL, true);
 		templateUpgradeRecipe(output, ModItems.TEMPLATE_DESTRUCTION, IngredientPredicate.fromTag(Tags.Items.STORAGE_BLOCKS_REDSTONE), ModDataComponents.DESTRUCTION, true);
