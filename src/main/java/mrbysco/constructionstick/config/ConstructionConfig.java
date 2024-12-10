@@ -25,7 +25,7 @@ public class ConstructionConfig {
 
 	public static final ModConfigSpec.BooleanValue BE_WHITELIST;
 	public static final ModConfigSpec.ConfigValue<List<? extends String>> BE_LIST;
-	private static final String[] BE_LIST_DEFAULT = {"chiselsandbits"};
+	private static final String[] BE_LIST_DEFAULT = {"chiselsandbits", "mekanism", "waystones"};
 
 	private static final HashMap<ResourceLocation, StickProperties> stickProperties = new HashMap<>();
 
