@@ -63,6 +63,12 @@ public class ModDataComponents {
 					.networkSynchronized(ByteBufCodecs.BOOL)
 					.build());
 
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> BATTERY_ENABLED = DATA_COMPONENT_TYPES.register("battery_enabled", () ->
+			DataComponentType.<Boolean>builder()
+					.persistent(Codec.BOOL)
+					.networkSynchronized(ByteBufCodecs.BOOL)
+					.build());
+
 	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> BATTERY = DATA_COMPONENT_TYPES.register("battery", () ->
 			DataComponentType.<Integer>builder()
 					.persistent(Codec.INT)

@@ -86,7 +86,18 @@ public class ModItems {
 		for (DeferredHolder<Item, ? extends Item> holder : STICKS) {
 			event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, context) -> {
 						StickProperties properties = ConstructionConfig.getStickProperties(holder.get());
-						return new ComponentEnergyStorage(stack, ModDataComponents.BATTERY.get(), properties.getBatteryStorage(), properties.getBatteryUsage());
+						return new ComponentEnergyStorage(stack, ModDataComponents.BATTERY.get(),
+								properties.getBatteryStorage(), 200, properties.getBatteryUsage()) {
+							@Override
+							public boolean canExtract() {
+								return stack.has(ModDataComponents.BATTERY_ENABLED) && super.canExtract();
+							}
+
+							@Override
+							public boolean canReceive() {
+								return stack.has(ModDataComponents.BATTERY_ENABLED) && super.canReceive();
+							}
+						};
 					},
 					holder.get()
 			);

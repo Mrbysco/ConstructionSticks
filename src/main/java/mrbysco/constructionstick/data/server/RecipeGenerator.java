@@ -1,5 +1,6 @@
 package mrbysco.constructionstick.data.server;
 
+import mrbysco.constructionstick.data.server.recipe.IngredientPredicate;
 import mrbysco.constructionstick.data.server.recipe.SmithingApplyUpgradeRecipeBuilder;
 import mrbysco.constructionstick.items.stick.ItemStick;
 import mrbysco.constructionstick.items.template.ItemUpgradeTemplate;
@@ -30,22 +31,22 @@ public class RecipeGenerator extends RecipeProvider {
 
 	@Override
 	protected void buildRecipes(RecipeOutput output, HolderLookup.Provider provider) {
-		stickRecipe(output, ModItems.STICK_WOODEN.get(), Inp.fromTag(Tags.Items.RODS_WOODEN));
-		stickRecipe(output, ModItems.STICK_COPPER.get(), Inp.fromTag(ItemTags.STONE_TOOL_MATERIALS));
-		stickRecipe(output, ModItems.STICK_IRON.get(), Inp.fromTag(Tags.Items.INGOTS_IRON));
-		stickRecipe(output, ModItems.STICK_DIAMOND.get(), Inp.fromTag(Tags.Items.GEMS_DIAMOND));
-		stickRecipe(output, ModItems.STICK_NETHERITE.get(), Inp.fromTag(Tags.Items.INGOTS_NETHERITE));
+		stickRecipe(output, ModItems.STICK_WOODEN.get(), IngredientPredicate.fromTag(Tags.Items.RODS_WOODEN));
+		stickRecipe(output, ModItems.STICK_COPPER.get(), IngredientPredicate.fromTag(ItemTags.STONE_TOOL_MATERIALS));
+		stickRecipe(output, ModItems.STICK_IRON.get(), IngredientPredicate.fromTag(Tags.Items.INGOTS_IRON));
+		stickRecipe(output, ModItems.STICK_DIAMOND.get(), IngredientPredicate.fromTag(Tags.Items.GEMS_DIAMOND));
+		stickRecipe(output, ModItems.STICK_NETHERITE.get(), IngredientPredicate.fromTag(Tags.Items.INGOTS_NETHERITE));
 
-		templateRecipe(output, ModItems.TEMPLATE_ANGEL.get(), Inp.fromTag(Tags.Items.FEATHERS), Inp.fromTag(Tags.Items.INGOTS_GOLD));
-		templateRecipe(output, ModItems.TEMPLATE_DESTRUCTION.get(), Inp.fromItem(Items.TNT), Inp.fromItem(Items.DIAMOND_PICKAXE));
+		templateRecipe(output, ModItems.TEMPLATE_ANGEL.get(), IngredientPredicate.fromTag(Tags.Items.FEATHERS), IngredientPredicate.fromTag(Tags.Items.INGOTS_GOLD));
+		templateRecipe(output, ModItems.TEMPLATE_DESTRUCTION.get(), IngredientPredicate.fromItem(Items.TNT), IngredientPredicate.fromItem(Items.DIAMOND_PICKAXE));
 
-		templateUpgradeRecipe(output, ModItems.TEMPLATE_ANGEL, Inp.fromTag(Tags.Items.FEATHERS), ModDataComponents.ANGEL, true);
-		templateUpgradeRecipe(output, ModItems.TEMPLATE_DESTRUCTION, Inp.fromTag(Tags.Items.STORAGE_BLOCKS_REDSTONE), ModDataComponents.DESTRUCTION, true);
-		templateUpgradeRecipe(output, ModItems.TEMPLATE_UNBREAKABLE, Inp.fromTag(Tags.Items.OBSIDIANS_CRYING), ModDataComponents.UNBREAKABLE, true);
-		templateUpgradeRecipe(output, ModItems.TEMPLATE_BATTERY, Inp.fromTag(Tags.Items.STORAGE_BLOCKS_COPPER), ModDataComponents.BATTERY, 0);
+		templateUpgradeRecipe(output, ModItems.TEMPLATE_ANGEL, IngredientPredicate.fromTag(Tags.Items.FEATHERS), ModDataComponents.ANGEL, true);
+		templateUpgradeRecipe(output, ModItems.TEMPLATE_DESTRUCTION, IngredientPredicate.fromTag(Tags.Items.STORAGE_BLOCKS_REDSTONE), ModDataComponents.DESTRUCTION, true);
+		templateUpgradeRecipe(output, ModItems.TEMPLATE_UNBREAKABLE, IngredientPredicate.fromTag(Tags.Items.OBSIDIANS_CRYING), ModDataComponents.UNBREAKABLE, true);
+		templateUpgradeRecipe(output, ModItems.TEMPLATE_BATTERY, IngredientPredicate.fromTag(Tags.Items.STORAGE_BLOCKS_COPPER), ModDataComponents.BATTERY_ENABLED, true);
 	}
 
-	private void stickRecipe(RecipeOutput output, ItemLike stick, Inp material) {
+	private void stickRecipe(RecipeOutput output, ItemLike stick, IngredientPredicate material) {
 		ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, stick)
 				.define('X', material.ingredient())
 				.define('#', Tags.Items.RODS_WOODEN)
@@ -57,7 +58,7 @@ public class RecipeGenerator extends RecipeProvider {
 	}
 
 	private <T> void templateUpgradeRecipe(RecipeOutput output, DeferredItem<? extends ItemUpgradeTemplate> template,
-	                                       Inp item1, Supplier<DataComponentType<T>> component, T defaultValue) {
+	                                       IngredientPredicate item1, Supplier<DataComponentType<T>> component, T defaultValue) {
 		for (DeferredItem<? extends ItemStick> stickHolder : ModItems.STICKS) {
 			ItemStack stack = stickHolder.toStack();
 			stack.set(component, defaultValue);
@@ -71,7 +72,7 @@ public class RecipeGenerator extends RecipeProvider {
 
 	}
 
-	private void templateRecipe(RecipeOutput output, ItemLike template, Inp item1, Inp item2) {
+	private void templateRecipe(RecipeOutput output, ItemLike template, IngredientPredicate item1, IngredientPredicate item2) {
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, template)
 				.define('O', item1.ingredient())
 				.define('X', item2.ingredient())
