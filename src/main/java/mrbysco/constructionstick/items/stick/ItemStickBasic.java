@@ -28,7 +28,7 @@ public class ItemStickBasic extends ItemStick {
 
 	@Override
 	public int getBarWidth(ItemStack stack) {
-		if (stack.has(ModDataComponents.BATTERY)) {
+		if (stack.has(ModDataComponents.BATTERY_ENABLED)) {
 			IEnergyStorage storage = stack.getCapability(Capabilities.EnergyStorage.ITEM);
 			if (storage != null) {
 				return Math.round((13.0F / storage.getMaxEnergyStored() * storage.getEnergyStored()));
@@ -39,7 +39,7 @@ public class ItemStickBasic extends ItemStick {
 
 	@Override
 	public int getBarColor(ItemStack stack) {
-		if (stack.has(ModDataComponents.BATTERY)) {
+		if (stack.has(ModDataComponents.BATTERY_ENABLED)) {
 			return 0x971607;
 		}
 		return super.getBarColor(stack);
@@ -53,12 +53,14 @@ public class ItemStickBasic extends ItemStick {
 	@Override
 	public int remainingDurability(ItemStack stack) {
 		if (stack.has(ModDataComponents.UNBREAKABLE)) {
+			return Integer.MAX_VALUE;
+		}
+		if (stack.has(ModDataComponents.BATTERY_ENABLED)) {
 			IEnergyStorage storage = stack.getCapability(Capabilities.EnergyStorage.ITEM);
 			if (storage != null) {
 				int usage = ConstructionConfig.getStickProperties(this).getBatteryUsage();
 				return storage.getEnergyStored() / usage;
 			}
-			return 0;
 		}
 		return stack.getMaxDamage() - stack.getDamageValue();
 	}

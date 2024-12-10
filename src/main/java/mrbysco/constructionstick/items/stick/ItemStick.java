@@ -98,7 +98,7 @@ public abstract class ItemStick extends Item {
 	}
 
 	public void hurtItem(ItemStack stack, int amount, LivingEntity entity, EquipmentSlot slot) {
-		if (stack.has(ModDataComponents.BATTERY)) {
+		if (stack.has(ModDataComponents.BATTERY_ENABLED)) {
 			if (entity.hasInfiniteMaterials()) return;
 			IEnergyStorage storage = stack.getCapability(Capabilities.EnergyStorage.ITEM);
 			if (storage != null) {
@@ -150,7 +150,7 @@ public abstract class ItemStick extends Item {
 			StickUpgradesSelectable<IStickTemplate> upgrades = options.upgrades;
 			lines.add(Component.translatable(langTooltip + "blocks", limit).withStyle(ChatFormatting.GRAY));
 
-			if (itemstack.has(ModDataComponents.BATTERY)) {
+			if (itemstack.has(ModDataComponents.BATTERY_ENABLED)) {
 				IEnergyStorage storage = itemstack.getCapability(Capabilities.EnergyStorage.ITEM);
 				if (storage != null) {
 					int energy = storage.getEnergyStored();
