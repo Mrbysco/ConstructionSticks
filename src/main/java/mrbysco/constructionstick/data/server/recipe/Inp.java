@@ -1,4 +1,4 @@
-package mrbysco.constructionstick.data.server;
+package mrbysco.constructionstick.data.server.recipe;
 
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.core.registries.BuiltInRegistries;
