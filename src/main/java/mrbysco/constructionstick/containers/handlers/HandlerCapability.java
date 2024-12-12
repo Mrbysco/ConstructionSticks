@@ -16,7 +16,7 @@ public class HandlerCapability implements IContainerHandler {
 	@Override
 	public int countItems(Player player, ItemStack itemStack, ItemStack inventoryStack) {
 		IItemHandler itemHandler = inventoryStack.getCapability(Capabilities.ItemHandler.ITEM);
-		if (itemHandler != null) return 0;
+		if (itemHandler == null) return 0;
 
 		int total = 0;
 
@@ -32,7 +32,7 @@ public class HandlerCapability implements IContainerHandler {
 	@Override
 	public int useItems(Player player, ItemStack itemStack, ItemStack inventoryStack, int count) {
 		IItemHandler itemHandler = inventoryStack.getCapability(Capabilities.ItemHandler.ITEM);
-		if (itemHandler != null) return 0;
+		if (itemHandler == null) return 0;
 
 		for (int i = 0; i < itemHandler.getSlots(); i++) {
 			ItemStack handlerStack = itemHandler.getStackInSlot(i);
