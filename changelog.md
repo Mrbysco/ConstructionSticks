@@ -1,1 +1,2 @@
-* Fix issue with modded item containers
+* Fix the preview key not functioning
+* Fix the undo key not functioning
