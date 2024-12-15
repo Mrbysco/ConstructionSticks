@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import mrbysco.constructionstick.basics.StickUtil;
 import mrbysco.constructionstick.items.stick.ItemStick;
 import mrbysco.constructionstick.stick.StickJob;
+import net.minecraft.client.Camera;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -37,7 +38,7 @@ public class RenderBlockPreview {
 		ItemStack stick = StickUtil.holdingStick(player);
 		if (stick == null) return;
 
-		if (!(player.isCrouching() && KeybindHandler.KEY_SHOW_PREVIOUS.isDown())) {
+		if (!KeybindHandler.KEY_SHOW_PREVIOUS.isDown()) {
 			// Use cached stickJob for previews of the same target pos/dir
 			// Exception: always update if blockCount < 2 to prevent 1-block previews when block updates
 			// from the last placement are lagging
@@ -57,10 +58,10 @@ public class RenderBlockPreview {
 		MultiBufferSource buffer = event.getMultiBufferSource();
 		VertexConsumer lineBuilder = buffer.getBuffer(RenderType.LINES);
 
-		double partialTicks = event.getDeltaTracker().getGameTimeDeltaPartialTick(false);
-		double d0 = player.xOld + (player.getX() - player.xOld) * partialTicks;
-		double d1 = player.yOld + player.getEyeHeight() + (player.getY() - player.yOld) * partialTicks;
-		double d2 = player.zOld + (player.getZ() - player.zOld) * partialTicks;
+		Camera info = event.getCamera();
+		double d0 = info.getPosition().x();
+		double d1 = info.getPosition().y();
+		double d2 = info.getPosition().z();
 
 		for (BlockPos block : blocks) {
 			AABB aabb = new AABB(block).move(-d0, -d1, -d2);
