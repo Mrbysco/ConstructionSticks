@@ -1,8 +1,8 @@
 package mrbysco.constructionstick.client;
 
 import mrbysco.constructionstick.ConstructionStick;
+import mrbysco.constructionstick.basics.StickUtil;
 import mrbysco.constructionstick.basics.option.StickOptions;
-import mrbysco.constructionstick.items.stick.ItemStick;
 import mrbysco.constructionstick.network.ModMessages;
 import mrbysco.constructionstick.network.PacketQueryUndo;
 import mrbysco.constructionstick.network.PacketStickOption;
@@ -12,6 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.InputEvent;
 import org.lwjgl.glfw.GLFW;
 
 public class KeybindHandler {
@@ -26,24 +27,32 @@ public class KeybindHandler {
 		return String.join(".", "key", ConstructionStick.MOD_ID, name);
 	}
 
-	private boolean optPressed;
 
 	public KeybindHandler() {
-		optPressed = false;
+		undoPressed = false;
+	}
+
+	private boolean undoPressed;
+
+	@SubscribeEvent
+	public void KeyEvent(InputEvent.Key event) {
+		Player player = Minecraft.getInstance().player;
+		if (player == null) return;
+		if (StickUtil.holdingStick(player) == null) return;
+
+		boolean undoDown = KEY_UNDO.isDown();
+		if (undoPressed != undoDown) {
+			undoPressed = undoDown;
+			ModMessages.sendToServer(new PacketQueryUndo(undoPressed));
+		}
 	}
 
 	@SubscribeEvent
 	public void onClientTick(ClientTickEvent.Post event) {
 		Player player = Minecraft.getInstance().player;
 		if (player == null) return;
+		if (StickUtil.holdingStick(player) == null) return;
 		ItemStack stick = player.getItemInHand(player.getUsedItemHand());
-		if (!(stick.getItem() instanceof ItemStick)) return;
-
-		boolean undoDown = KEY_UNDO.consumeClick();
-		if (optPressed != undoDown) {
-			optPressed = undoDown;
-			ModMessages.sendToServer(new PacketQueryUndo(optPressed));
-		}
 
 		if (KEY_CHANGE_UPGRADE.consumeClick()) {
 			StickOptions stickOptions = new StickOptions(stick);

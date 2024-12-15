@@ -52,7 +52,7 @@ public abstract class ItemStick extends Item {
 
 		ItemStack stack = player.getItemInHand(hand);
 
-		if (player.isCrouching() && ConstructionStick.undoHistory.isUndoActive(player)) {
+		if (ConstructionStick.undoHistory.isUndoActive(player)) {
 			return ConstructionStick.undoHistory.undo(player, level, context.getClickedPos()) ? InteractionResult.SUCCESS : InteractionResult.FAIL;
 		} else {
 			StickJob job = getStickJob(player, level, new BlockHitResult(context.getClickLocation(), context.getClickedFace(), context.getClickedPos(), false), stack);
