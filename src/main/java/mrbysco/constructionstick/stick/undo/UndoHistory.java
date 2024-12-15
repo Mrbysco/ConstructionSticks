@@ -41,13 +41,13 @@ public class UndoHistory {
 		history.remove(player.getUUID());
 	}
 
-	public void updateClient(Player player, boolean ctrlDown) {
+	public void updateClient(Player player, boolean keyDown) {
 		Level level = player.level();
 		if (level.isClientSide) return;
 
 		// Set state of CTRL key
 		PlayerEntry playerEntry = getEntryFromPlayer(player);
-		playerEntry.undoActive = ctrlDown;
+		playerEntry.undoActive = keyDown;
 
 		LinkedList<HistoryEntry> historyEntries = playerEntry.entries;
 		Set<BlockPos> positions;
