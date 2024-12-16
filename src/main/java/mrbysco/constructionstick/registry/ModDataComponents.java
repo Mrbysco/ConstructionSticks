@@ -80,4 +80,10 @@ public class ModDataComponents {
 					.persistent(ResourceLocation.CODEC)
 					.networkSynchronized(ResourceLocation.STREAM_CODEC)
 					.build());
+
+	public static final Supplier<DataComponentType<Boolean>> REPLACEMENT = DATA_COMPONENT_TYPES.register("replacement", () ->
+			DataComponentType.<Boolean>builder()
+					.persistent(Codec.BOOL)
+					.networkSynchronized(ByteBufCodecs.BOOL)
+					.build());
 }

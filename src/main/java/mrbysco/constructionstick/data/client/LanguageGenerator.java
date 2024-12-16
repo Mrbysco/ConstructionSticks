@@ -22,6 +22,7 @@ public class LanguageGenerator extends LanguageProvider {
 		addItem(ModItems.STICK_NETHERITE, "Netherite Stick");
 		addItem(ModItems.TEMPLATE_ANGEL, "Angel Stick Template");
 		addItem(ModItems.TEMPLATE_DESTRUCTION, "Destruction Stick Template");
+		addItem(ModItems.TEMPLATE_REPLACEMENT, "Replacement Stick Template");
 		addItem(ModItems.TEMPLATE_UNBREAKABLE, "Unbreakable Template");
 		addItem(ModItems.TEMPLATE_BATTERY, "Battery Template");
 
@@ -35,6 +36,7 @@ public class LanguageGenerator extends LanguageProvider {
 		addUpgradeInfo("default", "Construction", "Extend your building on the side facing you");
 		addUpgradeInfo("upgrade_angel", "§6Angel", "Place behind blocks and in mid air");
 		addUpgradeInfo("upgrade_destruction", "§cDestruction", "Destroys blocks on the side facing you");
+		addUpgradeInfo("upgrade_replacement", "§5Replacemente", "Replaces blocks with the block in your offhand");
 		addUpgradeInfo("upgrade_unbreakable", "§dUnbreakable", "Allows placing without using durability");
 		addUpgradeInfo("upgrade_battery", "§4Battery", "Use energy instead of durability");
 
@@ -83,6 +85,7 @@ public class LanguageGenerator extends LanguageProvider {
 		add("constructionstick.description.upgrade", "§5§nINSTALLATION§0§r\nPut your new upgrade template together with your stick and the required item in a Smithing Table to apply (Check the Smithing Table recipes to see the required item). To switch between upgrades, press the bound %s key while holding your stick or use the option screen.");
 		add("constructionstick.description.template_angel", "The angel upgrade places a block on the opposite side of the block (or row of blocks) you are facing. Maximum distance depends on stick tier. Right click empty space to place a block in midair. To do that, you'll need to have the block you want to place in your offhand.");
 		add("constructionstick.description.template_destruction", "The destruction upgrade destroys blocks (no block entities) on the side facing you. Maximum number of blocks depends on stick tier. Destroyed blocks disappear into the void, you can use the undo feature if you've made a mistake.");
+		add("constructionstick.description.template_replacement", "The replacement upgrade allows you to exchange blocks with the block of the type you are holding in your offhand. This can be useful for replacing walls after placement.");
 		add("constructionstick.description.template_unbreakable", "The unbreakable upgrade allows you to place blocks without using durability. The stick will never break.");
 		add("constructionstick.description.template_battery", "The battery upgrade allows you to use energy instead of durability. The stick will have the ability to store energy and use it to place blocks. Warning, you can only charge the stick if you have a mod that provides a way to do so.");
 

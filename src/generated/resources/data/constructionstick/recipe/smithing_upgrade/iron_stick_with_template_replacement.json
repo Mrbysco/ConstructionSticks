@@ -1,0 +1,20 @@
+{
+  "type": "constructionstick:smithing_upgrade",
+  "addition": {
+    "tag": "c:ender_pearls"
+  },
+  "base": {
+    "item": "constructionstick:iron_stick"
+  },
+  "result": {
+    "components": {
+      "constructionstick:replacement": true
+    },
+    "count": 1,
+    "id": "constructionstick:iron_stick"
+  },
+  "template": {
+    "item": "constructionstick:template_replacement"
+  },
+  "upgrade": "constructionstick:upgrade_replacement"
+}
