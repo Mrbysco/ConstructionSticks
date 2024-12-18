@@ -8,6 +8,7 @@ import mrbysco.constructionstick.items.stick.ItemStickBasic;
 import mrbysco.constructionstick.items.template.ItemAngelTemplate;
 import mrbysco.constructionstick.items.template.ItemBatteryTemplate;
 import mrbysco.constructionstick.items.template.ItemDestructionTemplate;
+import mrbysco.constructionstick.items.template.ItemReplacementTemplate;
 import mrbysco.constructionstick.items.template.ItemUnbreakableTemplate;
 import mrbysco.constructionstick.items.template.ItemUpgradeTemplate;
 import net.minecraft.core.registries.Registries;
@@ -45,12 +46,13 @@ public class ModItems {
 	// Upgrade Templates
 	public static final DeferredItem<ItemUpgradeTemplate> TEMPLATE_ANGEL = ITEMS.register("template_angel", () -> new ItemAngelTemplate(propUpgrade()));
 	public static final DeferredItem<ItemUpgradeTemplate> TEMPLATE_DESTRUCTION = ITEMS.register("template_destruction", () -> new ItemDestructionTemplate(propUpgrade()));
+	public static final DeferredItem<ItemUpgradeTemplate> TEMPLATE_REPLACEMENT = ITEMS.register("template_replacement", () -> new ItemReplacementTemplate(propUpgrade()));
 	public static final DeferredItem<ItemUpgradeTemplate> TEMPLATE_UNBREAKABLE = ITEMS.register("template_unbreakable", () -> new ItemUnbreakableTemplate(propUpgrade()));
 	public static final DeferredItem<ItemUpgradeTemplate> TEMPLATE_BATTERY = ITEMS.register("template_battery", () -> new ItemBatteryTemplate(propUpgrade()));
 
 	// Collections
 	public static final List<DeferredItem<ItemStick>> STICKS = List.of(STICK_WOODEN, STICK_COPPER, STICK_IRON, STICK_DIAMOND, STICK_NETHERITE);
-	public static final List<DeferredItem<ItemUpgradeTemplate>> TEMPLATES = List.of(TEMPLATE_ANGEL, TEMPLATE_DESTRUCTION, TEMPLATE_UNBREAKABLE, TEMPLATE_BATTERY);
+	public static final List<DeferredItem<ItemUpgradeTemplate>> TEMPLATES = List.of(TEMPLATE_ANGEL, TEMPLATE_DESTRUCTION, TEMPLATE_REPLACEMENT, TEMPLATE_UNBREAKABLE, TEMPLATE_BATTERY);
 
 	public static final Supplier<CreativeModeTab> CONSTRUCTION_TAB = CREATIVE_MODE_TABS.register("tab", () -> CreativeModeTab.builder()
 			.icon(() -> new ItemStack(STICK_WOODEN.get()))

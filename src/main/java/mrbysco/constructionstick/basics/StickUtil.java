@@ -21,6 +21,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
@@ -155,6 +156,35 @@ public class StickUtil {
 		return true;
 	}
 
+	public static boolean replaceBlock(Level level, Player player, BlockState oldBlock, BlockState newBlock, BlockPos pos, BlockItem item) {
+		// Check if the block can be replaced
+		if (!isBlockReplaceable(level, player, pos)) {
+			return false;
+		}
+
+		if (!player.isCreative()) {
+			// Drop the old block as an item
+			ItemStack blockStack = new ItemStack(oldBlock.getBlock().asItem());
+			if (!blockStack.isEmpty()) {
+				Block.popResource(level, pos, blockStack);
+			}
+		}
+
+		// Remove the old block
+		if (!removeBlock(level, player, oldBlock, pos)) {
+			return false;
+		}
+
+		// Place the new block
+		if (!placeBlock(level, player, newBlock, pos, item)) {
+			// If placing the new block fails, restore the old block
+			placeBlock(level, player, oldBlock, pos, null);
+			return false;
+		}
+
+		return true;
+	}
+
 	public static int countItem(Player player, Item item) {
 		if (player.getInventory().items == null) return 0;
 		if (player.isCreative()) return Integer.MAX_VALUE;
@@ -210,6 +240,17 @@ public class StickUtil {
 
 	public static boolean isBlockRemovable(Level level, Player player, BlockPos pos) {
 		if (!isPositionModifiable(level, player, pos)) return false;
+
+		if (!player.isCreative()) {
+			return !(level.getBlockState(pos).getDestroySpeed(level, pos) <= -1) && level.getBlockEntity(pos) == null;
+		}
+		return true;
+	}
+
+	public static boolean isBlockReplaceable(Level level, Player player, BlockPos pos) {
+		if (!isPositionModifiable(level, player, pos)) return false;
+
+		if (level.getBlockState(pos).is(ModTags.NON_REPLACEABLE)) return false;
 
 		if (!player.isCreative()) {
 			return !(level.getBlockState(pos).getDestroySpeed(level, pos) <= -1) && level.getBlockEntity(pos) == null;
