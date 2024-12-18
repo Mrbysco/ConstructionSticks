@@ -17,6 +17,6 @@ public class BlockTagsGenerator extends BlockTagsProvider {
 
 	@Override
 	protected void addTags(Provider provider) {
-		this.tag(ModTags.NON_REPLACABLE).addTag(Tags.Blocks.RELOCATION_NOT_SUPPORTED);
+		this.tag(ModTags.NON_REPLACEABLE).addTag(Tags.Blocks.RELOCATION_NOT_SUPPORTED);
 	}
 }

@@ -10,5 +10,5 @@ import net.minecraft.world.level.block.Block;
 public class ModTags {
 	public static final TagKey<Item> CONSTRUCTION_STICKS = ItemTags.create(ConstructionStick.modLoc("construction_sticks"));
 
-	public static final TagKey<Block> NON_REPLACABLE = BlockTags.create(ConstructionStick.modLoc("non_replacable"));
+	public static final TagKey<Block> NON_REPLACEABLE = BlockTags.create(ConstructionStick.modLoc("non_replaceable"));
 }

@@ -57,7 +57,7 @@ public class ActionReplace implements IStickAction {
 				BlockState candidateBlock = level.getBlockState(currentCandidate);
 				if (candidateBlock.is(newBlock.getBlock())) continue;
 
-				if (!targetBlock.is(ModTags.NON_REPLACABLE)) {
+				if (!targetBlock.is(ModTags.NON_REPLACEABLE)) {
 					ReplaceSnapshot snapshot = ReplaceSnapshot.get(level, player, currentCandidate, newBlock, blockItem);
 					if (snapshot == null) continue;
 					replaceSnapshots.add(snapshot);
