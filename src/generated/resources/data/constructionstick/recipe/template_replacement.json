@@ -6,10 +6,10 @@
       "tag": "c:glass_blocks"
     },
     "O": {
-      "item": "minecraft:chorus_fruit"
+      "tag": "c:ender_pearls"
     },
     "X": {
-      "item": "minecraft:ender_pearl"
+      "item": "minecraft:sculk"
     }
   },
   "pattern": [

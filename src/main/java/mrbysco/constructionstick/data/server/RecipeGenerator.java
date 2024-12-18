@@ -39,7 +39,7 @@ public class RecipeGenerator extends RecipeProvider {
 
 		templateRecipe(output, ModItems.TEMPLATE_ANGEL.get(), IngredientPredicate.fromTag(Tags.Items.FEATHERS), IngredientPredicate.fromTag(Tags.Items.INGOTS_GOLD));
 		templateRecipe(output, ModItems.TEMPLATE_DESTRUCTION.get(), IngredientPredicate.fromItem(Items.TNT), IngredientPredicate.fromItem(Items.DIAMOND_PICKAXE));
-		templateRecipe(output, ModItems.TEMPLATE_REPLACEMENT.get(), IngredientPredicate.fromItem(Items.CHORUS_FRUIT), IngredientPredicate.fromItem(Items.ENDER_PEARL));
+		templateRecipe(output, ModItems.TEMPLATE_REPLACEMENT.get(), IngredientPredicate.fromTag(Tags.Items.ENDER_PEARLS), IngredientPredicate.fromItem(Items.SCULK));
 		templateRecipe(output, ModItems.TEMPLATE_UNBREAKABLE.get(), IngredientPredicate.fromTag(Tags.Items.NETHER_STARS), IngredientPredicate.fromTag(Tags.Items.OBSIDIANS_CRYING));
 		templateRecipe(output, ModItems.TEMPLATE_BATTERY.get(), IngredientPredicate.fromItem(Items.POTATO), IngredientPredicate.fromTag(Tags.Items.DUSTS_REDSTONE));
 
