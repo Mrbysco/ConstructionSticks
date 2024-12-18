@@ -2,10 +2,10 @@ package mrbysco.constructionstick.stick.action;
 
 import mrbysco.constructionstick.api.IStickAction;
 import mrbysco.constructionstick.api.IStickSupplier;
+import mrbysco.constructionstick.basics.ModTags;
 import mrbysco.constructionstick.basics.option.StickOptions;
 import mrbysco.constructionstick.config.ConstructionConfig;
 import mrbysco.constructionstick.stick.undo.ISnapshot;
-import mrbysco.constructionstick.stick.undo.PlaceSnapshot;
 import mrbysco.constructionstick.stick.undo.ReplaceSnapshot;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -57,8 +57,7 @@ public class ActionReplace implements IStickAction {
 				BlockState candidateBlock = level.getBlockState(currentCandidate);
 				if (candidateBlock.is(newBlock.getBlock())) continue;
 
-				if (options.matchBlocks(targetBlock.getBlock(), candidateBlock.getBlock()) &&
-						allCandidates.add(currentCandidate)) {
+				if (!targetBlock.is(ModTags.NON_REPLACABLE)) {
 					ReplaceSnapshot snapshot = ReplaceSnapshot.get(level, player, currentCandidate, newBlock, blockItem);
 					if (snapshot == null) continue;
 					replaceSnapshots.add(snapshot);

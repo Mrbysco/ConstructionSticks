@@ -250,6 +250,8 @@ public class StickUtil {
 	public static boolean isBlockReplaceable(Level level, Player player, BlockPos pos) {
 		if (!isPositionModifiable(level, player, pos)) return false;
 
+		if (level.getBlockState(pos).is(ModTags.NON_REPLACABLE)) return false;
+
 		if (!player.isCreative()) {
 			return !(level.getBlockState(pos).getDestroySpeed(level, pos) <= -1) && level.getBlockEntity(pos) == null;
 		}
