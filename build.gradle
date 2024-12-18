@@ -69,6 +69,10 @@ repositories {
     maven {
         url = "https://maven.blamejared.com"
     }
+    maven {
+        name = "TerraformersMC"
+        url = "https://maven.terraformersmc.com/"
+    }
 }
 
 dependencies {
@@ -78,6 +82,9 @@ dependencies {
     compileOnly "mezz.jei:jei-${mc_version}-neoforge-api:${jei_version}"
 
     localRuntime "mezz.jei:jei-${mc_version}-neoforge:${jei_version}"
+
+    compileOnly "dev.emi:emi-neoforge:${emi_version}:api"
+    localRuntime "dev.emi:emi-neoforge:${emi_version}"
 }
 
 jar {
