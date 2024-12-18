@@ -36,7 +36,7 @@ public class LanguageGenerator extends LanguageProvider {
 		addUpgradeInfo("default", "Construction", "Extend your building on the side facing you");
 		addUpgradeInfo("upgrade_angel", "§6Angel", "Place behind blocks and in mid air");
 		addUpgradeInfo("upgrade_destruction", "§cDestruction", "Destroys blocks on the side facing you");
-		addUpgradeInfo("upgrade_replacement", "§5Replacemente", "Replaces blocks with the block in your offhand");
+		addUpgradeInfo("upgrade_replacement", "§5Replacement", "Replaces blocks with the block in your offhand");
 		addUpgradeInfo("upgrade_unbreakable", "§dUnbreakable", "Allows placing without using durability");
 		addUpgradeInfo("upgrade_battery", "§4Battery", "Use energy instead of durability");
 
