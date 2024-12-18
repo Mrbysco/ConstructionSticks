@@ -1,12 +1,11 @@
 package mrbysco.constructionstick.data;
 
-import mrbysco.constructionstick.ConstructionStick;
 import mrbysco.constructionstick.data.client.ItemModelGenerator;
 import mrbysco.constructionstick.data.client.LanguageGenerator;
+import mrbysco.constructionstick.data.server.BlockTagsGenerator;
 import mrbysco.constructionstick.data.server.ItemTagsGenerator;
 import mrbysco.constructionstick.data.server.RecipeGenerator;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -27,12 +26,7 @@ public class ModData {
 		CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
 		if (event.includeServer()) {
-			BlockTagsProvider blockTags = new BlockTagsProvider(packOutput, lookupProvider, ConstructionStick.MOD_ID, fileHelper) {
-				@Override
-				protected void addTags(Provider provider) {
-
-				}
-			};
+			BlockTagsProvider blockTags = new BlockTagsGenerator(packOutput, lookupProvider, fileHelper);
 			generator.addProvider(true, blockTags);
 			generator.addProvider(true, new ItemTagsGenerator(packOutput, lookupProvider, blockTags, fileHelper));
 			generator.addProvider(true, new RecipeGenerator(packOutput, lookupProvider));
