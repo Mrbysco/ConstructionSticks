@@ -18,11 +18,11 @@ public class ReplacementRegistry {
 	public static void init() {
 		replacements.clear();
 
-		for (Object key : ConstructionConfig.SIMILAR_BLOCKS.get()) {
+		for (String key : ConstructionConfig.SIMILAR_BLOCKS.get()) {
 			if (!(key instanceof String)) continue;
 			HashSet<Item> set = new HashSet<>();
 
-			for (String id : ((String) key).split(";")) {
+			for (String id : key.split(";")) {
 				Item item = BuiltInRegistries.ITEM.get(ResourceLocation.tryParse(id));
 				if (item == null || item == Items.AIR) {
 					ConstructionStick.LOGGER.warn("Replacement Registry: Could not find item {}", id);
