@@ -4,6 +4,7 @@ import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.recipe.category.extensions.vanilla.smithing.IExtendableSmithingRecipeCategory;
+import mezz.jei.api.registration.IIngredientAliasRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.IVanillaCategoryExtensionRegistration;
 import mrbysco.constructionstick.ConstructionStick;
@@ -24,6 +25,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.registries.DeferredItem;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 @JeiPlugin
 public class ConstructionStickJeiPlugin implements IModPlugin {
@@ -71,6 +74,13 @@ public class ConstructionStickJeiPlugin implements IModPlugin {
 							.append("\n\n")
 							.append(Component.translatable(baseKey + "upgrade", stickChangeUpgradeKey))
 			);
+		}
+	}
+
+	@Override
+	public void registerIngredientAliases(IIngredientAliasRegistration registration) {
+		for (DeferredItem<ItemStick> deferredStick : ModItems.STICKS) {
+			registration.addAliases(VanillaTypes.ITEM_STACK, deferredStick.toStack(), List.of("construction", "wand"));
 		}
 	}
 }

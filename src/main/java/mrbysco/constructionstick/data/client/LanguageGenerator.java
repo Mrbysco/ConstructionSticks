@@ -102,6 +102,9 @@ public class LanguageGenerator extends LanguageProvider {
 		add("constructionstick.networking.query_undo.failed", "Failed to undo operation: %s");
 		add("constructionstick.networking.stick_option.undo", "Failed to change stick option: %s");
 		add("constructionstick.networking.undo_blocks.failed", "Failed to undo blocks: %s");
+
+		add("constructionstick.alias.emi.construction", "Construction");
+		add("constructionstick.alias.emi.wand", "Wand");
 	}
 
 	private void addKeybind(String path, String translation) {

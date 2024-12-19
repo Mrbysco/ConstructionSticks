@@ -1,0 +1,17 @@
+{
+  "aliases": [
+    {
+      "stacks": [
+        "item:constructionstick:wooden_stick",
+        "item:constructionstick:copper_stick",
+        "item:constructionstick:iron_stick",
+        "item:constructionstick:diamond_stick",
+        "item:constructionstick:netherite_stick"
+      ],
+      "text": [
+        "constructionstick.alias.emi.construction",
+        "constructionstick.alias.emi.wand"
+      ]
+    }
+  ]
+}

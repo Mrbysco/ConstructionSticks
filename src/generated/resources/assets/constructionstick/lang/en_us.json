@@ -1,4 +1,6 @@
 {
+  "constructionstick.alias.emi.construction": "Construction",
+  "constructionstick.alias.emi.wand": "Wand",
   "constructionstick.description.durability.limited": "for %d blocks",
   "constructionstick.description.key.sneak": "Sneak",
   "constructionstick.description.key.sneak_opt": "Sneak+%s",
