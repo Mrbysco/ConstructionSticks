@@ -1,1 +1,1 @@
-* Add JEI and EMI search aliases
+* Add missing air check and stop it adding the same position multiple times
