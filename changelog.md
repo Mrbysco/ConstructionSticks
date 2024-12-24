@@ -1,1 +1,1 @@
-* Add missing air check and stop it adding the same position multiple times
+* Fix issue with the replacement upgrade
