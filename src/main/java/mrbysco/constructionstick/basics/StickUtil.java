@@ -162,14 +162,6 @@ public class StickUtil {
 			return false;
 		}
 
-		if (!player.isCreative()) {
-			// Drop the old block as an item
-			ItemStack blockStack = new ItemStack(oldBlock.getBlock().asItem());
-			if (!blockStack.isEmpty()) {
-				Block.popResource(level, pos, blockStack);
-			}
-		}
-
 		// Remove the old block
 		if (!removeBlock(level, player, oldBlock, pos)) {
 			return false;
