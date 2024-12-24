@@ -98,6 +98,7 @@ public class StickJob {
 					if (stickSupplier.takeItemStack(snapshot.getRequiredItems()) == 0) {
 						executed.add(snapshot);
 						stickItem.hurtItem(stick, 1, player, EquipmentSlot.MAINHAND);
+						snapshot.onSuccess(level, player);
 					} else {
 						ConstructionStick.LOGGER.info("Item could not be taken. Remove block: {}",
 								snapshot.getBlockState().getBlock().toString());

@@ -21,4 +21,8 @@ public interface ISnapshot {
 	boolean restore(Level level, Player player);
 
 	void forceRestore(Level level);
+
+	default void onSuccess(Level level, Player player) {
+
+	}
 }
