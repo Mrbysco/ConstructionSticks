@@ -6,7 +6,7 @@
       "tag": "c:rods/wooden"
     },
     "X": {
-      "tag": "minecraft:stone_tool_materials"
+      "tag": "c:ingots/copper"
     }
   },
   "pattern": [
