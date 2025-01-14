@@ -13,7 +13,6 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -32,7 +31,7 @@ public class RecipeGenerator extends RecipeProvider {
 	@Override
 	protected void buildRecipes(RecipeOutput output, HolderLookup.Provider provider) {
 		stickRecipe(output, ModItems.STICK_WOODEN.get(), IngredientPredicate.fromTag(Tags.Items.RODS_WOODEN));
-		stickRecipe(output, ModItems.STICK_COPPER.get(), IngredientPredicate.fromTag(ItemTags.STONE_TOOL_MATERIALS));
+		stickRecipe(output, ModItems.STICK_COPPER.get(), IngredientPredicate.fromTag(Tags.Items.INGOTS_COPPER));
 		stickRecipe(output, ModItems.STICK_IRON.get(), IngredientPredicate.fromTag(Tags.Items.INGOTS_IRON));
 		stickRecipe(output, ModItems.STICK_DIAMOND.get(), IngredientPredicate.fromTag(Tags.Items.GEMS_DIAMOND));
 		stickRecipe(output, ModItems.STICK_NETHERITE.get(), IngredientPredicate.fromTag(Tags.Items.INGOTS_NETHERITE));
