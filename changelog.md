@@ -1,1 +1,1 @@
-* Fix issue with the replacement upgrade
+* Fix Copper Stick recipe using Cobblestone instead of a Copper Ingot
