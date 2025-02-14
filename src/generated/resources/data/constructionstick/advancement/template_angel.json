@@ -1,0 +1,33 @@
+{
+  "parent": "constructionstick:iron_stick",
+  "criteria": {
+    "template_angel": {
+      "conditions": {
+        "items": [
+          {
+            "items": "constructionstick:template_angel"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.constructionstick.template_angel.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "constructionstick:template_angel"
+    },
+    "title": {
+      "translate": "advancement.constructionstick.template_angel.title"
+    }
+  },
+  "requirements": [
+    [
+      "template_angel"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

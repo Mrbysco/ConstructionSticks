@@ -1,0 +1,33 @@
+{
+  "parent": "constructionstick:iron_stick",
+  "criteria": {
+    "template_battery": {
+      "conditions": {
+        "items": [
+          {
+            "items": "constructionstick:template_battery"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.constructionstick.template_battery.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "constructionstick:template_battery"
+    },
+    "title": {
+      "translate": "advancement.constructionstick.template_battery.title"
+    }
+  },
+  "requirements": [
+    [
+      "template_battery"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

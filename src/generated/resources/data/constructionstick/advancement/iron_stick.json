@@ -1,0 +1,33 @@
+{
+  "parent": "constructionstick:root",
+  "criteria": {
+    "iron_stick": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#constructionstick:construction_sticks"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.constructionstick.iron_stick.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "constructionstick:iron_stick"
+    },
+    "title": {
+      "translate": "advancement.constructionstick.iron_stick.title"
+    }
+  },
+  "requirements": [
+    [
+      "iron_stick"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
