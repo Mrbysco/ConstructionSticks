@@ -2,6 +2,7 @@ package mrbysco.constructionstick.data;
 
 import mrbysco.constructionstick.data.client.ItemModelGenerator;
 import mrbysco.constructionstick.data.client.LanguageGenerator;
+import mrbysco.constructionstick.data.server.AdvancementGenerator;
 import mrbysco.constructionstick.data.server.BlockTagsGenerator;
 import mrbysco.constructionstick.data.server.ItemTagsGenerator;
 import mrbysco.constructionstick.data.server.RecipeGenerator;
@@ -30,6 +31,7 @@ public class ModData {
 			generator.addProvider(true, blockTags);
 			generator.addProvider(true, new ItemTagsGenerator(packOutput, lookupProvider, blockTags, fileHelper));
 			generator.addProvider(true, new RecipeGenerator(packOutput, lookupProvider));
+			generator.addProvider(true, new AdvancementGenerator(packOutput, lookupProvider, fileHelper));
 		}
 
 		if (event.includeClient()) {

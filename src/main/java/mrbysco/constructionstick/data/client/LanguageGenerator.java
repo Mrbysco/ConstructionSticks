@@ -105,6 +105,14 @@ public class LanguageGenerator extends LanguageProvider {
 
 		add("constructionstick.alias.emi.construction", "Construction");
 		add("constructionstick.alias.emi.wand", "Wand");
+
+		addAdvancement("root", "Construction Sticks", "Making building easier");
+		addAdvancement("iron_stick", "Sticky Situation", "Craft any Construction Stick");
+		addAdvancement("template_angel", "Angel Stick Template", "I'm placing in mid-air, wo-oah!");
+		addAdvancement("template_destruction", "Destruction Stick Template", "Destroyer of blocks");
+		addAdvancement("template_replacement", "Replacement Stick Template", "Out with the old, in with the new");
+		addAdvancement("template_unbreakable", "Unbreakable Template", "There's no limit!");
+		addAdvancement("template_battery", "Battery Template", "Power up your construction game");
 	}
 
 	private void addKeybind(String path, String translation) {
@@ -114,5 +122,19 @@ public class LanguageGenerator extends LanguageProvider {
 	private void addUpgradeInfo(String upgrade, String name, String desc) {
 		add("constructionstick.option.upgrades.constructionstick:" + upgrade, name);
 		add("constructionstick.option.upgrades.constructionstick:" + upgrade + ".desc", desc);
+	}
+
+
+	/**
+	 * Add the translation of an advancement
+	 *
+	 * @param id          The advancement id
+	 * @param name        The name of the advancement
+	 * @param description The description of the advancement
+	 */
+	private void addAdvancement(String id, String name, String description) {
+		String prefix = "advancement.constructionstick.";
+		add(prefix + id + ".title", name);
+		add(prefix + id + ".desc", description);
 	}
 }
