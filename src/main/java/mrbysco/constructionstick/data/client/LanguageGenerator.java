@@ -105,6 +105,7 @@ public class LanguageGenerator extends LanguageProvider {
 
 		add("constructionstick.alias.emi.construction", "Construction");
 		add("constructionstick.alias.emi.wand", "Wand");
+		add("constructionstick.alias.emi.construction_wand", "Construction Wand");
 
 		addAdvancement("root", "Construction Sticks", "Making building easier");
 		addAdvancement("iron_stick", "Sticky Situation", "Craft any Construction Stick");

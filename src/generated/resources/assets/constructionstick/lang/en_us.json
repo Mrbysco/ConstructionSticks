@@ -14,6 +14,7 @@
   "advancement.constructionstick.template_unbreakable.desc": "There's no limit!",
   "advancement.constructionstick.template_unbreakable.title": "Unbreakable Template",
   "constructionstick.alias.emi.construction": "Construction",
+  "constructionstick.alias.emi.construction_wand": "Construction Wand",
   "constructionstick.alias.emi.wand": "Wand",
   "constructionstick.description.durability.limited": "for %d blocks",
   "constructionstick.description.key.sneak": "Sneak",

@@ -80,7 +80,7 @@ public class ConstructionStickJeiPlugin implements IModPlugin {
 	@Override
 	public void registerIngredientAliases(IIngredientAliasRegistration registration) {
 		for (DeferredItem<ItemStick> deferredStick : ModItems.STICKS) {
-			registration.addAliases(VanillaTypes.ITEM_STACK, deferredStick.toStack(), List.of("construction", "wand"));
+			registration.addAliases(VanillaTypes.ITEM_STACK, deferredStick.toStack(), List.of("construction", "wand", "construction wand"));
 		}
 	}
 }
