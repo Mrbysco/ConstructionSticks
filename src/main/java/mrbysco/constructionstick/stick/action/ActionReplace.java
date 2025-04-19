@@ -27,6 +27,7 @@ public class ActionReplace implements IStickAction {
 		return ConstructionConfig.getStickProperties(stick.getItem()).getLimit();
 	}
 
+	@NotNull
 	@Override
 	public List<ISnapshot> getSnapshots(Level level, Player player, BlockHitResult blockHitResult,
 	                                    ItemStack stick, StickOptions options, IStickSupplier supplier, int limit) {
@@ -123,8 +124,9 @@ public class ActionReplace implements IStickAction {
 		return replaceSnapshots;
 	}
 
+	@NotNull
 	@Override
-	public @NotNull List<ISnapshot> getSnapshotsFromAir(Level level, Player player, BlockHitResult blockHitResult, ItemStack stick, StickOptions options, IStickSupplier supplier, int limit) {
+	public List<ISnapshot> getSnapshotsFromAir(Level level, Player player, BlockHitResult blockHitResult, ItemStack stick, StickOptions options, IStickSupplier supplier, int limit) {
 		return List.of();
 	}
 }
