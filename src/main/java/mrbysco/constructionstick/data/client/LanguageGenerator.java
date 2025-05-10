@@ -1,9 +1,12 @@
 package mrbysco.constructionstick.data.client;
 
 import mrbysco.constructionstick.ConstructionStick;
+import mrbysco.constructionstick.items.stick.ItemStick;
 import mrbysco.constructionstick.registry.ModItems;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.LanguageProvider;
+import net.neoforged.neoforge.registries.DeferredItem;
+import org.jetbrains.annotations.Nullable;
 
 public class LanguageGenerator extends LanguageProvider {
 
@@ -114,6 +117,28 @@ public class LanguageGenerator extends LanguageProvider {
 		addAdvancement("template_replacement", "Replacement Stick Template", "Out with the old, in with the new");
 		addAdvancement("template_unbreakable", "Unbreakable Template", "There's no limit!");
 		addAdvancement("template_battery", "Battery Template", "Power up your construction game");
+
+		addConfig(ModItems.STICK_WOODEN.getId().getPath(), "Stickiest Stick", "Stickiest Stick Settings");
+		addConfig(ModItems.STICK_COPPER.getId().getPath(), "Copper Stick", "Copper Stick Settings");
+		addConfig(ModItems.STICK_IRON.getId().getPath(), "Iron Stick", "Iron Stick Settings");
+		addConfig(ModItems.STICK_DIAMOND.getId().getPath(), "Diamond Stick", "Diamond Stick Settings");
+		addConfig(ModItems.STICK_NETHERITE.getId().getPath(), "Netherite Stick", "Netherite Stick Settings");
+		addConfig("durability", "Durability", "Stick durability");
+		addConfig("batteryStorage", "Battery Storage", "Battery power storage");
+		addConfig("batteryUsage", "Battery Usage", "Battery power usage per block");
+		addConfig("limit", "Placement Limit", "Max placement distance with angel upgrade (0 to disable angel upgrade)");
+		addConfig("angel", "Angel Upgrade", "Stick destruction block limit (0 to disable destruction upgrade)");
+		addConfig("destruction", "Destruction Upgrade", "Stick destruction block limit (0 to disable destruction upgrade)");
+		addConfig("upgradeable", "Upgradeable", "Allow stick upgrading by putting the stick together with a stick upgrade in a smithing table.");
+
+		addConfig("misc", "Misc", "Miscellaneous Settings");
+		addConfig("MaxRange", "Max Range", "Maximum placement range (0: unlimited). Affects all sticks and is meant for lag prevention, not game balancing.");
+		addConfig("UndoHistory", "Undo History", "Number of operations that can be undone");
+		addConfig("AngelFalling", "Angel Place", "Place blocks below you while falling > 10 blocks with angel upgrade (Can be used to save you from drops/the void)");
+		addConfig("SimilarBlocks", "Similar Blocks", "Blocks to treat equally when in Similar mode. Enter block IDs seperated by ;");
+		addConfig("blockentity", "Block entity", "Block Entity Settings");
+		addConfig("BEList", "Block Entity List", "White/Blacklist for Block Entities. Allow/Prevent blocks with BEs from being placed by stick. You can either add block ids like minecraft:chest or mod ids like minecraft");
+		addConfig("BEWhitelist", "Block Entity Whitelist", "If set to TRUE, treat BEList as a whitelist, otherwise blacklist");
 	}
 
 	private void addKeybind(String path, String translation) {
@@ -137,5 +162,18 @@ public class LanguageGenerator extends LanguageProvider {
 		String prefix = "advancement.constructionstick.";
 		add(prefix + id + ".title", name);
 		add(prefix + id + ".desc", description);
+	}
+
+	/**
+	 * Add the translation for a config entry
+	 *
+	 * @param path        The path of the config entry
+	 * @param name        The name of the config entry
+	 * @param description The description of the config entry (optional in case of targeting "title" or similar entries that have no tooltip)
+	 */
+	private void addConfig(String path, String name, @Nullable String description) {
+		this.add("constructionstick.configuration." + path, name);
+		if (description != null && !description.isEmpty())
+			this.add("constructionstick.configuration." + path + ".tooltip", description);
 	}
 }
