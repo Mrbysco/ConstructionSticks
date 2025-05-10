@@ -1,1 +1,1 @@
-* Implement advancements
+* Fix translation keys for the built-in config screen
