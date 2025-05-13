@@ -54,7 +54,11 @@ public class HandlerShulkerbox implements IContainerHandler {
 	private NonNullList<ItemStack> getItemList(ItemStack itemStack) {
 		NonNullList<ItemStack> itemStacks = NonNullList.withSize(SLOTS, ItemStack.EMPTY);
 		ItemContainerContents contents = itemStack.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY);
-		itemStacks.addAll(contents.stream().toList());
+		contents.stream().forEach(stack -> {
+			if (stack != null && !stack.isEmpty()) {
+				itemStacks.add(stack);
+			}
+		});
 		return itemStacks;
 	}
 
