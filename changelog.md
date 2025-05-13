@@ -1,1 +1,1 @@
-* Fix translation keys for the built-in config screen
+* Adjust shulker box implementation
