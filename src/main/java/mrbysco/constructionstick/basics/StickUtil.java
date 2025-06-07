@@ -21,7 +21,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
@@ -109,31 +108,30 @@ public class StickUtil {
 	}
 
 	public static boolean placeBlock(Level level, Player player, BlockState block, BlockPos pos, @Nullable BlockItem item) {
-		if (!level.setBlockAndUpdate(pos, block)) {
-			ConstructionStick.LOGGER.info("Block could not be placed");
-			return false;
-		}
-
 		// Remove block if placeEvent is canceled
 		BlockSnapshot snapshot = BlockSnapshot.create(level.dimension(), level, pos);
 		BlockEvent.EntityPlaceEvent placeEvent = new BlockEvent.EntityPlaceEvent(snapshot, block, player);
 		NeoForge.EVENT_BUS.post(placeEvent);
 		if (placeEvent.isCanceled()) {
-			level.removeBlock(pos, false);
 			return false;
+		} else {
+			if (!level.setBlockAndUpdate(pos, block)) {
+				ConstructionStick.LOGGER.info("Block could not be placed");
+				return false;
+			}
+
+			ItemStack stack;
+			if (item == null) stack = new ItemStack(block.getBlock().asItem());
+			else {
+				stack = new ItemStack(item);
+				player.awardStat(Stats.ITEM_USED.get(item));
+			}
+
+			// Call OnBlockPlaced method
+			block.getBlock().setPlacedBy(level, pos, block, player, stack);
+
+			return true;
 		}
-
-		ItemStack stack;
-		if (item == null) stack = new ItemStack(block.getBlock().asItem());
-		else {
-			stack = new ItemStack(item);
-			player.awardStat(Stats.ITEM_USED.get(item));
-		}
-
-		// Call OnBlockPlaced method
-		block.getBlock().setPlacedBy(level, pos, block, player, stack);
-
-		return true;
 	}
 
 	public static boolean removeBlock(Level level, Player player, @Nullable BlockState block, BlockPos pos) {
