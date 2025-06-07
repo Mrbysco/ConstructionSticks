@@ -16,7 +16,7 @@
   "constructionstick.alias.emi.construction": "Construction",
   "constructionstick.alias.emi.construction_wand": "Construction Wand",
   "constructionstick.alias.emi.wand": "Wand",
-  "constructionstick.configuration.AngelFalling": "Angel Place",
+  "constructionstick.configuration.AngelFalling": "Angel Falling",
   "constructionstick.configuration.AngelFalling.tooltip": "Place blocks below you while falling > 10 blocks with angel upgrade (Can be used to save you from drops/the void)",
   "constructionstick.configuration.BEList": "Block Entity List",
   "constructionstick.configuration.BEList.tooltip": "White/Blacklist for Block Entities. Allow/Prevent blocks with BEs from being placed by stick. You can either add block ids like minecraft:chest or mod ids like minecraft",

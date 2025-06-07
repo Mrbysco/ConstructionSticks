@@ -134,7 +134,7 @@ public class LanguageGenerator extends LanguageProvider {
 		addConfig("misc", "Misc", "Miscellaneous Settings");
 		addConfig("MaxRange", "Max Range", "Maximum placement range (0: unlimited). Affects all sticks and is meant for lag prevention, not game balancing.");
 		addConfig("UndoHistory", "Undo History", "Number of operations that can be undone");
-		addConfig("AngelFalling", "Angel Place", "Place blocks below you while falling > 10 blocks with angel upgrade (Can be used to save you from drops/the void)");
+		addConfig("AngelFalling", "Angel Falling", "Place blocks below you while falling > 10 blocks with angel upgrade (Can be used to save you from drops/the void)");
 		addConfig("SimilarBlocks", "Similar Blocks", "Blocks to treat equally when in Similar mode. Enter block IDs seperated by ;");
 		addConfig("blockentity", "Block entity", "Block Entity Settings");
 		addConfig("BEList", "Block Entity List", "White/Blacklist for Block Entities. Allow/Prevent blocks with BEs from being placed by stick. You can either add block ids like minecraft:chest or mod ids like minecraft");
