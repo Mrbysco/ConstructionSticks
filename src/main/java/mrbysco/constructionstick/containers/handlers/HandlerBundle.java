@@ -43,12 +43,8 @@ public class HandlerBundle implements IContainerHandler {
 	}
 
 	private Stream<ItemStack> getContents(ItemStack bundleStack) {
-		if (bundleStack.has(DataComponents.BUNDLE_CONTENTS)) {
-			return Stream.empty();
-		} else {
-			BundleContents contents = bundleStack.getOrDefault(DataComponents.BUNDLE_CONTENTS, BundleContents.EMPTY);
-			return contents.itemCopyStream();
-		}
+		BundleContents contents = bundleStack.getOrDefault(DataComponents.BUNDLE_CONTENTS, BundleContents.EMPTY);
+		return contents.itemCopyStream();
 	}
 
 	private void setItemList(ItemStack itemStack, List<ItemStack> itemStacks) {
