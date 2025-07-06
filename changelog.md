@@ -1,1 +1,1 @@
-* Fix bundle support (It had an inverted check causing it to always return an empty list of items)
+* Initial update to 1.21.4
