@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "tag": "c:glass_blocks"
-    },
-    "O": {
-      "tag": "c:ender_pearls"
-    },
-    "X": {
-      "item": "minecraft:sculk"
-    }
+    "#": "#c:glass_blocks",
+    "O": "#c:ender_pearls",
+    "X": "minecraft:sculk"
   },
   "pattern": [
     " #X",

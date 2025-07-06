@@ -67,52 +67,52 @@ public class ActionReplace implements IStickAction {
 						case DOWN:
 						case UP:
 							if (options.testLock(StickOptions.LOCK.NORTHSOUTH)) {
-								candidates.add(currentCandidate.offset(Direction.NORTH.getNormal()));
-								candidates.add(currentCandidate.offset(Direction.SOUTH.getNormal()));
+								candidates.add(currentCandidate.offset(Direction.NORTH.getUnitVec3i()));
+								candidates.add(currentCandidate.offset(Direction.SOUTH.getUnitVec3i()));
 							}
 							if (options.testLock(StickOptions.LOCK.EASTWEST)) {
-								candidates.add(currentCandidate.offset(Direction.EAST.getNormal()));
-								candidates.add(currentCandidate.offset(Direction.WEST.getNormal()));
+								candidates.add(currentCandidate.offset(Direction.EAST.getUnitVec3i()));
+								candidates.add(currentCandidate.offset(Direction.WEST.getUnitVec3i()));
 							}
 							if (options.testLock(StickOptions.LOCK.NORTHSOUTH) && options.testLock(StickOptions.LOCK.EASTWEST)) {
-								candidates.add(currentCandidate.offset(Direction.NORTH.getNormal()).offset(Direction.EAST.getNormal()));
-								candidates.add(currentCandidate.offset(Direction.NORTH.getNormal()).offset(Direction.WEST.getNormal()));
-								candidates.add(currentCandidate.offset(Direction.SOUTH.getNormal()).offset(Direction.EAST.getNormal()));
-								candidates.add(currentCandidate.offset(Direction.SOUTH.getNormal()).offset(Direction.WEST.getNormal()));
+								candidates.add(currentCandidate.offset(Direction.NORTH.getUnitVec3i()).offset(Direction.EAST.getUnitVec3i()));
+								candidates.add(currentCandidate.offset(Direction.NORTH.getUnitVec3i()).offset(Direction.WEST.getUnitVec3i()));
+								candidates.add(currentCandidate.offset(Direction.SOUTH.getUnitVec3i()).offset(Direction.EAST.getUnitVec3i()));
+								candidates.add(currentCandidate.offset(Direction.SOUTH.getUnitVec3i()).offset(Direction.WEST.getUnitVec3i()));
 							}
 							break;
 						case NORTH:
 						case SOUTH:
 							if (options.testLock(StickOptions.LOCK.HORIZONTAL)) {
-								candidates.add(currentCandidate.offset(Direction.EAST.getNormal()));
-								candidates.add(currentCandidate.offset(Direction.WEST.getNormal()));
+								candidates.add(currentCandidate.offset(Direction.EAST.getUnitVec3i()));
+								candidates.add(currentCandidate.offset(Direction.WEST.getUnitVec3i()));
 							}
 							if (options.testLock(StickOptions.LOCK.VERTICAL)) {
-								candidates.add(currentCandidate.offset(Direction.UP.getNormal()));
-								candidates.add(currentCandidate.offset(Direction.DOWN.getNormal()));
+								candidates.add(currentCandidate.offset(Direction.UP.getUnitVec3i()));
+								candidates.add(currentCandidate.offset(Direction.DOWN.getUnitVec3i()));
 							}
 							if (options.testLock(StickOptions.LOCK.HORIZONTAL) && options.testLock(StickOptions.LOCK.VERTICAL)) {
-								candidates.add(currentCandidate.offset(Direction.UP.getNormal()).offset(Direction.EAST.getNormal()));
-								candidates.add(currentCandidate.offset(Direction.UP.getNormal()).offset(Direction.WEST.getNormal()));
-								candidates.add(currentCandidate.offset(Direction.DOWN.getNormal()).offset(Direction.EAST.getNormal()));
-								candidates.add(currentCandidate.offset(Direction.DOWN.getNormal()).offset(Direction.WEST.getNormal()));
+								candidates.add(currentCandidate.offset(Direction.UP.getUnitVec3i()).offset(Direction.EAST.getUnitVec3i()));
+								candidates.add(currentCandidate.offset(Direction.UP.getUnitVec3i()).offset(Direction.WEST.getUnitVec3i()));
+								candidates.add(currentCandidate.offset(Direction.DOWN.getUnitVec3i()).offset(Direction.EAST.getUnitVec3i()));
+								candidates.add(currentCandidate.offset(Direction.DOWN.getUnitVec3i()).offset(Direction.WEST.getUnitVec3i()));
 							}
 							break;
 						case EAST:
 						case WEST:
 							if (options.testLock(StickOptions.LOCK.HORIZONTAL)) {
-								candidates.add(currentCandidate.offset(Direction.NORTH.getNormal()));
-								candidates.add(currentCandidate.offset(Direction.SOUTH.getNormal()));
+								candidates.add(currentCandidate.offset(Direction.NORTH.getUnitVec3i()));
+								candidates.add(currentCandidate.offset(Direction.SOUTH.getUnitVec3i()));
 							}
 							if (options.testLock(StickOptions.LOCK.VERTICAL)) {
-								candidates.add(currentCandidate.offset(Direction.UP.getNormal()));
-								candidates.add(currentCandidate.offset(Direction.DOWN.getNormal()));
+								candidates.add(currentCandidate.offset(Direction.UP.getUnitVec3i()));
+								candidates.add(currentCandidate.offset(Direction.DOWN.getUnitVec3i()));
 							}
 							if (options.testLock(StickOptions.LOCK.HORIZONTAL) && options.testLock(StickOptions.LOCK.VERTICAL)) {
-								candidates.add(currentCandidate.offset(Direction.UP.getNormal()).offset(Direction.NORTH.getNormal()));
-								candidates.add(currentCandidate.offset(Direction.UP.getNormal()).offset(Direction.SOUTH.getNormal()));
-								candidates.add(currentCandidate.offset(Direction.DOWN.getNormal()).offset(Direction.NORTH.getNormal()));
-								candidates.add(currentCandidate.offset(Direction.DOWN.getNormal()).offset(Direction.SOUTH.getNormal()));
+								candidates.add(currentCandidate.offset(Direction.UP.getUnitVec3i()).offset(Direction.NORTH.getUnitVec3i()));
+								candidates.add(currentCandidate.offset(Direction.UP.getUnitVec3i()).offset(Direction.SOUTH.getUnitVec3i()));
+								candidates.add(currentCandidate.offset(Direction.DOWN.getUnitVec3i()).offset(Direction.NORTH.getUnitVec3i()));
+								candidates.add(currentCandidate.offset(Direction.DOWN.getUnitVec3i()).offset(Direction.SOUTH.getUnitVec3i()));
 							}
 							break;
 					}

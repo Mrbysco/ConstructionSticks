@@ -1,0 +1,26 @@
+{
+  "model": {
+    "type": "minecraft:select",
+    "cases": [
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "constructionstick:item/iron_stick_angel"
+        },
+        "when": "angel"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "constructionstick:item/iron_stick_destruction"
+        },
+        "when": "destruction"
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "constructionstick:item/iron_stick"
+    },
+    "property": "constructionstick:stick_upgrade"
+  }
+}

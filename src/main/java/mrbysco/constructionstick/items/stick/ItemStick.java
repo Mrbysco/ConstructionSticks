@@ -15,7 +15,6 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -62,18 +61,18 @@ public abstract class ItemStick extends Item {
 
 	@NotNull
 	@Override
-	public InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {
+	public InteractionResult use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 
 		if (!player.isCrouching()) {
-			if (level.isClientSide) return InteractionResultHolder.fail(stack);
+			if (level.isClientSide) return InteractionResult.FAIL;
 
 			// Right click: Place angel block
 			StickJob job = getStickJob(player, level, BlockHitResult.miss(player.getLookAngle(),
 					StickUtil.fromVector(player.getLookAngle()), player.blockPosition()), stack);
-			return job.doIt() ? InteractionResultHolder.success(stack) : InteractionResultHolder.fail(stack);
+			return job.doIt() ? InteractionResult.SUCCESS : InteractionResult.FAIL;
 		}
-		return InteractionResultHolder.fail(stack);
+		return InteractionResult.FAIL;
 	}
 
 	public static StickJob getStickJob(Player player, Level level, @Nullable BlockHitResult rayTraceResult, ItemStack stick) {
@@ -85,11 +84,6 @@ public abstract class ItemStick extends Item {
 
 	@Override
 	public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
-		return false;
-	}
-
-	@Override
-	public boolean isValidRepairItem(@NotNull ItemStack toRepair, @NotNull ItemStack repair) {
 		return false;
 	}
 

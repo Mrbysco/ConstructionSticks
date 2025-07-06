@@ -262,7 +262,7 @@ public class StickUtil {
 	}
 
 	public static Direction fromVector(Vec3 vector) {
-		return Direction.getNearest(vector.x, vector.y, vector.z);
+		return Direction.getNearest((int)vector.x, (int)vector.y, (int)vector.z, null);
 	}
 
 	private static final List<IStickUpgrade> upgradeList = new ArrayList<>();

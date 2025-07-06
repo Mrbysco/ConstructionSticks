@@ -6,9 +6,9 @@ import mrbysco.constructionstick.basics.StickUtil;
 import mrbysco.constructionstick.items.stick.ItemStick;
 import mrbysco.constructionstick.stick.StickJob;
 import net.minecraft.client.Camera;
-import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.ShapeRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -65,7 +65,7 @@ public class RenderBlockPreview {
 
 		for (BlockPos block : blocks) {
 			AABB aabb = new AABB(block).move(-d0, -d1, -d2);
-			LevelRenderer.renderLineBox(ms, lineBuilder, aabb, colorR, colorG, colorB, 0.4F);
+			ShapeRenderer.renderLineBox(ms, lineBuilder, aabb, colorR, colorG, colorB, 0.4F);
 		}
 
 		event.setCanceled(true);

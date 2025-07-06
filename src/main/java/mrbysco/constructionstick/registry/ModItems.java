@@ -17,7 +17,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.ToolMaterial;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -37,18 +37,18 @@ public class ModItems {
 	public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, ConstructionStick.MOD_ID);
 
 	// Sticks
-	public static final DeferredItem<ItemStick> STICK_WOODEN = ITEMS.register("wooden_stick", () -> new ItemStickBasic(propStick(), Tiers.WOOD));
-	public static final DeferredItem<ItemStick> STICK_COPPER = ITEMS.register("copper_stick", () -> new ItemStickBasic(propStick(), Tiers.STONE));
-	public static final DeferredItem<ItemStick> STICK_IRON = ITEMS.register("iron_stick", () -> new ItemStickBasic(propStick(), Tiers.IRON));
-	public static final DeferredItem<ItemStick> STICK_DIAMOND = ITEMS.register("diamond_stick", () -> new ItemStickBasic(propStick(), Tiers.DIAMOND));
-	public static final DeferredItem<ItemStick> STICK_NETHERITE = ITEMS.register("netherite_stick", () -> new ItemStickBasic(propStick().fireResistant(), Tiers.NETHERITE));
+	public static final DeferredItem<ItemStick> STICK_WOODEN = ITEMS.registerItem("wooden_stick", (properties) -> new ItemStickBasic(properties, ToolMaterial.WOOD), propStick());
+	public static final DeferredItem<ItemStick> STICK_COPPER = ITEMS.registerItem("copper_stick", (properties) -> new ItemStickBasic(properties, ToolMaterial.STONE), propStick());
+	public static final DeferredItem<ItemStick> STICK_IRON = ITEMS.registerItem("iron_stick", (properties) -> new ItemStickBasic(properties, ToolMaterial.IRON), propStick());
+	public static final DeferredItem<ItemStick> STICK_DIAMOND = ITEMS.registerItem("diamond_stick", (properties) -> new ItemStickBasic(properties, ToolMaterial.DIAMOND), propStick());
+	public static final DeferredItem<ItemStick> STICK_NETHERITE = ITEMS.registerItem("netherite_stick", (properties) -> new ItemStickBasic(properties, ToolMaterial.NETHERITE), propStick().fireResistant());
 
 	// Upgrade Templates
-	public static final DeferredItem<ItemUpgradeTemplate> TEMPLATE_ANGEL = ITEMS.register("template_angel", () -> new ItemAngelTemplate(propUpgrade()));
-	public static final DeferredItem<ItemUpgradeTemplate> TEMPLATE_DESTRUCTION = ITEMS.register("template_destruction", () -> new ItemDestructionTemplate(propUpgrade()));
-	public static final DeferredItem<ItemUpgradeTemplate> TEMPLATE_REPLACEMENT = ITEMS.register("template_replacement", () -> new ItemReplacementTemplate(propUpgrade()));
-	public static final DeferredItem<ItemUpgradeTemplate> TEMPLATE_UNBREAKABLE = ITEMS.register("template_unbreakable", () -> new ItemUnbreakableTemplate(propUpgrade()));
-	public static final DeferredItem<ItemUpgradeTemplate> TEMPLATE_BATTERY = ITEMS.register("template_battery", () -> new ItemBatteryTemplate(propUpgrade()));
+	public static final DeferredItem<ItemUpgradeTemplate> TEMPLATE_ANGEL = ITEMS.registerItem("template_angel", ItemAngelTemplate::new, propUpgrade());
+	public static final DeferredItem<ItemUpgradeTemplate> TEMPLATE_DESTRUCTION = ITEMS.registerItem("template_destruction", ItemDestructionTemplate::new, propUpgrade());
+	public static final DeferredItem<ItemUpgradeTemplate> TEMPLATE_REPLACEMENT = ITEMS.registerItem("template_replacement", ItemReplacementTemplate::new, propUpgrade());
+	public static final DeferredItem<ItemUpgradeTemplate> TEMPLATE_UNBREAKABLE = ITEMS.registerItem("template_unbreakable", ItemUnbreakableTemplate::new, propUpgrade());
+	public static final DeferredItem<ItemUpgradeTemplate> TEMPLATE_BATTERY = ITEMS.registerItem("template_battery", ItemBatteryTemplate::new, propUpgrade());
 
 	// Collections
 	public static final List<DeferredItem<ItemStick>> STICKS = List.of(STICK_WOODEN, STICK_COPPER, STICK_IRON, STICK_DIAMOND, STICK_NETHERITE);

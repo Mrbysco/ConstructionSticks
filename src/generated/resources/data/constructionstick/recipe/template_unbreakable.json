@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "tag": "c:glass_blocks"
-    },
-    "O": {
-      "tag": "c:nether_stars"
-    },
-    "X": {
-      "tag": "c:obsidians/crying"
-    }
+    "#": "#c:glass_blocks",
+    "O": "#c:nether_stars",
+    "X": "#c:obsidians/crying"
   },
   "pattern": [
     " #X",

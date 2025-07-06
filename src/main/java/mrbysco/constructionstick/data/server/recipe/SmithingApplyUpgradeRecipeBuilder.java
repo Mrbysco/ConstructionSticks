@@ -6,11 +6,14 @@ import net.minecraft.advancements.AdvancementRequirements;
 import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -51,19 +54,25 @@ public class SmithingApplyUpgradeRecipeBuilder {
 	}
 
 	public void save(RecipeOutput recipeOutput, ResourceLocation recipeId) {
-		this.ensureValid(recipeId);
-		Advancement.Builder advancement$builder = recipeOutput.advancement()
-				.addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(recipeId))
-				.rewards(AdvancementRewards.Builder.recipe(recipeId))
+		this.save(recipeOutput, ResourceKey.create(Registries.RECIPE, recipeId));
+	}
+
+	public void save(RecipeOutput output, ResourceKey<Recipe<?>> resourceKey) {
+		this.ensureValid(resourceKey);
+		Advancement.Builder advancement$builder = output.advancement()
+				.addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(resourceKey))
+				.rewards(AdvancementRewards.Builder.recipe(resourceKey))
 				.requirements(AdvancementRequirements.Strategy.OR);
 		this.criteria.forEach(advancement$builder::addCriterion);
 		SmithingApplyUpgradeRecipe applyUpgradeRecipe = new SmithingApplyUpgradeRecipe(this.template, this.base, this.addition, this.result, this.upgrade);
-		recipeOutput.accept(recipeId, applyUpgradeRecipe, advancement$builder.build(recipeId.withPrefix("recipes/" + this.category.getFolderName() + "/")));
+		output.accept(
+				resourceKey, applyUpgradeRecipe, advancement$builder.build(resourceKey.location().withPrefix("recipes/" + this.category.getFolderName() + "/"))
+		);
 	}
 
-	private void ensureValid(ResourceLocation location) {
+	private void ensureValid(ResourceKey<Recipe<?>> recipe) {
 		if (this.criteria.isEmpty()) {
-			throw new IllegalStateException("No way of obtaining recipe " + location);
+			throw new IllegalStateException("No way of obtaining recipe " + recipe.location());
 		}
 	}
 }

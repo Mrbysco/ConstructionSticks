@@ -4,7 +4,7 @@ import mrbysco.constructionstick.registry.ModItems;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.ToolMaterial;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
@@ -116,11 +116,11 @@ public class ConstructionConfig {
 	static {
 		final var builder = new ModConfigSpec.Builder();
 
-		new StickProperties(builder, ModItems.STICK_WOODEN, Tiers.WOOD.getUses(), 5000, 10, 3, 1, 1, true);
-		new StickProperties(builder, ModItems.STICK_COPPER, Tiers.STONE.getUses(), 10000, 10, 9, 2, 3, true);
-		new StickProperties(builder, ModItems.STICK_IRON, Tiers.IRON.getUses(), 25000, 10, 27, 4, 9, true);
-		new StickProperties(builder, ModItems.STICK_DIAMOND, Tiers.DIAMOND.getUses(), 100000, 10, 128, 8, 25, true);
-		new StickProperties(builder, ModItems.STICK_NETHERITE, Tiers.NETHERITE.getUses(), 200000, 10, 1024, 16, 81, true);
+		new StickProperties(builder, ModItems.STICK_WOODEN, ToolMaterial.WOOD.durability(), 5000, 10, 3, 1, 1, true);
+		new StickProperties(builder, ModItems.STICK_COPPER, ToolMaterial.STONE.durability(), 10000, 10, 9, 2, 3, true);
+		new StickProperties(builder, ModItems.STICK_IRON, ToolMaterial.IRON.durability(), 25000, 10, 27, 4, 9, true);
+		new StickProperties(builder, ModItems.STICK_DIAMOND, ToolMaterial.DIAMOND.durability(), 100000, 10, 128, 8, 25, true);
+		new StickProperties(builder, ModItems.STICK_NETHERITE, ToolMaterial.NETHERITE.durability(), 200000, 10, 1024, 16, 81, true);
 
 		builder.push("misc");
 		builder.comment("Maximum placement range (0: unlimited). Affects all sticks and is meant for lag prevention, not game balancing.");

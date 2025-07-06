@@ -3,17 +3,14 @@ package mrbysco.constructionstick.items.stick;
 import mrbysco.constructionstick.config.ConstructionConfig;
 import mrbysco.constructionstick.registry.ModDataComponents;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.ToolMaterial;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.IEnergyStorage;
-import org.jetbrains.annotations.NotNull;
 
 public class ItemStickBasic extends ItemStick {
-	private final Tier tier;
 
-	public ItemStickBasic(Properties properties, Tier tier) {
-		super(properties.durability(tier.getUses()));
-		this.tier = tier;
+	public ItemStickBasic(Properties properties, ToolMaterial tier) {
+		super(properties.durability(tier.durability()).repairable(tier.repairItems()));
 	}
 
 	@Override
@@ -63,10 +60,5 @@ public class ItemStickBasic extends ItemStick {
 			}
 		}
 		return stack.getMaxDamage() - stack.getDamageValue();
-	}
-
-	@Override
-	public boolean isValidRepairItem(@NotNull ItemStack toRepair, @NotNull ItemStack repair) {
-		return this.tier.getRepairIngredient().test(repair);
 	}
 }

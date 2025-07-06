@@ -37,7 +37,7 @@ public class ActionAngel implements IStickAction {
 		BlockState supportingBlock = level.getBlockState(currentPos);
 
 		for (int i = 0; i < limit; i++) {
-			currentPos = currentPos.offset(placeDirection.getOpposite().getNormal());
+			currentPos = currentPos.offset(placeDirection.getOpposite().getUnitVec3i());
 
 			PlaceSnapshot snapshot = supplier.getPlaceSnapshot(level, currentPos, blockHitResult, supportingBlock);
 			if (snapshot != null) {

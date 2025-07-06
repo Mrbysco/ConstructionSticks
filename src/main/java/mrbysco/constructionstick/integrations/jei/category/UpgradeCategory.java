@@ -15,20 +15,20 @@ import net.minecraft.world.item.crafting.SmithingRecipeInput;
 public class UpgradeCategory implements ISmithingCategoryExtension<SmithingApplyUpgradeRecipe> {
 	@Override
 	public <T extends IIngredientAcceptor<T>> void setTemplate(SmithingApplyUpgradeRecipe recipe, T ingredientAcceptor) {
-		Ingredient ingredient = recipe.getTemplate();
-		ingredientAcceptor.addIngredients(ingredient);
+		Ingredient ingredient = recipe.templateIngredient().get();
+		ingredientAcceptor.add(ingredient);
 	}
 
 	@Override
 	public <T extends IIngredientAcceptor<T>> void setBase(SmithingApplyUpgradeRecipe recipe, T ingredientAcceptor) {
-		Ingredient ingredient = recipe.getBase();
-		ingredientAcceptor.addIngredients(ingredient);
+		Ingredient ingredient = recipe.baseIngredient().get();
+		ingredientAcceptor.add(ingredient);
 	}
 
 	@Override
 	public <T extends IIngredientAcceptor<T>> void setAddition(SmithingApplyUpgradeRecipe recipe, T ingredientAcceptor) {
-		Ingredient ingredient = recipe.getAddition();
-		ingredientAcceptor.addIngredients(ingredient);
+		Ingredient ingredient = recipe.additionIngredient().get();
+		ingredientAcceptor.add(ingredient);
 	}
 
 	@Override
@@ -36,9 +36,8 @@ public class UpgradeCategory implements ISmithingCategoryExtension<SmithingApply
 		Minecraft minecraft = Minecraft.getInstance();
 		ClientLevel level = minecraft.level;
 		assert level != null;
-		RegistryAccess registryAccess = level.registryAccess();
-		ItemStack resultItem = recipe.getResultItem(registryAccess);
-		ingredientAcceptor.addItemStack(resultItem);
+		ItemStack resultItem = recipe.getResult();
+		ingredientAcceptor.add(resultItem);
 	}
 
 	@Override
@@ -55,6 +54,6 @@ public class UpgradeCategory implements ISmithingCategoryExtension<SmithingApply
 		);
 		ItemStack result = recipe.assemble(input, registryAccess);
 		outputSlot.createDisplayOverrides()
-				.addItemStack(result);
+				.add(result);
 	}
 }

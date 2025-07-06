@@ -1,26 +1,21 @@
 package mrbysco.constructionstick.network;
 
 import mrbysco.constructionstick.ConstructionStick;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record PacketQueryUndo(boolean undoPressed) implements CustomPacketPayload {
-	public static final StreamCodec<FriendlyByteBuf, PacketQueryUndo> CODEC = CustomPacketPayload.codec(
-			PacketQueryUndo::encode,
-			PacketQueryUndo::new);
+	public static final StreamCodec<RegistryFriendlyByteBuf, PacketQueryUndo> CODEC = StreamCodec.composite(
+			ByteBufCodecs.BOOL,
+			undo -> undo.undoPressed,
+			PacketQueryUndo::new
+	);
 	public static final Type<PacketQueryUndo> ID = new Type<>(ConstructionStick.modLoc("query_undo"));
-
-	public PacketQueryUndo(FriendlyByteBuf buf) {
-		this(buf.readBoolean());
-	}
-
-	public void encode(FriendlyByteBuf buf) {
-		buf.writeBoolean(undoPressed);
-	}
 
 	@Override
 	public Type<? extends CustomPacketPayload> type() {

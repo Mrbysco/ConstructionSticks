@@ -5,8 +5,9 @@ import mrbysco.constructionstick.basics.StickUtil;
 import mrbysco.constructionstick.basics.option.IOption;
 import mrbysco.constructionstick.basics.option.StickOptions;
 import mrbysco.constructionstick.items.stick.ItemStick;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
@@ -14,23 +15,20 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record PacketStickOption(String key, String value, boolean notifyMessage) implements CustomPacketPayload {
-	public static final StreamCodec<FriendlyByteBuf, PacketStickOption> CODEC = CustomPacketPayload.codec(
-			PacketStickOption::encode,
-			PacketStickOption::new);
-	public static final Type<PacketStickOption> ID = new Type<>(ConstructionStick.modLoc("stick_option"));
+	public static final StreamCodec<RegistryFriendlyByteBuf, PacketStickOption> CODEC = StreamCodec.composite(
+			ByteBufCodecs.STRING_UTF8,
+			option -> option.key,
+			ByteBufCodecs.STRING_UTF8,
+			option -> option.value,
+			ByteBufCodecs.BOOL,
+			option -> option.notifyMessage,
+			PacketStickOption::new
+	);
 
-	private PacketStickOption(FriendlyByteBuf buffer) {
-		this(buffer.readUtf(100), buffer.readUtf(100), buffer.readBoolean());
-	}
+	public static final Type<PacketStickOption> ID = new Type<>(ConstructionStick.modLoc("stick_option"));
 
 	public PacketStickOption(IOption<?> option, boolean notify) {
 		this(option.getKey(), option.getValueString(), notify);
-	}
-
-	public void encode(FriendlyByteBuf buffer) {
-		buffer.writeUtf(key);
-		buffer.writeUtf(value);
-		buffer.writeBoolean(notifyMessage);
 	}
 
 	@Override

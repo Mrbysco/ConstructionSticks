@@ -1,11 +1,7 @@
 {
   "type": "constructionstick:smithing_upgrade",
-  "addition": {
-    "tag": "c:obsidians/crying"
-  },
-  "base": {
-    "item": "constructionstick:wooden_stick"
-  },
+  "addition": "#c:obsidians/crying",
+  "base": "constructionstick:wooden_stick",
   "result": {
     "components": {
       "constructionstick:unbreakable": true
@@ -13,8 +9,6 @@
     "count": 1,
     "id": "constructionstick:wooden_stick"
   },
-  "template": {
-    "item": "constructionstick:template_unbreakable"
-  },
+  "template": "constructionstick:template_unbreakable",
   "upgrade": "constructionstick:upgrade_unbreakable"
 }

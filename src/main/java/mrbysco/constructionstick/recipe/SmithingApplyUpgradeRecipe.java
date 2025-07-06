@@ -12,13 +12,21 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.PlacementInfo;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SmithingRecipe;
 import net.minecraft.world.item.crafting.SmithingRecipeInput;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
+import net.minecraft.world.item.crafting.display.SmithingRecipeDisplay;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.stream.Stream;
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * A copy of SmithingTransformRecipe specifically for applying upgrades to Construction Sticks
@@ -29,8 +37,11 @@ public class SmithingApplyUpgradeRecipe implements SmithingRecipe {
 	final Ingredient addition;
 	final ItemStack result;
 	final IStickTemplate upgrade;
+	@Nullable
+	private PlacementInfo placementInfo;
 
-	public SmithingApplyUpgradeRecipe(Ingredient template, Ingredient base, Ingredient addition, ItemStack result, IStickTemplate upgrade) {
+	public SmithingApplyUpgradeRecipe(Ingredient template, Ingredient base,
+	                                  Ingredient addition, ItemStack result, IStickTemplate upgrade) {
 		this.template = template;
 		this.base = base;
 		this.addition = addition;
@@ -38,63 +49,74 @@ public class SmithingApplyUpgradeRecipe implements SmithingRecipe {
 		this.upgrade = upgrade;
 	}
 
-	public SmithingApplyUpgradeRecipe(Ingredient template, Ingredient base, Ingredient addition, ItemStack result, ResourceLocation upgrade) {
-		this(template, base, addition, result, StickUtil.getUpgrade(upgrade).orElseThrow(() -> new IllegalArgumentException("Unknown upgrade: " + upgrade)));
+	public SmithingApplyUpgradeRecipe(Ingredient template, Ingredient base,
+	                                  Ingredient addition, ItemStack result, ResourceLocation upgrade) {
+		this(template, base, addition, result, StickUtil.getUpgrade(upgrade).orElseThrow(() ->
+				new IllegalArgumentException("Unknown upgrade: " + upgrade)));
 	}
 
 	public boolean matches(SmithingRecipeInput input, Level level) {
 		ItemStack base = input.base();
-		if (base.has(upgrade.getStickComponent()) || !new StickOptions(base).upgrades.isCompatible(upgrade) || !ConstructionConfig.getStickProperties(base.getItem()).isUpgradeable())
+		if (base.has(upgrade.getStickComponent()) ||
+				!new StickOptions(base).upgrades.isCompatible(upgrade) ||
+				!ConstructionConfig.getStickProperties(base.getItem()).isUpgradeable())
 			return false;
 		return this.template.test(input.template()) && this.base.test(base) && this.addition.test(input.addition());
 	}
 
 	public ItemStack assemble(SmithingRecipeInput input, HolderLookup.Provider registries) {
-		ItemStack itemstack = input.base().transmuteCopy(this.result.getItem(), this.result.getCount());
-		itemstack.applyComponents(this.result.getComponentsPatch());
+		ItemStack resultStack = this.getResult();
+		ItemStack itemstack = input.base().transmuteCopy(resultStack.getItem(), resultStack.getCount());
+		itemstack.applyComponents(resultStack.getComponentsPatch());
 		return itemstack;
 	}
 
-	@Override
-	public ItemStack getResultItem(HolderLookup.Provider registries) {
-		return this.result;
+	public ItemStack getResult() {
+		return this.result.copy();
 	}
 
 	@Override
-	public boolean isTemplateIngredient(ItemStack stack) {
-		return this.template.test(stack);
+	public Optional<Ingredient> templateIngredient() {
+		return Optional.of(this.template);
 	}
 
 	@Override
-	public boolean isBaseIngredient(ItemStack stack) {
-		return this.base.test(stack);
+	public Optional<Ingredient> baseIngredient() {
+		return Optional.of(this.base);
 	}
 
 	@Override
-	public boolean isAdditionIngredient(ItemStack stack) {
-		return this.addition.test(stack);
+	public Optional<Ingredient> additionIngredient() {
+		return Optional.of(this.addition);
 	}
 
 	@Override
-	public RecipeSerializer<?> getSerializer() {
+	public RecipeSerializer<SmithingApplyUpgradeRecipe> getSerializer() {
 		return ModRecipes.SMITHING_UPGRADE.get();
 	}
 
 	@Override
-	public boolean isIncomplete() {
-		return Stream.of(this.template, this.base, this.addition).anyMatch(Ingredient::hasNoItems);
+	public PlacementInfo placementInfo() {
+		if (this.placementInfo == null) {
+			this.placementInfo = PlacementInfo.createFromOptionals(
+					List.of(this.templateIngredient(), this.baseIngredient(), this.additionIngredient())
+			);
+		}
+
+		return this.placementInfo;
 	}
 
-	public Ingredient getBase() {
-		return base;
-	}
-
-	public Ingredient getAddition() {
-		return addition;
-	}
-
-	public Ingredient getTemplate() {
-		return template;
+	@Override
+	public List<RecipeDisplay> display() {
+		return List.of(
+				new SmithingRecipeDisplay(
+						Ingredient.optionalIngredientToDisplay(Optional.of(this.template)),
+						Ingredient.optionalIngredientToDisplay(Optional.of(this.base)),
+						Ingredient.optionalIngredientToDisplay(Optional.of(this.addition)),
+						new SlotDisplay.ItemStackSlotDisplay(this.result),
+						new SlotDisplay.ItemSlotDisplay(Items.SMITHING_TABLE)
+				)
+		);
 	}
 
 	public static class Serializer implements RecipeSerializer<SmithingApplyUpgradeRecipe> {
@@ -117,6 +139,7 @@ public class SmithingApplyUpgradeRecipe implements SmithingRecipe {
 			return CODEC;
 		}
 
+		@NotNull
 		@Override
 		public StreamCodec<RegistryFriendlyByteBuf, SmithingApplyUpgradeRecipe> streamCodec() {
 			return STREAM_CODEC;

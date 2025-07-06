@@ -1,11 +1,7 @@
 {
   "type": "constructionstick:smithing_upgrade",
-  "addition": {
-    "tag": "c:storage_blocks/redstone"
-  },
-  "base": {
-    "item": "constructionstick:diamond_stick"
-  },
+  "addition": "#c:storage_blocks/redstone",
+  "base": "constructionstick:diamond_stick",
   "result": {
     "components": {
       "constructionstick:destruction": true
@@ -13,8 +9,6 @@
     "count": 1,
     "id": "constructionstick:diamond_stick"
   },
-  "template": {
-    "item": "constructionstick:template_destruction"
-  },
+  "template": "constructionstick:template_destruction",
   "upgrade": "constructionstick:upgrade_destruction"
 }

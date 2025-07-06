@@ -7,12 +7,12 @@ import mrbysco.constructionstick.items.template.ItemUpgradeTemplate;
 import mrbysco.constructionstick.registry.ModDataComponents;
 import mrbysco.constructionstick.registry.ModItems;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -24,33 +24,33 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
 public class RecipeGenerator extends RecipeProvider {
-	public RecipeGenerator(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookupProvider) {
-		super(packOutput, lookupProvider);
+	public RecipeGenerator(HolderLookup.Provider provider, RecipeOutput recipeOutput) {
+		super(provider, recipeOutput);
 	}
 
 	@Override
-	protected void buildRecipes(RecipeOutput output, HolderLookup.Provider provider) {
-		stickRecipe(output, ModItems.STICK_WOODEN.get(), IngredientPredicate.fromTag(Tags.Items.RODS_WOODEN));
-		stickRecipe(output, ModItems.STICK_COPPER.get(), IngredientPredicate.fromTag(Tags.Items.INGOTS_COPPER));
-		stickRecipe(output, ModItems.STICK_IRON.get(), IngredientPredicate.fromTag(Tags.Items.INGOTS_IRON));
-		stickRecipe(output, ModItems.STICK_DIAMOND.get(), IngredientPredicate.fromTag(Tags.Items.GEMS_DIAMOND));
-		stickRecipe(output, ModItems.STICK_NETHERITE.get(), IngredientPredicate.fromTag(Tags.Items.INGOTS_NETHERITE));
+	protected void buildRecipes() {
+		stickRecipe(output, ModItems.STICK_WOODEN.get(), IngredientPredicate.fromTag(registries, Tags.Items.RODS_WOODEN));
+		stickRecipe(output, ModItems.STICK_COPPER.get(), IngredientPredicate.fromTag(registries, Tags.Items.INGOTS_COPPER));
+		stickRecipe(output, ModItems.STICK_IRON.get(), IngredientPredicate.fromTag(registries, Tags.Items.INGOTS_IRON));
+		stickRecipe(output, ModItems.STICK_DIAMOND.get(), IngredientPredicate.fromTag(registries, Tags.Items.GEMS_DIAMOND));
+		stickRecipe(output, ModItems.STICK_NETHERITE.get(), IngredientPredicate.fromTag(registries, Tags.Items.INGOTS_NETHERITE));
 
-		templateRecipe(output, ModItems.TEMPLATE_ANGEL.get(), IngredientPredicate.fromTag(Tags.Items.FEATHERS), IngredientPredicate.fromTag(Tags.Items.INGOTS_GOLD));
-		templateRecipe(output, ModItems.TEMPLATE_DESTRUCTION.get(), IngredientPredicate.fromItem(Items.TNT), IngredientPredicate.fromItem(Items.DIAMOND_PICKAXE));
-		templateRecipe(output, ModItems.TEMPLATE_REPLACEMENT.get(), IngredientPredicate.fromTag(Tags.Items.ENDER_PEARLS), IngredientPredicate.fromItem(Items.SCULK));
-		templateRecipe(output, ModItems.TEMPLATE_UNBREAKABLE.get(), IngredientPredicate.fromTag(Tags.Items.NETHER_STARS), IngredientPredicate.fromTag(Tags.Items.OBSIDIANS_CRYING));
-		templateRecipe(output, ModItems.TEMPLATE_BATTERY.get(), IngredientPredicate.fromItem(Items.POTATO), IngredientPredicate.fromTag(Tags.Items.DUSTS_REDSTONE));
+		templateRecipe(output, ModItems.TEMPLATE_ANGEL.get(), IngredientPredicate.fromTag(registries, Tags.Items.FEATHERS), IngredientPredicate.fromTag(registries, Tags.Items.INGOTS_GOLD));
+		templateRecipe(output, ModItems.TEMPLATE_DESTRUCTION.get(), IngredientPredicate.fromItem(registries, Items.TNT), IngredientPredicate.fromItem(registries, Items.DIAMOND_PICKAXE));
+		templateRecipe(output, ModItems.TEMPLATE_REPLACEMENT.get(), IngredientPredicate.fromTag(registries, Tags.Items.ENDER_PEARLS), IngredientPredicate.fromItem(registries, Items.SCULK));
+		templateRecipe(output, ModItems.TEMPLATE_UNBREAKABLE.get(), IngredientPredicate.fromTag(registries, Tags.Items.NETHER_STARS), IngredientPredicate.fromTag(registries, Tags.Items.OBSIDIANS_CRYING));
+		templateRecipe(output, ModItems.TEMPLATE_BATTERY.get(), IngredientPredicate.fromItem(registries, Items.POTATO), IngredientPredicate.fromTag(registries, Tags.Items.DUSTS_REDSTONE));
 
-		templateUpgradeRecipe(output, ModItems.TEMPLATE_ANGEL, IngredientPredicate.fromTag(Tags.Items.FEATHERS), ModDataComponents.ANGEL, true);
-		templateUpgradeRecipe(output, ModItems.TEMPLATE_DESTRUCTION, IngredientPredicate.fromTag(Tags.Items.STORAGE_BLOCKS_REDSTONE), ModDataComponents.DESTRUCTION, true);
-		templateUpgradeRecipe(output, ModItems.TEMPLATE_REPLACEMENT, IngredientPredicate.fromTag(Tags.Items.ENDER_PEARLS), ModDataComponents.REPLACEMENT, true);
-		templateUpgradeRecipe(output, ModItems.TEMPLATE_UNBREAKABLE, IngredientPredicate.fromTag(Tags.Items.OBSIDIANS_CRYING), ModDataComponents.UNBREAKABLE, true);
-		templateUpgradeRecipe(output, ModItems.TEMPLATE_BATTERY, IngredientPredicate.fromTag(Tags.Items.STORAGE_BLOCKS_COPPER), ModDataComponents.BATTERY_ENABLED, true);
+		templateUpgradeRecipe(output, ModItems.TEMPLATE_ANGEL, IngredientPredicate.fromTag(registries, Tags.Items.FEATHERS), ModDataComponents.ANGEL, true);
+		templateUpgradeRecipe(output, ModItems.TEMPLATE_DESTRUCTION, IngredientPredicate.fromTag(registries, Tags.Items.STORAGE_BLOCKS_REDSTONE), ModDataComponents.DESTRUCTION, true);
+		templateUpgradeRecipe(output, ModItems.TEMPLATE_REPLACEMENT, IngredientPredicate.fromTag(registries, Tags.Items.ENDER_PEARLS), ModDataComponents.REPLACEMENT, true);
+		templateUpgradeRecipe(output, ModItems.TEMPLATE_UNBREAKABLE, IngredientPredicate.fromTag(registries, Tags.Items.OBSIDIANS_CRYING), ModDataComponents.UNBREAKABLE, true);
+		templateUpgradeRecipe(output, ModItems.TEMPLATE_BATTERY, IngredientPredicate.fromTag(registries, Tags.Items.STORAGE_BLOCKS_COPPER), ModDataComponents.BATTERY_ENABLED, true);
 	}
 
 	private void stickRecipe(RecipeOutput output, ItemLike stick, IngredientPredicate material) {
-		ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, stick)
+		shaped(RecipeCategory.TOOLS, stick)
 				.define('X', material.ingredient())
 				.define('#', Tags.Items.RODS_WOODEN)
 				.pattern("  X")
@@ -76,7 +76,7 @@ public class RecipeGenerator extends RecipeProvider {
 	}
 
 	private void templateRecipe(RecipeOutput output, ItemLike template, IngredientPredicate item1, IngredientPredicate item2) {
-		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, template)
+		shaped(RecipeCategory.MISC, template)
 				.define('O', item1.ingredient())
 				.define('X', item2.ingredient())
 				.define('#', Tags.Items.GLASS_BLOCKS)
@@ -85,5 +85,21 @@ public class RecipeGenerator extends RecipeProvider {
 				.pattern("X# ")
 				.unlockedBy("has_item", inventoryTrigger(item1.predicate()))
 				.save(output);
+	}
+
+	public static class Runner extends RecipeProvider.Runner {
+		public Runner(PackOutput output, CompletableFuture<Provider> completableFuture) {
+			super(output, completableFuture);
+		}
+
+		@Override
+		protected RecipeProvider createRecipeProvider(HolderLookup.Provider provider, RecipeOutput recipeOutput) {
+			return new RecipeGenerator(provider, recipeOutput);
+		}
+
+		@Override
+		public String getName() {
+			return "Construction Sticks Recipes";
+		}
 	}
 }

@@ -12,7 +12,10 @@ import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger.TriggerInstance;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
+import net.minecraft.data.advancements.AdvancementProvider;
+import net.minecraft.data.advancements.AdvancementSubProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -20,8 +23,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.common.data.AdvancementProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.List;
@@ -31,20 +32,22 @@ import java.util.function.Consumer;
 
 public class AdvancementGenerator extends AdvancementProvider {
 
-	public AdvancementGenerator(PackOutput output, CompletableFuture<Provider> registries, ExistingFileHelper existingFileHelper) {
-		super(output, registries, existingFileHelper, List.of(new StickAdvancementGenerator()));
+	public AdvancementGenerator(PackOutput output, CompletableFuture<Provider> registries) {
+		super(output, registries, List.of(new StickAdvancementGenerator()));
 	}
 
-	public static class StickAdvancementGenerator implements AdvancementGenerator {
+	public static class StickAdvancementGenerator implements AdvancementSubProvider {
+
 		@Override
-		public void generate(Provider registries, Consumer<AdvancementHolder> consumer, ExistingFileHelper existingFileHelper) {
+		public void generate(Provider registries, Consumer<AdvancementHolder> consumer) {
 			AdvancementHolder root = Advancement.Builder.advancement()
 					.display(rootDisplay(ModItems.STICK_WOODEN, advancementPrefix("root.title"),
 							advancementPrefix("root.desc"), mcLoc("textures/block/oak_planks.png")))
-					.addCriterion("stick", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(Tags.Items.RODS_WOODEN)))
+					.addCriterion("stick", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item()
+							.of(registries.lookupOrThrow(Registries.ITEM), Tags.Items.RODS_WOODEN)))
 					.save(consumer, rootID("root"));
 
-			AdvancementHolder sticks = onHasItems(consumer, ModItems.STICK_IRON, ModTags.CONSTRUCTION_STICKS, AdvancementType.TASK, root);
+			AdvancementHolder sticks = onHasItems(registries, consumer, ModItems.STICK_IRON, ModTags.CONSTRUCTION_STICKS, AdvancementType.TASK, root);
 
 			AdvancementHolder angelTemplate = onHasItems(consumer, ModItems.TEMPLATE_ANGEL, AdvancementType.TASK, sticks);
 			AdvancementHolder destructionTemplate = onHasItems(consumer, ModItems.TEMPLATE_DESTRUCTION, AdvancementType.TASK, sticks);
@@ -93,7 +96,7 @@ public class AdvancementGenerator extends AdvancementProvider {
 		 * @param type     The frame type.
 		 * @param root     The root advancement.
 		 */
-		protected static AdvancementHolder onHasItems(Consumer<AdvancementHolder> consumer, DeferredHolder<Item, ? extends Item> iconItem, TagKey<Item> itemTag,
+		protected static AdvancementHolder onHasItems(Provider registries, Consumer<AdvancementHolder> consumer, DeferredHolder<Item, ? extends Item> iconItem, TagKey<Item> itemTag,
 		                                              AdvancementType type, AdvancementHolder root) {
 			String path = iconItem.getId().getPath();
 			ResourceLocation registryLocation = modLoc(path);
@@ -102,18 +105,20 @@ public class AdvancementGenerator extends AdvancementProvider {
 			return Advancement.Builder.advancement()
 					.display(info)
 					.parent(root)
-					.addCriterion(path, hasItemsTrigger(itemTag))
+					.addCriterion(path, hasItemsTrigger(registries, itemTag))
 					.save(consumer, rootID(registryLocation.getPath()));
 		}
 
 		/**
 		 * Get a trigger instance for holding items.
 		 *
+		 * @param registries The registries provider.
 		 * @param itemTag The item tag.
 		 * @return The trigger instance.
 		 */
-		protected static Criterion<TriggerInstance> hasItemsTrigger(TagKey<Item> itemTag) {
-			return InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(itemTag));
+		protected static Criterion<TriggerInstance> hasItemsTrigger(Provider registries, TagKey<Item> itemTag) {
+			return InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item()
+					.of(registries.lookupOrThrow(Registries.ITEM), itemTag));
 		}
 
 		/**

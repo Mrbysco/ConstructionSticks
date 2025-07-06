@@ -45,7 +45,7 @@ runs {
         programArgument '--nogui'
     }
 
-    data {
+    clientData {
         // example of overriding the workingDirectory set in configureEach above, uncomment if you want to use it
         // workingDirectory project.file('run-data')
 
@@ -83,8 +83,8 @@ dependencies {
 
     localRuntime "mezz.jei:jei-${mc_version}-neoforge:${jei_version}"
 
-    compileOnly "dev.emi:emi-neoforge:${emi_version}:api"
-    localRuntime "dev.emi:emi-neoforge:${emi_version}"
+//    compileOnly "dev.emi:emi-neoforge:${emi_version}:api"
+//    localRuntime "dev.emi:emi-neoforge:${emi_version}"
 }
 
 jar {
