@@ -3,7 +3,6 @@ package mrbysco.constructionstick.client;
 import mrbysco.constructionstick.ConstructionStick;
 import mrbysco.constructionstick.basics.StickUtil;
 import mrbysco.constructionstick.basics.option.StickOptions;
-import mrbysco.constructionstick.network.ModMessages;
 import mrbysco.constructionstick.network.PacketQueryUndo;
 import mrbysco.constructionstick.network.PacketStickOption;
 import net.minecraft.client.KeyMapping;
@@ -13,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import org.lwjgl.glfw.GLFW;
 
 public class KeybindHandler {
@@ -43,7 +43,7 @@ public class KeybindHandler {
 		boolean undoDown = KEY_UNDO.isDown();
 		if (undoPressed != undoDown) {
 			undoPressed = undoDown;
-			ModMessages.sendToServer(new PacketQueryUndo(undoPressed));
+			ClientPacketDistributor.sendToServer(new PacketQueryUndo(undoPressed));
 		}
 	}
 
@@ -57,17 +57,17 @@ public class KeybindHandler {
 		if (KEY_CHANGE_UPGRADE.consumeClick()) {
 			StickOptions stickOptions = new StickOptions(stick);
 			stickOptions.upgrades.next();
-			ModMessages.sendToServer(new PacketStickOption(stickOptions.upgrades, true));
+			ClientPacketDistributor.sendToServer(new PacketStickOption(stickOptions.upgrades, true));
 		}
 		if (KEY_CHANGE_RESTRICTION.consumeClick()) {
 			StickOptions stickOptions = new StickOptions(stick);
 			stickOptions.lock.next();
-			ModMessages.sendToServer(new PacketStickOption(stickOptions.lock, true));
+			ClientPacketDistributor.sendToServer(new PacketStickOption(stickOptions.lock, true));
 		}
 		if (KEY_CHANGE_DIRECTION.consumeClick()) {
 			StickOptions stickOptions = new StickOptions(stick);
 			stickOptions.direction.next();
-			ModMessages.sendToServer(new PacketStickOption(stickOptions.direction, true));
+			ClientPacketDistributor.sendToServer(new PacketStickOption(stickOptions.direction, true));
 		}
 
 		if (KEY_OPEN_GUI.consumeClick()) {

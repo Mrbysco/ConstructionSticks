@@ -2,7 +2,6 @@ package mrbysco.constructionstick.client;
 
 import mrbysco.constructionstick.basics.option.IOption;
 import mrbysco.constructionstick.basics.option.StickOptions;
-import mrbysco.constructionstick.network.ModMessages;
 import mrbysco.constructionstick.network.PacketStickOption;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -11,6 +10,7 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
 public class StickScreen extends Screen {
@@ -72,7 +72,7 @@ public class StickScreen extends Screen {
 
 	private void clickButton(Button button, IOption<?> option) {
 		option.next();
-		ModMessages.sendToServer(new PacketStickOption(option, false));
+		ClientPacketDistributor.sendToServer(new PacketStickOption(option, false));
 		button.setMessage(getButtonLabel(option));
 		button.setTooltip(getButtonTooltip(option));
 	}

@@ -20,12 +20,12 @@ behind the block you are facing, conjure blocks in mid air or destroy lots of bl
 [[dependencies.constructionstick]]
     modId="neoforge"
     type="required"
-    versionRange="[21.6.0-beta,)"
+    versionRange="[21.7.0-beta,)"
     ordering = "NONE"
     side="BOTH"
 [[dependencies.constructionstick]]
     modId="minecraft"
     type="required"
-    versionRange="[1.21.6,1.22)"
+    versionRange="[1.21.7,1.22)"
     ordering = "NONE"
     side="BOTH"
