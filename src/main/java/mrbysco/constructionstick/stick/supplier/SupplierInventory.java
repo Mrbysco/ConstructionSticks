@@ -104,7 +104,7 @@ public class SupplierInventory implements IStickSupplier {
 		int count = stack.getCount();
 		Item item = stack.getItem();
 
-		if (player.getInventory().items == null) return count;
+		if (player.getInventory().getNonEquipmentItems().isEmpty()) return count;
 		if (player.isCreative()) return 0;
 
 		List<ItemStack> hotbar = StickUtil.getHotbarWithOffhand(player);

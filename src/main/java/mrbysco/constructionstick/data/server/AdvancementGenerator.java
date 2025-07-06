@@ -11,6 +11,7 @@ import net.minecraft.advancements.DisplayInfo;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger.TriggerInstance;
 import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.core.ClientAsset;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
@@ -134,7 +135,7 @@ public class AdvancementGenerator extends AdvancementProvider {
 			return new DisplayInfo(new ItemStack(icon),
 					Component.translatable(titleKey),
 					Component.translatable(descKey),
-					Optional.of(background), AdvancementType.TASK, false, false, false);
+					Optional.of(new ClientAsset(background)), AdvancementType.TASK, false, false, false);
 		}
 
 		/**

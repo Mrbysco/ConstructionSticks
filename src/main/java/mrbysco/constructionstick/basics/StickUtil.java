@@ -69,22 +69,23 @@ public class StickUtil {
 	}
 
 	public static List<ItemStack> getHotbar(Player player) {
-		return player.getInventory().items.subList(0, 9);
+		return player.getInventory().getNonEquipmentItems().subList(0, 9);
 	}
 
 	public static List<ItemStack> getHotbarWithOffhand(Player player) {
-		List<ItemStack> inventory = new ArrayList<>(player.getInventory().items.subList(0, 9));
-		inventory.addAll(player.getInventory().offhand);
+		List<ItemStack> inventory = new ArrayList<>(player.getInventory().getNonEquipmentItems().subList(0, 9));
+		inventory.add(player.getOffhandItem());
 		return inventory;
 	}
 
 	public static List<ItemStack> getMainInv(Player player) {
-		return player.getInventory().items.subList(9, player.getInventory().items.size());
+		return player.getInventory().getNonEquipmentItems().subList(9, player.getInventory().getNonEquipmentItems().size());
 	}
 
 	public static List<ItemStack> getFullInv(Player player) {
-		List<ItemStack> inventory = new ArrayList<>(player.getInventory().offhand);
-		inventory.addAll(player.getInventory().items);
+		List<ItemStack> inventory = new ArrayList<>();
+		inventory.add(player.getOffhandItem());
+		inventory.addAll(player.getInventory().getNonEquipmentItems());
 		return inventory;
 	}
 
@@ -176,7 +177,7 @@ public class StickUtil {
 	}
 
 	public static int countItem(Player player, Item item) {
-		if (player.getInventory().items == null) return 0;
+		if (player.getInventory().getNonEquipmentItems() == null) return 0;
 		if (player.isCreative()) return Integer.MAX_VALUE;
 
 		int total = 0;

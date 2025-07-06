@@ -13,6 +13,8 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Unit;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -22,7 +24,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.Unbreakable;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -33,7 +35,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.text.NumberFormat;
-import java.util.List;
+import java.util.function.Consumer;
 
 public abstract class ItemStick extends Item {
 	public ItemStick(Properties properties) {
@@ -105,17 +107,18 @@ public abstract class ItemStick extends Item {
 	}
 
 	@Override
-	public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
-		super.inventoryTick(stack, level, entity, slotId, isSelected);
+	public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot) {
+		super.inventoryTick(stack, level, entity, slot);
 		if (stack.has(ModDataComponents.UNBREAKABLE) && !stack.has(DataComponents.UNBREAKABLE)) {
-			stack.set(DataComponents.UNBREAKABLE, new Unbreakable(false));
+			stack.set(DataComponents.UNBREAKABLE, Unit.INSTANCE);
 		}
 	}
 
 	@Override
-	public void appendHoverText(@NotNull ItemStack itemstack, TooltipContext context, @NotNull List<Component> lines, @NotNull TooltipFlag extraInfo) {
-		StickOptions options = new StickOptions(itemstack);
-		int limit = options.upgrades.get().getStickAction().getLimit(itemstack);
+	public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay,
+	                            Consumer<Component> components, TooltipFlag flag) {
+		StickOptions options = new StickOptions(stack);
+		int limit = options.upgrades.get().getStickAction().getLimit(stack);
 
 		String langTooltip = ConstructionStick.MOD_ID + ".tooltip.";
 
@@ -123,40 +126,40 @@ public abstract class ItemStick extends Item {
 		if (Screen.hasShiftDown()) {
 			for (int i = 1; i < options.allOptions.length; i++) {
 				IOption<?> opt = options.allOptions[i];
-				lines.add(Component.translatable(opt.getKeyTranslation()).withStyle(ChatFormatting.AQUA)
+				components.accept(Component.translatable(opt.getKeyTranslation()).withStyle(ChatFormatting.AQUA)
 						.append(Component.translatable(opt.getValueTranslation()).withStyle(ChatFormatting.GRAY))
 				);
 			}
 			if (!options.upgrades.getUpgrades().isEmpty()) {
-				lines.add(Component.literal(""));
-				lines.add(Component.translatable(langTooltip + "upgrades").withStyle(ChatFormatting.GRAY));
+				components.accept(Component.literal(""));
+				components.accept(Component.translatable(langTooltip + "upgrades").withStyle(ChatFormatting.GRAY));
 
 				for (IStickTemplate upgrades : options.upgrades.getUpgrades()) {
-					lines.add(Component.translatable(options.upgrades.getKeyTranslation() + "." + upgrades.getRegistryName().toString()));
+					components.accept(Component.translatable(options.upgrades.getKeyTranslation() + "." + upgrades.getRegistryName().toString()));
 				}
 				for (IStickTemplate specialUpgrades : options.upgrades.getSpecialUpgrades()) {
-					lines.add(Component.translatable(options.upgrades.getKeyTranslation() + "." + specialUpgrades.getRegistryName().toString()));
+					components.accept(Component.translatable(options.upgrades.getKeyTranslation() + "." + specialUpgrades.getRegistryName().toString()));
 				}
 			}
 		}
 		// Default tooltip: show block limit + active stick upgrade
 		else {
 			StickUpgradesSelectable<IStickTemplate> upgrades = options.upgrades;
-			lines.add(Component.translatable(langTooltip + "blocks", limit).withStyle(ChatFormatting.GRAY));
+			components.accept(Component.translatable(langTooltip + "blocks", limit).withStyle(ChatFormatting.GRAY));
 
-			if (itemstack.has(ModDataComponents.BATTERY_ENABLED)) {
-				IEnergyStorage storage = itemstack.getCapability(Capabilities.EnergyStorage.ITEM);
+			if (stack.has(ModDataComponents.BATTERY_ENABLED)) {
+				IEnergyStorage storage = stack.getCapability(Capabilities.EnergyStorage.ITEM);
 				if (storage != null) {
 					int energy = storage.getEnergyStored();
 					NumberFormat format = NumberFormat.getInstance();
-					lines.add(Component.translatable("constructionstick.tooltip.storage", format.format(energy), format.format(storage.getMaxEnergyStored()))
+					components.accept(Component.translatable("constructionstick.tooltip.storage", format.format(energy), format.format(storage.getMaxEnergyStored()))
 							.withStyle(ChatFormatting.RED));
 				}
 			}
 
-			lines.add(Component.translatable(upgrades.getKeyTranslation()).withStyle(ChatFormatting.AQUA)
+			components.accept(Component.translatable(upgrades.getKeyTranslation()).withStyle(ChatFormatting.AQUA)
 					.append(Component.translatable(upgrades.getValueTranslation()).withStyle(ChatFormatting.WHITE)));
-			lines.add(Component.translatable(langTooltip + "shift").withStyle(ChatFormatting.AQUA));
+			components.accept(Component.translatable(langTooltip + "shift").withStyle(ChatFormatting.AQUA));
 		}
 	}
 

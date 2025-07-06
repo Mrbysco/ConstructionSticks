@@ -1,11 +1,9 @@
 package mrbysco.constructionstick.data.client;
 
 import mrbysco.constructionstick.ConstructionStick;
-import mrbysco.constructionstick.items.stick.ItemStick;
 import mrbysco.constructionstick.registry.ModItems;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.LanguageProvider;
-import net.neoforged.neoforge.registries.DeferredItem;
 import org.jetbrains.annotations.Nullable;
 
 public class LanguageGenerator extends LanguageProvider {

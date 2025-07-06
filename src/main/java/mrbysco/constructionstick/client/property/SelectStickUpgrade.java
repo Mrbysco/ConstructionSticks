@@ -31,6 +31,11 @@ public class SelectStickUpgrade implements SelectItemModelProperty<String> {
 		return null;
 	}
 
+	@Override
+	public Codec<String> valueCodec() {
+		return Codec.STRING;
+	}
+
 	@NotNull
 	@Override
 	public Type<? extends SelectItemModelProperty<String>, String> type() {

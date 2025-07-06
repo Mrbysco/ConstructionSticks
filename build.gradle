@@ -78,10 +78,10 @@ repositories {
 dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
 
-    compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"
-    compileOnly "mezz.jei:jei-${mc_version}-neoforge-api:${jei_version}"
-
-    localRuntime "mezz.jei:jei-${mc_version}-neoforge:${jei_version}"
+//    compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"
+//    compileOnly "mezz.jei:jei-${mc_version}-neoforge-api:${jei_version}"
+//
+//    localRuntime "mezz.jei:jei-${mc_version}-neoforge:${jei_version}"
 
 //    compileOnly "dev.emi:emi-neoforge:${emi_version}:api"
 //    localRuntime "dev.emi:emi-neoforge:${emi_version}"
@@ -138,7 +138,7 @@ if (System.getenv().CURSEFORGE_KEY) {
         mainFile.changelogType = 'markdown'
 
 //        mainFile.addRequirement()
-        mainFile.addOptional("jei") //, "emi"
+//        mainFile.addOptional("jei") //, "emi"
     }
 }
 
@@ -156,7 +156,7 @@ if (System.getenv().MODRINTH_KEY) {
 
         dependencies {
             optional.project "jei"
-//            optional.project "emi"
+            optional.project "emi"
         }
     }
 }

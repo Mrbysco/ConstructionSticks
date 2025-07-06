@@ -81,8 +81,8 @@ public class SmithingApplyUpgradeRecipe implements SmithingRecipe {
 	}
 
 	@Override
-	public Optional<Ingredient> baseIngredient() {
-		return Optional.of(this.base);
+	public Ingredient baseIngredient() {
+		return this.base;
 	}
 
 	@Override
@@ -99,7 +99,7 @@ public class SmithingApplyUpgradeRecipe implements SmithingRecipe {
 	public PlacementInfo placementInfo() {
 		if (this.placementInfo == null) {
 			this.placementInfo = PlacementInfo.createFromOptionals(
-					List.of(this.templateIngredient(), this.baseIngredient(), this.additionIngredient())
+					List.of(this.templateIngredient(), Optional.of(this.baseIngredient()), this.additionIngredient())
 			);
 		}
 
