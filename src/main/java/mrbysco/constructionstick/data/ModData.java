@@ -16,7 +16,7 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import java.util.concurrent.CompletableFuture;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber
 public class ModData {
 	@SubscribeEvent
 	public static void gatherData(GatherDataEvent.Client event) {
@@ -26,7 +26,7 @@ public class ModData {
 
 		BlockTagsProvider blockTags = new BlockTagsGenerator(packOutput, lookupProvider);
 		generator.addProvider(true, blockTags);
-		generator.addProvider(true, new ItemTagsGenerator(packOutput, lookupProvider, blockTags));
+		generator.addProvider(true, new ItemTagsGenerator(packOutput, lookupProvider));
 		generator.addProvider(true, new RecipeGenerator.Runner(packOutput, lookupProvider));
 		generator.addProvider(true, new AdvancementGenerator(packOutput, lookupProvider));
 

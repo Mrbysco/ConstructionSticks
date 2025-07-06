@@ -31,7 +31,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import java.util.List;
 import java.util.function.Supplier;
 
-@EventBusSubscriber(modid = ConstructionStick.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = ConstructionStick.MOD_ID)
 public class ModItems {
 	public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(ConstructionStick.MOD_ID);
 	public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, ConstructionStick.MOD_ID);
