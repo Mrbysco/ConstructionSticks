@@ -129,7 +129,7 @@ public class ConstructionConfig {
 		UNDO_HISTORY = builder.defineInRange("UndoHistory", 3, 0, Integer.MAX_VALUE);
 		builder.comment("Place blocks below you while falling > 10 blocks with angel upgrade (Can be used to save you from drops/the void)");
 		ANGEL_FALLING = builder.define("AngelFalling", false);
-		builder.comment("Blocks to treat equally when in Similar mode. Enter block IDs seperated by ;");
+		builder.comment("Blocks to treat equally when in Similar mode. Enter block IDs separated by ;");
 		SIMILAR_BLOCKS = builder.defineListAllowEmpty("SimilarBlocks", List.of(SIMILAR_BLOCKS_DEFAULT), String::new, o -> (o instanceof String));
 		builder.pop();
 
