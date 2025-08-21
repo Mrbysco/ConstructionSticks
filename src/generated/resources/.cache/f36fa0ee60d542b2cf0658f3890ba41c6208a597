@@ -1,2 +1,3 @@
-// 1.21.1	2025-07-30T15:49:15.2905346	Tags for minecraft:block mod id constructionstick
-38e56b0c7a9b7ebd8fb023611ecd6a294522d593 data/constructionstick/tags/block/non_replaceable.json
+// 1.21.1	2025-08-21T22:03:41.9153427	Tags for minecraft:block mod id constructionstick
+2d1693d4919223ef0412681455fe4bb4ffe47427 data/constructionstick/tags/block/non_placable.json
+9316959fd98ff5cd9c5d551a2d078d0e8dcc2401 data/constructionstick/tags/block/non_replaceable.json

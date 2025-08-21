@@ -7,9 +7,11 @@ import mrbysco.constructionstick.config.ConstructionConfig;
 import mrbysco.constructionstick.containers.ContainerManager;
 import mrbysco.constructionstick.items.stick.ItemStick;
 import mrbysco.constructionstick.stick.StickItemUseContext;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
@@ -109,6 +111,11 @@ public class StickUtil {
 
 	public static boolean placeBlock(Level level, Player player, BlockState block, BlockPos pos, @Nullable BlockItem item) {
 		// Remove block if placeEvent is canceled
+		if (block.is(ModTags.NON_PLACABLE)) {
+			player.sendSystemMessage(Component.translatable("constructionstick.placement.denied").withStyle(ChatFormatting.RED));
+			return false; // Block is blacklisted for placement
+		}
+
 		BlockSnapshot snapshot = BlockSnapshot.create(level.dimension(), level, pos);
 		BlockEvent.EntityPlaceEvent placeEvent = new BlockEvent.EntityPlaceEvent(snapshot, block, player);
 		NeoForge.EVENT_BUS.post(placeEvent);
@@ -240,10 +247,11 @@ public class StickUtil {
 	public static boolean isBlockReplaceable(Level level, Player player, BlockPos pos) {
 		if (!isPositionModifiable(level, player, pos)) return false;
 
-		if (level.getBlockState(pos).is(ModTags.NON_REPLACEABLE)) return false;
+		BlockState state = level.getBlockState(pos);
+		if (state.is(ModTags.NON_REPLACEABLE)) return false;
 
 		if (!player.isCreative()) {
-			return !(level.getBlockState(pos).getDestroySpeed(level, pos) <= -1) && level.getBlockEntity(pos) == null;
+			return !(state.getDestroySpeed(level, pos) <= -1) && level.getBlockEntity(pos) == null;
 		}
 		return true;
 	}

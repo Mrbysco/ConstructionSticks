@@ -1,0 +1,32 @@
+{
+  "values": [
+    {
+      "id": "powah:reactor_starter",
+      "required": false
+    },
+    {
+      "id": "powah:reactor_basic",
+      "required": false
+    },
+    {
+      "id": "powah:reactor_hardened",
+      "required": false
+    },
+    {
+      "id": "powah:reactor_blazing",
+      "required": false
+    },
+    {
+      "id": "powah:reactor_niotic",
+      "required": false
+    },
+    {
+      "id": "powah:reactor_spirited",
+      "required": false
+    },
+    {
+      "id": "powah:reactor_nitro",
+      "required": false
+    }
+  ]
+}

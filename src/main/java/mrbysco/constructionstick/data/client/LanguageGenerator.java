@@ -1,11 +1,9 @@
 package mrbysco.constructionstick.data.client;
 
 import mrbysco.constructionstick.ConstructionStick;
-import mrbysco.constructionstick.items.stick.ItemStick;
 import mrbysco.constructionstick.registry.ModItems;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.LanguageProvider;
-import net.neoforged.neoforge.registries.DeferredItem;
 import org.jetbrains.annotations.Nullable;
 
 public class LanguageGenerator extends LanguageProvider {
@@ -105,6 +103,8 @@ public class LanguageGenerator extends LanguageProvider {
 		add("constructionstick.networking.query_undo.failed", "Failed to undo operation: %s");
 		add("constructionstick.networking.stick_option.undo", "Failed to change stick option: %s");
 		add("constructionstick.networking.undo_blocks.failed", "Failed to undo blocks: %s");
+
+		add("constructionstick.placement.denied", "This block cannot be placed with the Construction Stick!");
 
 		add("constructionstick.alias.emi.construction", "Construction");
 		add("constructionstick.alias.emi.wand", "Wand");
