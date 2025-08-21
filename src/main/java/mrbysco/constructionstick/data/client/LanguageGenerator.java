@@ -104,6 +104,8 @@ public class LanguageGenerator extends LanguageProvider {
 		add("constructionstick.networking.stick_option.undo", "Failed to change stick option: %s");
 		add("constructionstick.networking.undo_blocks.failed", "Failed to undo blocks: %s");
 
+		add("constructionstick.placement.denied", "This block cannot be placed with the Construction Stick!");
+
 		add("constructionstick.alias.emi.construction", "Construction");
 		add("constructionstick.alias.emi.wand", "Wand");
 		add("constructionstick.alias.emi.construction_wand", "Construction Wand");

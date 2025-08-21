@@ -93,7 +93,6 @@ public class PlaceSnapshot implements ISnapshot {
 		// Is block at pos replaceable?
 		BlockPlaceContext ctx = new StickItemUseContext(level, player, blockHitResult, pos, item);
 		if (!ctx.canPlace()) return null;
-
 		// Can block be placed?
 		BlockState blockState = item.getBlock().getStateForPlacement(ctx);
 		if (blockState == null || !blockState.canSurvive(level, pos)) return null;
