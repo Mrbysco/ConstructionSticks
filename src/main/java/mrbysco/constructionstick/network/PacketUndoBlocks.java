@@ -1,7 +1,7 @@
 package mrbysco.constructionstick.network;
 
 import mrbysco.constructionstick.ConstructionStick;
-import mrbysco.constructionstick.client.ClientHandler;
+import mrbysco.constructionstick.client.RenderBlockPreview;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -50,7 +50,7 @@ public record PacketUndoBlocks(HashSet<BlockPos> undoBlocks) implements CustomPa
 		public static void handle(final PacketUndoBlocks msg, final IPayloadContext ctx) {
 			ctx.enqueueWork(() -> {
 						//ConstructionStick.LOGGER.debug("PacketUndoBlocks received, Blocks: " + msg.undoBlocks.size());
-						ClientHandler.renderBlockPreview.undoBlocks = msg.undoBlocks;
+						RenderBlockPreview.undoBlocks = msg.undoBlocks;
 					})
 					.exceptionally(e -> {
 						// Handle exception

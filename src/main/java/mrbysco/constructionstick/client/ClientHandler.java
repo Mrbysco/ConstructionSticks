@@ -2,20 +2,16 @@ package mrbysco.constructionstick.client;
 
 import mrbysco.constructionstick.ConstructionStick;
 import mrbysco.constructionstick.client.property.SelectStickUpgrade;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.event.RegisterSelectItemModelPropertyEvent;
-import net.neoforged.neoforge.common.NeoForge;
 
+@EventBusSubscriber(Dist.CLIENT)
 public class ClientHandler {
-	public static RenderBlockPreview renderBlockPreview;
 
-	public static void onClientSetup(final FMLClientSetupEvent event) {
-		renderBlockPreview = new RenderBlockPreview();
-		NeoForge.EVENT_BUS.register(renderBlockPreview);
-		NeoForge.EVENT_BUS.register(new KeybindHandler());
-	}
-
+	@SubscribeEvent
 	public static void registerKeymapping(final RegisterKeyMappingsEvent event) {
 		event.register(KeybindHandler.KEY_CHANGE_RESTRICTION);
 		event.register(KeybindHandler.KEY_CHANGE_UPGRADE);
@@ -25,6 +21,7 @@ public class ClientHandler {
 		event.register(KeybindHandler.KEY_SHOW_PREVIOUS);
 	}
 
+	@SubscribeEvent
 	public static void registerModelProperties(RegisterSelectItemModelPropertyEvent event) {
 		event.register(ConstructionStick.modLoc("stick_upgrade"), SelectStickUpgrade.TYPE);
 	}

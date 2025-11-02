@@ -13,77 +13,77 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import java.util.function.Supplier;
 
 public class ModDataComponents {
-	public static final DeferredRegister<DataComponentType<?>> DATA_COMPONENT_TYPES = DeferredRegister.create(Registries.DATA_COMPONENT_TYPE, ConstructionStick.MOD_ID);
+	public static final DeferredRegister.DataComponents DATA_COMPONENT_TYPES = DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, ConstructionStick.MOD_ID);
 
-	public static final Supplier<DataComponentType<StickOptions.LOCK>> LOCK = DATA_COMPONENT_TYPES.register("lock", () ->
-			DataComponentType.<StickOptions.LOCK>builder()
+	public static final Supplier<DataComponentType<StickOptions.LOCK>> LOCK = DATA_COMPONENT_TYPES.registerComponentType("lock", builder ->
+			builder
 					.persistent(StickOptions.LOCK.CODEC)
 					.networkSynchronized(StickOptions.LOCK.STREAM_CODEC)
-					.build());
+	);
 
-	public static final Supplier<DataComponentType<StickOptions.DIRECTION>> DIRECTION = DATA_COMPONENT_TYPES.register("direction", () ->
-			DataComponentType.<StickOptions.DIRECTION>builder()
+	public static final Supplier<DataComponentType<StickOptions.DIRECTION>> DIRECTION = DATA_COMPONENT_TYPES.registerComponentType("direction", builder ->
+			builder
 					.persistent(StickOptions.DIRECTION.CODEC)
 					.networkSynchronized(StickOptions.DIRECTION.STREAM_CODEC)
-					.build());
+	);
 
-	public static final Supplier<DataComponentType<Boolean>> REPLACE = DATA_COMPONENT_TYPES.register("replace", () ->
-			DataComponentType.<Boolean>builder()
+	public static final Supplier<DataComponentType<Boolean>> REPLACE = DATA_COMPONENT_TYPES.registerComponentType("replace", builder ->
+			builder
 					.persistent(Codec.BOOL)
 					.networkSynchronized(ByteBufCodecs.BOOL)
-					.build());
+	);
 
-	public static final Supplier<DataComponentType<StickOptions.MATCH>> MATCH = DATA_COMPONENT_TYPES.register("match", () ->
-			DataComponentType.<StickOptions.MATCH>builder()
+	public static final Supplier<DataComponentType<StickOptions.MATCH>> MATCH = DATA_COMPONENT_TYPES.registerComponentType("match", builder ->
+			builder
 					.persistent(StickOptions.MATCH.CODEC)
 					.networkSynchronized(StickOptions.MATCH.STREAM_CODEC)
-					.build());
+	);
 
-	public static final Supplier<DataComponentType<Boolean>> RANDOM = DATA_COMPONENT_TYPES.register("random", () ->
-			DataComponentType.<Boolean>builder()
+	public static final Supplier<DataComponentType<Boolean>> RANDOM = DATA_COMPONENT_TYPES.registerComponentType("random", builder ->
+			builder
 					.persistent(Codec.BOOL)
 					.networkSynchronized(ByteBufCodecs.BOOL)
-					.build());
+	);
 
-	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> ANGEL = DATA_COMPONENT_TYPES.register("angel", () ->
-			DataComponentType.<Boolean>builder()
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> ANGEL = DATA_COMPONENT_TYPES.registerComponentType("angel", builder ->
+			builder
 					.persistent(Codec.BOOL)
 					.networkSynchronized(ByteBufCodecs.BOOL)
-					.build());
+	);
 
-	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> DESTRUCTION = DATA_COMPONENT_TYPES.register("destruction", () ->
-			DataComponentType.<Boolean>builder()
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> DESTRUCTION = DATA_COMPONENT_TYPES.registerComponentType("destruction", builder ->
+			builder
 					.persistent(Codec.BOOL)
 					.networkSynchronized(ByteBufCodecs.BOOL)
-					.build());
+	);
 
-	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> UNBREAKABLE = DATA_COMPONENT_TYPES.register("unbreakable", () ->
-			DataComponentType.<Boolean>builder()
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> UNBREAKABLE = DATA_COMPONENT_TYPES.registerComponentType("unbreakable", builder ->
+			builder
 					.persistent(Codec.BOOL)
 					.networkSynchronized(ByteBufCodecs.BOOL)
-					.build());
+	);
 
-	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> BATTERY_ENABLED = DATA_COMPONENT_TYPES.register("battery_enabled", () ->
-			DataComponentType.<Boolean>builder()
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> BATTERY_ENABLED = DATA_COMPONENT_TYPES.registerComponentType("battery_enabled", builder ->
+			builder
 					.persistent(Codec.BOOL)
 					.networkSynchronized(ByteBufCodecs.BOOL)
-					.build());
+	);
 
-	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> BATTERY = DATA_COMPONENT_TYPES.register("battery", () ->
-			DataComponentType.<Integer>builder()
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> BATTERY = DATA_COMPONENT_TYPES.registerComponentType("battery", builder ->
+			builder
 					.persistent(Codec.INT)
 					.networkSynchronized(ByteBufCodecs.INT)
-					.build());
+	);
 
-	public static final DeferredHolder<DataComponentType<?>, DataComponentType<ResourceLocation>> SELECTED = DATA_COMPONENT_TYPES.register("selected", () ->
-			DataComponentType.<ResourceLocation>builder()
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<ResourceLocation>> SELECTED = DATA_COMPONENT_TYPES.registerComponentType("selected", builder ->
+			builder
 					.persistent(ResourceLocation.CODEC)
 					.networkSynchronized(ResourceLocation.STREAM_CODEC)
-					.build());
+	);
 
-	public static final Supplier<DataComponentType<Boolean>> REPLACEMENT = DATA_COMPONENT_TYPES.register("replacement", () ->
-			DataComponentType.<Boolean>builder()
+	public static final Supplier<DataComponentType<Boolean>> REPLACEMENT = DATA_COMPONENT_TYPES.registerComponentType("replacement", builder ->
+			builder
 					.persistent(Codec.BOOL)
 					.networkSynchronized(ByteBufCodecs.BOOL)
-					.build());
+	);
 }

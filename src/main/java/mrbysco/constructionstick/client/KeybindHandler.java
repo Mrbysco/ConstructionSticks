@@ -9,33 +9,36 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import org.lwjgl.glfw.GLFW;
 
+@EventBusSubscriber(Dist.CLIENT)
 public class KeybindHandler {
-	public static final KeyMapping KEY_CHANGE_RESTRICTION = new KeyMapping(getKey("change_restriction"), GLFW.GLFW_KEY_UNKNOWN, getKey("category"));
-	public static final KeyMapping KEY_CHANGE_UPGRADE = new KeyMapping(getKey("change_upgrade"), GLFW.GLFW_KEY_UNKNOWN, getKey("category"));
-	public static final KeyMapping KEY_CHANGE_DIRECTION = new KeyMapping(getKey("change_direction"), GLFW.GLFW_KEY_UNKNOWN, getKey("category"));
-	public static final KeyMapping KEY_OPEN_GUI = new KeyMapping(getKey("open_gui"), GLFW.GLFW_KEY_UNKNOWN, getKey("category"));
-	public static final KeyMapping KEY_UNDO = new KeyMapping(getKey("undo"), GLFW.GLFW_KEY_UNKNOWN, getKey("category"));
-	public static final KeyMapping KEY_SHOW_PREVIOUS = new KeyMapping(getKey("show_previous"), GLFW.GLFW_KEY_UNKNOWN, getKey("category"));
+	private static KeyMapping.Category CATEGORY = new KeyMapping.Category(ConstructionStick.modLoc("category"));
+	public static final KeyMapping KEY_CHANGE_RESTRICTION = new KeyMapping(getKey("change_restriction"), GLFW.GLFW_KEY_UNKNOWN, CATEGORY);
+	public static final KeyMapping KEY_CHANGE_UPGRADE = new KeyMapping(getKey("change_upgrade"), GLFW.GLFW_KEY_UNKNOWN, CATEGORY);
+	public static final KeyMapping KEY_CHANGE_DIRECTION = new KeyMapping(getKey("change_direction"), GLFW.GLFW_KEY_UNKNOWN, CATEGORY);
+	public static final KeyMapping KEY_OPEN_GUI = new KeyMapping(getKey("open_gui"), GLFW.GLFW_KEY_UNKNOWN, CATEGORY);
+	public static final KeyMapping KEY_UNDO = new KeyMapping(getKey("undo"), GLFW.GLFW_KEY_UNKNOWN, CATEGORY);
+	public static final KeyMapping KEY_SHOW_PREVIOUS = new KeyMapping(getKey("show_previous"), GLFW.GLFW_KEY_UNKNOWN, CATEGORY);
 
 	private static String getKey(String name) {
 		return String.join(".", "key", ConstructionStick.MOD_ID, name);
 	}
 
-
 	public KeybindHandler() {
 		undoPressed = false;
 	}
 
-	private boolean undoPressed;
+	private static boolean undoPressed;
 
 	@SubscribeEvent
-	public void KeyEvent(InputEvent.Key event) {
+	public static void KeyEvent(InputEvent.Key event) {
 		Player player = Minecraft.getInstance().player;
 		if (player == null) return;
 		if (StickUtil.holdingStick(player) == null) return;
@@ -48,7 +51,7 @@ public class KeybindHandler {
 	}
 
 	@SubscribeEvent
-	public void onClientTick(ClientTickEvent.Post event) {
+	public static void onClientTick(ClientTickEvent.Post event) {
 		Player player = Minecraft.getInstance().player;
 		if (player == null) return;
 		if (StickUtil.holdingStick(player) == null) return;

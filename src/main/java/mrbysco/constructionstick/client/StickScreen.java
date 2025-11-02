@@ -8,6 +8,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
@@ -50,12 +51,12 @@ public class StickScreen extends Screen {
 	}
 
 	@Override
-	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-		if (Minecraft.getInstance().options.keyInventory.matches(keyCode, scanCode)) {
+	public boolean keyPressed(KeyEvent event) {
+		if (Minecraft.getInstance().options.keyInventory.matches(event)) {
 			this.onClose();
 			return true;
 		} else {
-			return super.keyPressed(keyCode, scanCode, modifiers);
+			return super.keyPressed(event);
 		}
 	}
 

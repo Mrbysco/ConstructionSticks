@@ -10,7 +10,6 @@ import mrbysco.constructionstick.config.ConstructionConfig;
 import mrbysco.constructionstick.registry.ModDataComponents;
 import mrbysco.constructionstick.stick.StickJob;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -30,7 +29,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -49,7 +49,7 @@ public abstract class ItemStick extends Item {
 		InteractionHand hand = context.getHand();
 		Level level = context.getLevel();
 
-		if (level.isClientSide || player == null) return InteractionResult.FAIL;
+		if (level.isClientSide() || player == null) return InteractionResult.FAIL;
 
 		ItemStack stack = player.getItemInHand(hand);
 
@@ -67,7 +67,7 @@ public abstract class ItemStick extends Item {
 		ItemStack stack = player.getItemInHand(hand);
 
 		if (!player.isCrouching()) {
-			if (level.isClientSide) return InteractionResult.FAIL;
+			if (level.isClientSide()) return InteractionResult.FAIL;
 
 			// Right click: Place angel block
 			StickJob job = getStickJob(player, level, BlockHitResult.miss(player.getLookAngle(),
@@ -96,10 +96,15 @@ public abstract class ItemStick extends Item {
 	public void hurtItem(ItemStack stack, int amount, LivingEntity entity, EquipmentSlot slot) {
 		if (stack.has(ModDataComponents.BATTERY_ENABLED)) {
 			if (entity.hasInfiniteMaterials()) return;
-			IEnergyStorage storage = stack.getCapability(Capabilities.EnergyStorage.ITEM);
+			EnergyHandler storage = stack.getCapability(Capabilities.Energy.ITEM, null);
 			if (storage != null) {
 				int usage = ConstructionConfig.getStickProperties(this).getBatteryUsage();
-				storage.extractEnergy(usage, false);
+				try (var tx = Transaction.openRoot()) {
+					if (storage.extract(usage, tx) != usage)
+						return;
+
+					tx.commit();
+				}
 			}
 		} else {
 			stack.hurtAndBreak(amount, entity, slot);
@@ -123,7 +128,7 @@ public abstract class ItemStick extends Item {
 		String langTooltip = ConstructionStick.MOD_ID + ".tooltip.";
 
 		// +SHIFT tooltip: show all options + installed upgrades
-		if (Screen.hasShiftDown()) {
+		if (flag.hasShiftDown()) {
 			for (int i = 1; i < options.allOptions.length; i++) {
 				IOption<?> opt = options.allOptions[i];
 				components.accept(Component.translatable(opt.getKeyTranslation()).withStyle(ChatFormatting.AQUA)
@@ -148,11 +153,11 @@ public abstract class ItemStick extends Item {
 			components.accept(Component.translatable(langTooltip + "blocks", limit).withStyle(ChatFormatting.GRAY));
 
 			if (stack.has(ModDataComponents.BATTERY_ENABLED)) {
-				IEnergyStorage storage = stack.getCapability(Capabilities.EnergyStorage.ITEM);
+				EnergyHandler storage = stack.getCapability(Capabilities.Energy.ITEM, null);
 				if (storage != null) {
-					int energy = storage.getEnergyStored();
+					int energy = storage.getAmountAsInt();
 					NumberFormat format = NumberFormat.getInstance();
-					components.accept(Component.translatable("constructionstick.tooltip.storage", format.format(energy), format.format(storage.getMaxEnergyStored()))
+					components.accept(Component.translatable("constructionstick.tooltip.storage", format.format(energy), format.format(storage.getCapacityAsInt()))
 							.withStyle(ChatFormatting.RED));
 				}
 			}

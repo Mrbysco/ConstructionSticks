@@ -55,9 +55,6 @@ public class ConstructionStick {
 
 		if (dist.isClient()) {
 			container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
-			eventBus.addListener(ClientHandler::onClientSetup);
-			eventBus.addListener(ClientHandler::registerModelProperties);
-			eventBus.addListener(ClientHandler::registerKeymapping);
 		}
 	}
 
