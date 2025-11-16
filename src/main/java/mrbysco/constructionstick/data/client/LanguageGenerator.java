@@ -92,7 +92,7 @@ public class LanguageGenerator extends LanguageProvider {
 
 		add("stat.constructionstick.use_stick", "Blocks placed using Stick");
 
-		addKeybind("category", "Construction Sticks");
+		add("key.category.constructionstick.category", "Construction Sticks");
 		addKeybind("change_restriction", "Toggle Restriction");
 		addKeybind("change_upgrade", "Toggle Upgrade");
 		addKeybind("change_direction", "Toggle Direction");

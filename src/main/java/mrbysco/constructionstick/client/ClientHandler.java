@@ -13,6 +13,7 @@ public class ClientHandler {
 
 	@SubscribeEvent
 	public static void registerKeymapping(final RegisterKeyMappingsEvent event) {
+		event.registerCategory(KeybindHandler.CATEGORY);
 		event.register(KeybindHandler.KEY_CHANGE_RESTRICTION);
 		event.register(KeybindHandler.KEY_CHANGE_UPGRADE);
 		event.register(KeybindHandler.KEY_CHANGE_DIRECTION);

@@ -19,7 +19,7 @@ import org.lwjgl.glfw.GLFW;
 
 @EventBusSubscriber(Dist.CLIENT)
 public class KeybindHandler {
-	private static KeyMapping.Category CATEGORY = new KeyMapping.Category(ConstructionStick.modLoc("category"));
+	public static KeyMapping.Category CATEGORY = new KeyMapping.Category(ConstructionStick.modLoc("category"));
 	public static final KeyMapping KEY_CHANGE_RESTRICTION = new KeyMapping(getKey("change_restriction"), GLFW.GLFW_KEY_UNKNOWN, CATEGORY);
 	public static final KeyMapping KEY_CHANGE_UPGRADE = new KeyMapping(getKey("change_upgrade"), GLFW.GLFW_KEY_UNKNOWN, CATEGORY);
 	public static final KeyMapping KEY_CHANGE_DIRECTION = new KeyMapping(getKey("change_direction"), GLFW.GLFW_KEY_UNKNOWN, CATEGORY);
