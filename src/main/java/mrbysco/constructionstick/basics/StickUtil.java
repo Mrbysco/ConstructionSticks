@@ -113,7 +113,7 @@ public class StickUtil {
 	public static boolean placeBlock(Level level, Player player, BlockState block, BlockPos pos, @Nullable BlockItem item) {
 		// Remove block if placeEvent is canceled
 		if (block.is(ModTags.NON_PLACABLE)) {
-			player.sendSystemMessage(Component.translatable("constructionstick.placement.denied").withStyle(ChatFormatting.RED));
+			player.displayClientMessage(Component.translatable("constructionstick.placement.denied").withStyle(ChatFormatting.RED), false);
 			return false; // Block is blacklisted for placement
 		}
 

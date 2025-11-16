@@ -5,6 +5,7 @@ import mrbysco.constructionstick.basics.ModTags;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagEntry;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 
@@ -21,16 +22,16 @@ public class BlockTagsGenerator extends BlockTagsProvider {
 		this.tag(ModTags.NON_REPLACEABLE).addTag(Tags.Blocks.RELOCATION_NOT_SUPPORTED).addTag(ModTags.NON_PLACABLE);
 
 		var tagAppender = this.tag(ModTags.NON_PLACABLE);
-		List<ResourceLocation> reactors = List.of(
-				modLoc("powah", "reactor_starter"),
-				modLoc("powah", "reactor_basic"),
-				modLoc("powah", "reactor_hardened"),
-				modLoc("powah", "reactor_blazing"),
-				modLoc("powah", "reactor_niotic"),
-				modLoc("powah", "reactor_spirited"),
-				modLoc("powah", "reactor_nitro")
+		List<TagEntry> reactors = List.of(
+				TagEntry.optionalElement(modLoc("powah", "reactor_starter")),
+				TagEntry.optionalElement(modLoc("powah", "reactor_basic")),
+				TagEntry.optionalElement(modLoc("powah", "reactor_hardened")),
+				TagEntry.optionalElement(modLoc("powah", "reactor_blazing")),
+				TagEntry.optionalElement(modLoc("powah", "reactor_niotic")),
+				TagEntry.optionalElement(modLoc("powah", "reactor_spirited")),
+				TagEntry.optionalElement(modLoc("powah", "reactor_nitro"))
 		);
-		reactors.forEach(tagAppender::addOptional);
+		reactors.forEach(tagAppender::add);
 	}
 
 	private ResourceLocation modLoc(String modID, String path) {
