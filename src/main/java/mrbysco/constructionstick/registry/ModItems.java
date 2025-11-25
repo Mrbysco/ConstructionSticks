@@ -38,18 +38,18 @@ public class ModItems {
 	public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, ConstructionStick.MOD_ID);
 
 	// Sticks
-	public static final DeferredItem<ItemStick> STICK_WOODEN = ITEMS.registerItem("wooden_stick", (properties) -> new ItemStickBasic(properties, ToolMaterial.WOOD));
-	public static final DeferredItem<ItemStick> STICK_COPPER = ITEMS.registerItem("copper_stick", (properties) -> new ItemStickBasic(properties, ToolMaterial.STONE));
-	public static final DeferredItem<ItemStick> STICK_IRON = ITEMS.registerItem("iron_stick", (properties) -> new ItemStickBasic(properties, ToolMaterial.IRON));
-	public static final DeferredItem<ItemStick> STICK_DIAMOND = ITEMS.registerItem("diamond_stick", (properties) -> new ItemStickBasic(properties, ToolMaterial.DIAMOND));
-	public static final DeferredItem<ItemStick> STICK_NETHERITE = ITEMS.registerItem("netherite_stick", (properties) -> new ItemStickBasic(properties, ToolMaterial.NETHERITE), properties -> properties.fireResistant());
+	public static final DeferredItem<ItemStick> STICK_WOODEN = ITEMS.registerItem("wooden_stick", (properties) -> new ItemStickBasic(properties, ToolMaterial.WOOD), propStick());
+	public static final DeferredItem<ItemStick> STICK_COPPER = ITEMS.registerItem("copper_stick", (properties) -> new ItemStickBasic(properties, ToolMaterial.STONE), propStick());
+	public static final DeferredItem<ItemStick> STICK_IRON = ITEMS.registerItem("iron_stick", (properties) -> new ItemStickBasic(properties, ToolMaterial.IRON), propStick());
+	public static final DeferredItem<ItemStick> STICK_DIAMOND = ITEMS.registerItem("diamond_stick", (properties) -> new ItemStickBasic(properties, ToolMaterial.DIAMOND), propStick());
+	public static final DeferredItem<ItemStick> STICK_NETHERITE = ITEMS.registerItem("netherite_stick", (properties) -> new ItemStickBasic(properties, ToolMaterial.NETHERITE), propStick().fireResistant());
 
 	// Upgrade Templates
-	public static final DeferredItem<ItemUpgradeTemplate> TEMPLATE_ANGEL = ITEMS.registerItem("template_angel", ItemAngelTemplate::new, properties -> properties.stacksTo(1));
-	public static final DeferredItem<ItemUpgradeTemplate> TEMPLATE_DESTRUCTION = ITEMS.registerItem("template_destruction", ItemDestructionTemplate::new, properties -> properties.stacksTo(1));
-	public static final DeferredItem<ItemUpgradeTemplate> TEMPLATE_REPLACEMENT = ITEMS.registerItem("template_replacement", ItemReplacementTemplate::new, properties -> properties.stacksTo(1));
-	public static final DeferredItem<ItemUpgradeTemplate> TEMPLATE_UNBREAKABLE = ITEMS.registerItem("template_unbreakable", ItemUnbreakableTemplate::new, properties -> properties.stacksTo(1));
-	public static final DeferredItem<ItemUpgradeTemplate> TEMPLATE_BATTERY = ITEMS.registerItem("template_battery", ItemBatteryTemplate::new, properties -> properties.stacksTo(1));
+	public static final DeferredItem<ItemUpgradeTemplate> TEMPLATE_ANGEL = ITEMS.registerItem("template_angel", ItemAngelTemplate::new, propUpgrade());
+	public static final DeferredItem<ItemUpgradeTemplate> TEMPLATE_DESTRUCTION = ITEMS.registerItem("template_destruction", ItemDestructionTemplate::new, propUpgrade());
+	public static final DeferredItem<ItemUpgradeTemplate> TEMPLATE_REPLACEMENT = ITEMS.registerItem("template_replacement", ItemReplacementTemplate::new, propUpgrade());
+	public static final DeferredItem<ItemUpgradeTemplate> TEMPLATE_UNBREAKABLE = ITEMS.registerItem("template_unbreakable", ItemUnbreakableTemplate::new, propUpgrade());
+	public static final DeferredItem<ItemUpgradeTemplate> TEMPLATE_BATTERY = ITEMS.registerItem("template_battery", ItemBatteryTemplate::new, propUpgrade());
 
 	// Collections
 	public static final List<DeferredItem<ItemStick>> STICKS = List.of(STICK_WOODEN, STICK_COPPER, STICK_IRON, STICK_DIAMOND, STICK_NETHERITE);
@@ -63,6 +63,14 @@ public class ModItems {
 				List<ItemStack> stacks = ITEMS.getEntries().stream().map(reg -> new ItemStack(reg.get())).toList();
 				output.acceptAll(stacks);
 			}).build());
+
+	public static Item.Properties propStick() {
+		return new Item.Properties();
+	}
+
+	private static Item.Properties propUpgrade() {
+		return new Item.Properties().stacksTo(1);
+	}
 
 	@SubscribeEvent
 	public static void addCreative(BuildCreativeModeTabContentsEvent event) {

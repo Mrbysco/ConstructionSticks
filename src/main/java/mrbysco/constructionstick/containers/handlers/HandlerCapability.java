@@ -35,7 +35,7 @@ public class HandlerCapability implements IContainerHandler {
 		ResourceHandler<ItemResource> resourceHandler = inventoryStack.getCapability(Capabilities.Item.ITEM, null);
 		if (resourceHandler == null) return 0;
 
-		try (var tx = Transaction.openRoot()) {
+		try (var tx = Transaction.open(null)) {
 			int initialCount = count;
 			for (int i = 0; i < resourceHandler.size(); i++) {
 				ItemResource handlerResource = resourceHandler.getResource(i);

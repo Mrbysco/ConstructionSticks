@@ -99,7 +99,7 @@ public abstract class ItemStick extends Item {
 			EnergyHandler storage = stack.getCapability(Capabilities.Energy.ITEM, null);
 			if (storage != null) {
 				int usage = ConstructionConfig.getStickProperties(this).getBatteryUsage();
-				try (var tx = Transaction.openRoot()) {
+				try (var tx = Transaction.open(null)) {
 					if (storage.extract(usage, tx) != usage)
 						return;
 
