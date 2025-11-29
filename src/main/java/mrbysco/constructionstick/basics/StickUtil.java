@@ -103,7 +103,11 @@ public class StickUtil {
 		String fullId = name.toString();
 		String modId = name.getNamespace();
 
-		boolean inList = ConstructionConfig.BE_LIST.get().contains(fullId) || ConstructionConfig.BE_LIST.get().contains(modId);
+		boolean inModList = ConstructionConfig.BE_LIST.get().contains(modId);
+		boolean inBlocksList = ConstructionConfig.BE_LIST.get().contains(fullId);
+		boolean inExcludeList = ConstructionConfig.BE_LIST_EXCLUSIONS.get().contains(fullId);
+		boolean inList = !inExcludeList && (inModList  || inBlocksList);
+		
 		boolean isWhitelist = ConstructionConfig.BE_WHITELIST.get();
 
 		return isWhitelist == inList;

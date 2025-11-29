@@ -52,6 +52,8 @@ public class ConstructionStick {
 
 		// Config setup
 		container.registerConfig(ModConfig.Type.SERVER, ConstructionConfig.SPEC);
+		eventBus.addListener(ConstructionConfig::registerOnLoading);
+		eventBus.addListener(ConstructionConfig::registerOnReloading);
 
 		if (dist.isClient()) {
 			container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
