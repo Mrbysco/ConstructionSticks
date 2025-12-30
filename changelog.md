@@ -1,1 +1,1 @@
-* Fix capability crash that can occur while placing certain blocks
+* Update to 1.21.11
