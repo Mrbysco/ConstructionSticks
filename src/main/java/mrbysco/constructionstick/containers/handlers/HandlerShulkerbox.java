@@ -15,7 +15,7 @@ public class HandlerShulkerbox implements IContainerHandler {
 
 	@Override
 	public boolean matches(Player player, ItemStack itemStack, ItemStack inventoryStack) {
-		return inventoryStack != null && inventoryStack.getCount() == 1 && Block.byItem(inventoryStack.getItem()) instanceof ShulkerBoxBlock;
+		return !inventoryStack.isEmpty() && inventoryStack.getCount() == 1 && Block.byItem(inventoryStack.getItem()) instanceof ShulkerBoxBlock;
 	}
 
 	@Override

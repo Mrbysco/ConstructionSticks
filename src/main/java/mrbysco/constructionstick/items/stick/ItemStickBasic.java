@@ -5,6 +5,7 @@ import mrbysco.constructionstick.registry.ModDataComponents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ToolMaterial;
 import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 
 public class ItemStickBasic extends ItemStick {
@@ -26,7 +27,7 @@ public class ItemStickBasic extends ItemStick {
 	@Override
 	public int getBarWidth(ItemStack stack) {
 		if (stack.has(ModDataComponents.BATTERY_ENABLED)) {
-			EnergyHandler storage = stack.getCapability(Capabilities.Energy.ITEM, null);
+			EnergyHandler storage = ItemAccess.forStack(stack).getCapability(Capabilities.Energy.ITEM);
 			if (storage != null) {
 				return Math.round((13.0F / storage.getCapacityAsInt() * storage.getAmountAsInt()));
 			}
@@ -53,7 +54,7 @@ public class ItemStickBasic extends ItemStick {
 			return Integer.MAX_VALUE;
 		}
 		if (stack.has(ModDataComponents.BATTERY_ENABLED)) {
-			EnergyHandler storage = stack.getCapability(Capabilities.Energy.ITEM, null);
+			EnergyHandler storage = ItemAccess.forStack(stack).getCapability(Capabilities.Energy.ITEM);
 			if (storage != null) {
 				int usage = ConstructionConfig.getStickProperties(this).getBatteryUsage();
 				return storage.getAmountAsInt() / usage;

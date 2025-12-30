@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 public class HandlerBundle implements IContainerHandler {
 	@Override
 	public boolean matches(Player player, ItemStack itemStack, ItemStack inventoryStack) {
-		return inventoryStack != null && inventoryStack.getCount() == 1 && inventoryStack.getItem() == Items.BUNDLE;
+		return !inventoryStack.isEmpty() && inventoryStack.getCount() == 1 && inventoryStack.getItem() == Items.BUNDLE;
 	}
 
 	@Override

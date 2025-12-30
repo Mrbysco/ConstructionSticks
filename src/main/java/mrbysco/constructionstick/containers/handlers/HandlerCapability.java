@@ -5,18 +5,19 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 public class HandlerCapability implements IContainerHandler {
 	@Override
 	public boolean matches(Player player, ItemStack itemStack, ItemStack inventoryStack) {
-		return inventoryStack != null && inventoryStack.getCapability(Capabilities.Item.ITEM, null) != null;
+		return !inventoryStack.isEmpty() && ItemAccess.forStack(inventoryStack).getCapability(Capabilities.Item.ITEM) != null;
 	}
 
 	@Override
 	public int countItems(Player player, ItemStack itemStack, ItemStack inventoryStack) {
-		ResourceHandler<ItemResource> resourceHandler = inventoryStack.getCapability(Capabilities.Item.ITEM, null);
+		ResourceHandler<ItemResource> resourceHandler = ItemAccess.forStack(inventoryStack).getCapability(Capabilities.Item.ITEM);
 		if (resourceHandler == null) return 0;
 
 		int total = 0;
@@ -32,7 +33,7 @@ public class HandlerCapability implements IContainerHandler {
 
 	@Override
 	public int useItems(Player player, ItemStack itemStack, ItemStack inventoryStack, int count) {
-		ResourceHandler<ItemResource> resourceHandler = inventoryStack.getCapability(Capabilities.Item.ITEM, null);
+		ResourceHandler<ItemResource> resourceHandler = ItemAccess.forStack(inventoryStack).getCapability(Capabilities.Item.ITEM);
 		if (resourceHandler == null) return 0;
 
 		try (var tx = Transaction.openRoot()) {

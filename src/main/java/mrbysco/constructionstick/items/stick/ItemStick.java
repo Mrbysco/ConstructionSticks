@@ -29,6 +29,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.jetbrains.annotations.NotNull;
@@ -96,7 +97,7 @@ public abstract class ItemStick extends Item {
 	public void hurtItem(ItemStack stack, int amount, LivingEntity entity, EquipmentSlot slot) {
 		if (stack.has(ModDataComponents.BATTERY_ENABLED)) {
 			if (entity.hasInfiniteMaterials()) return;
-			EnergyHandler storage = stack.getCapability(Capabilities.Energy.ITEM, null);
+			EnergyHandler storage = ItemAccess.forStack(stack).getCapability(Capabilities.Energy.ITEM);
 			if (storage != null) {
 				int usage = ConstructionConfig.getStickProperties(this).getBatteryUsage();
 				try (var tx = Transaction.openRoot()) {
@@ -153,7 +154,7 @@ public abstract class ItemStick extends Item {
 			components.accept(Component.translatable(langTooltip + "blocks", limit).withStyle(ChatFormatting.GRAY));
 
 			if (stack.has(ModDataComponents.BATTERY_ENABLED)) {
-				EnergyHandler storage = stack.getCapability(Capabilities.Energy.ITEM, null);
+				EnergyHandler storage = ItemAccess.forStack(stack).getCapability(Capabilities.Energy.ITEM);
 				if (storage != null) {
 					int energy = storage.getAmountAsInt();
 					NumberFormat format = NumberFormat.getInstance();
