@@ -7,7 +7,7 @@
 //import mrbysco.constructionstick.integrations.emi.recipe.ApplyUpgradeEMIRecipe;
 //import mrbysco.constructionstick.recipe.SmithingApplyUpgradeRecipe;
 //import net.minecraft.client.Minecraft;
-//import net.minecraft.resources.ResourceLocation;
+//import net.minecraft.resources.Identifier;
 //import net.minecraft.world.item.crafting.RecipeHolder;
 //import net.minecraft.world.item.crafting.RecipeManager;
 //import net.minecraft.world.item.crafting.RecipeType;
@@ -17,7 +17,7 @@
 //
 //@EmiEntrypoint
 //public class ConstructionStickEMIPlugin implements EmiPlugin {
-//	private static final ResourceLocation UID = ConstructionStick.modLoc("emi_plugin");
+//	private static final Identifier UID = ConstructionStick.modLoc("emi_plugin");
 //
 //	@Override
 //	public void register(EmiRegistry registry) {

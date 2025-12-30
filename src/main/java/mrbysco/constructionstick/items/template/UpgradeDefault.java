@@ -5,7 +5,7 @@ import mrbysco.constructionstick.api.IStickAction;
 import mrbysco.constructionstick.api.IStickTemplate;
 import mrbysco.constructionstick.stick.action.ActionConstruction;
 import net.minecraft.core.component.DataComponentType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class UpgradeDefault implements IStickTemplate {
 	@Override
@@ -14,7 +14,7 @@ public class UpgradeDefault implements IStickTemplate {
 	}
 
 	@Override
-	public ResourceLocation getRegistryName() {
+	public Identifier getRegistryName() {
 		return ConstructionStick.modLoc("default");
 	}
 

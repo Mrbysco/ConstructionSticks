@@ -7,16 +7,21 @@ import mrbysco.constructionstick.items.stick.ItemStick;
 import mrbysco.constructionstick.stick.StickJob;
 import net.minecraft.client.Camera;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.Octree;
 import net.minecraft.client.renderer.ShapeRenderer;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.BlockOutlineRenderState;
 import net.minecraft.client.renderer.state.LevelRenderState;
 import net.minecraft.core.BlockPos;
+import net.minecraft.gizmos.GizmoStyle;
+import net.minecraft.gizmos.Gizmos;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -48,7 +53,7 @@ public class RenderBlockPreview {
 		@Override
 		public boolean render(BlockOutlineRenderState renderState, MultiBufferSource.BufferSource buffer,
 		                      PoseStack poseStack, boolean translucentPass, LevelRenderState levelRenderState) {
-			Entity entity = camera.getEntity();
+			Entity entity = camera.entity();
 			if (!(entity instanceof Player player)) return false;
 			Set<BlockPos> blocks;
 			float colorR = 0, colorG = 0, colorB = 0;
@@ -72,15 +77,16 @@ public class RenderBlockPreview {
 
 			if (blocks == null || blocks.isEmpty()) return false;
 
-			VertexConsumer lineBuilder = buffer.getBuffer(RenderType.LINES);
+			VertexConsumer lineBuilder = buffer.getBuffer(RenderTypes.lines());
 
-			double d0 = camera.getPosition().x();
-			double d1 = camera.getPosition().y();
-			double d2 = camera.getPosition().z();
+			double d0 = camera.position().x();
+			double d1 = camera.position().y();
+			double d2 = camera.position().z();
 
 			for (BlockPos block : blocks) {
 				AABB aabb = new AABB(block).move(-d0, -d1, -d2);
-				ShapeRenderer.renderLineBox(poseStack.last(), lineBuilder, aabb, colorR, colorG, colorB, 0.4F);
+				ShapeRenderer.renderShape(poseStack, lineBuilder, Shapes.create(aabb), 0, 0, 0,
+						ARGB.colorFromFloat(0.4F, colorR, colorG, colorB), 2F);
 			}
 
 			return true;

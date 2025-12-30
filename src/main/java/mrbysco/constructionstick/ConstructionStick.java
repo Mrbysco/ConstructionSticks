@@ -1,7 +1,6 @@
 package mrbysco.constructionstick;
 
 import mrbysco.constructionstick.basics.ModStats;
-import mrbysco.constructionstick.client.ClientHandler;
 import mrbysco.constructionstick.config.ConstructionConfig;
 import mrbysco.constructionstick.containers.ContainerManager;
 import mrbysco.constructionstick.containers.ContainerRegistrar;
@@ -10,7 +9,7 @@ import mrbysco.constructionstick.registry.ModDataComponents;
 import mrbysco.constructionstick.registry.ModItems;
 import mrbysco.constructionstick.registry.ModRecipes;
 import mrbysco.constructionstick.stick.undo.UndoHistory;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -26,7 +25,6 @@ import org.apache.logging.log4j.Logger;
 @Mod(ConstructionStick.MOD_ID)
 public class ConstructionStick {
 	public static final String MOD_ID = "constructionstick";
-	public static final String MODNAME = "ConstructionSticks";
 
 	public static final Logger LOGGER = LogManager.getLogger();
 
@@ -63,7 +61,7 @@ public class ConstructionStick {
 		ContainerRegistrar.register();
 	}
 
-	public static ResourceLocation modLoc(String name) {
-		return ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
+	public static Identifier modLoc(String name) {
+		return Identifier.fromNamespaceAndPath(MOD_ID, name);
 	}
 }

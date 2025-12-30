@@ -2,7 +2,7 @@ package mrbysco.constructionstick.config;
 
 import mrbysco.constructionstick.registry.ModItems;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ToolMaterial;
 import net.neoforged.neoforge.common.ModConfigSpec;
@@ -27,7 +27,7 @@ public class ConstructionConfig {
 	public static final ModConfigSpec.ConfigValue<List<? extends String>> BE_LIST;
 	private static final String[] BE_LIST_DEFAULT = {"chiselsandbits", "mekanism", "waystones"};
 
-	private static final HashMap<ResourceLocation, StickProperties> stickProperties = new HashMap<>();
+	private static final HashMap<Identifier, StickProperties> stickProperties = new HashMap<>();
 
 	public static StickProperties getStickProperties(Item stick) {
 		return stickProperties.getOrDefault(BuiltInRegistries.ITEM.getKey(stick), StickProperties.DEFAULT);
@@ -61,7 +61,7 @@ public class ConstructionConfig {
 		public StickProperties(ModConfigSpec.Builder builder, DeferredHolder<Item, ? extends Item> stickSupplier, int defDurability,
 		                       int defStorage, int defUsage, int defLimit,
 		                       int defAngel, int defDestruction, boolean defUpgradeable) {
-			ResourceLocation registryName = stickSupplier.getId();
+			Identifier registryName = stickSupplier.getId();
 			builder.push(registryName.getPath());
 
 			if (defDurability > 0) {

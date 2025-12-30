@@ -8,7 +8,7 @@
 //import dev.emi.emi.api.stack.EmiStack;
 //import dev.emi.emi.api.widget.WidgetHolder;
 //import mrbysco.constructionstick.recipe.SmithingApplyUpgradeRecipe;
-//import net.minecraft.resources.ResourceLocation;
+//import net.minecraft.resources.Identifier;
 //import net.minecraft.world.item.crafting.Ingredient;
 //import org.jetbrains.annotations.Nullable;
 //
@@ -21,9 +21,9 @@
 //
 //	List<EmiIngredient> inputs;
 //	EmiStack output;
-//	ResourceLocation id;
+//	Identifier id;
 //
-//	public ApplyUpgradeEMIRecipe(SmithingApplyUpgradeRecipe recipe, ResourceLocation id) {
+//	public ApplyUpgradeEMIRecipe(SmithingApplyUpgradeRecipe recipe, Identifier id) {
 //		this.template = recipe.getTemplate();
 //		this.base = recipe.getBase();
 //		this.addition = recipe.getAddition();
@@ -39,7 +39,7 @@
 //	}
 //
 //	@Override
-//	public @Nullable ResourceLocation getId() {
+//	public @Nullable Identifier getId() {
 //		return this.id;
 //	}
 //

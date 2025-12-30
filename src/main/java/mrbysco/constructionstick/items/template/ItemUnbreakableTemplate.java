@@ -6,10 +6,10 @@ import mrbysco.constructionstick.api.IStickUpgrade;
 import mrbysco.constructionstick.registry.ModDataComponents;
 import mrbysco.constructionstick.stick.action.ActionConstruction;
 import net.minecraft.core.component.DataComponentType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class ItemUnbreakableTemplate extends ItemUpgradeTemplate {
-	public static final ResourceLocation UPGRADE_ID = ConstructionStick.modLoc("upgrade_unbreakable");
+	public static final Identifier UPGRADE_ID = ConstructionStick.modLoc("upgrade_unbreakable");
 
 	public ItemUnbreakableTemplate(Properties properties) {
 		super(properties);
@@ -26,7 +26,7 @@ public class ItemUnbreakableTemplate extends ItemUpgradeTemplate {
 	}
 
 	@Override
-	public ResourceLocation getRegistryName() {
+	public Identifier getRegistryName() {
 		return UPGRADE_ID;
 	}
 

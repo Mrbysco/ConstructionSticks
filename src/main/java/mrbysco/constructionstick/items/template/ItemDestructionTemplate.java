@@ -5,10 +5,10 @@ import mrbysco.constructionstick.api.IStickAction;
 import mrbysco.constructionstick.registry.ModDataComponents;
 import mrbysco.constructionstick.stick.action.ActionDestruction;
 import net.minecraft.core.component.DataComponentType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class ItemDestructionTemplate extends ItemUpgradeTemplate {
-	public static final ResourceLocation UPGRADE_ID = ConstructionStick.modLoc("upgrade_destruction");
+	public static final Identifier UPGRADE_ID = ConstructionStick.modLoc("upgrade_destruction");
 
 	public ItemDestructionTemplate(Properties properties) {
 		super(properties);
@@ -25,7 +25,7 @@ public class ItemDestructionTemplate extends ItemUpgradeTemplate {
 	}
 
 	@Override
-	public ResourceLocation getRegistryName() {
+	public Identifier getRegistryName() {
 		return UPGRADE_ID;
 	}
 }

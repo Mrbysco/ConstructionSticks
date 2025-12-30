@@ -5,12 +5,12 @@ import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRequirements;
 import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.Criterion;
-import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
+import net.minecraft.advancements.criterion.RecipeUnlockedTrigger;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
@@ -24,12 +24,12 @@ public class SmithingApplyUpgradeRecipeBuilder {
 	private final Ingredient addition;
 	private final RecipeCategory category;
 	private final ItemStack result;
-	private final ResourceLocation upgrade;
+	private final Identifier upgrade;
 	private final Map<String, Criterion<?>> criteria = new LinkedHashMap<>();
 
 	public SmithingApplyUpgradeRecipeBuilder(Ingredient template, Ingredient base, Ingredient addition,
 	                                         RecipeCategory category, ItemStack result,
-	                                         ResourceLocation upgradeComponent) {
+	                                         Identifier upgradeComponent) {
 		this.category = category;
 		this.template = template;
 		this.base = base;
@@ -39,7 +39,7 @@ public class SmithingApplyUpgradeRecipeBuilder {
 	}
 
 	public static SmithingApplyUpgradeRecipeBuilder smithing(
-			Ingredient template, Ingredient base, Ingredient addition, RecipeCategory category, ItemStack result, ResourceLocation upgradeComponent
+			Ingredient template, Ingredient base, Ingredient addition, RecipeCategory category, ItemStack result, Identifier upgradeComponent
 	) {
 		return new SmithingApplyUpgradeRecipeBuilder(template, base, addition, category, result, upgradeComponent);
 	}
@@ -50,10 +50,10 @@ public class SmithingApplyUpgradeRecipeBuilder {
 	}
 
 	public void save(RecipeOutput recipeOutput, String recipeId) {
-		this.save(recipeOutput, ResourceLocation.parse(recipeId));
+		this.save(recipeOutput, Identifier.parse(recipeId));
 	}
 
-	public void save(RecipeOutput recipeOutput, ResourceLocation recipeId) {
+	public void save(RecipeOutput recipeOutput, Identifier recipeId) {
 		this.save(recipeOutput, ResourceKey.create(Registries.RECIPE, recipeId));
 	}
 
@@ -66,13 +66,13 @@ public class SmithingApplyUpgradeRecipeBuilder {
 		this.criteria.forEach(advancement$builder::addCriterion);
 		SmithingApplyUpgradeRecipe applyUpgradeRecipe = new SmithingApplyUpgradeRecipe(this.template, this.base, this.addition, this.result, this.upgrade);
 		output.accept(
-				resourceKey, applyUpgradeRecipe, advancement$builder.build(resourceKey.location().withPrefix("recipes/" + this.category.getFolderName() + "/"))
+				resourceKey, applyUpgradeRecipe, advancement$builder.build(resourceKey.identifier().withPrefix("recipes/" + this.category.getFolderName() + "/"))
 		);
 	}
 
 	private void ensureValid(ResourceKey<Recipe<?>> recipe) {
 		if (this.criteria.isEmpty()) {
-			throw new IllegalStateException("No way of obtaining recipe " + recipe.location());
+			throw new IllegalStateException("No way of obtaining recipe " + recipe.identifier());
 		}
 	}
 }

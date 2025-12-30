@@ -16,7 +16,7 @@ import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.client.renderer.item.ItemModel;
 import net.minecraft.client.renderer.item.SelectItemModel;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -48,7 +48,7 @@ public class ModelGenerator extends ModelProvider {
 	public static final ModelTemplate TWO_LAYERED_HANDHELD = ModelTemplates.createItem("handheld", TextureSlot.LAYER0, TextureSlot.LAYER1);
 
 	private void generateStick(ItemModelGenerators itemModels, Item item) {
-		ResourceLocation location = ModelLocationUtils.getModelLocation(item);
+		Identifier location = ModelLocationUtils.getModelLocation(item);
 		ItemModel.Unbaked model = ItemModelUtils.plainModel(itemModels.createFlatItemModel(item, ModelTemplates.FLAT_HANDHELD_ITEM));
 		ItemModel.Unbaked angelModel = ItemModelUtils.plainModel(
 				generateLayeredItem(
@@ -72,7 +72,7 @@ public class ModelGenerator extends ModelProvider {
 		itemModels.itemModelOutput.accept(item, ItemModelUtils.select(new SelectStickUpgrade(), model, list));
 	}
 
-	public ResourceLocation generateLayeredItem(ItemModelGenerators itemModels, ResourceLocation modelLocation, ResourceLocation layer0, ResourceLocation layer1) {
+	public Identifier generateLayeredItem(ItemModelGenerators itemModels, Identifier modelLocation, Identifier layer0, Identifier layer1) {
 		return TWO_LAYERED_HANDHELD.create(modelLocation, TextureMapping.layered(layer0, layer1), itemModels.modelOutput);
 	}
 }

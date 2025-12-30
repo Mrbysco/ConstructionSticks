@@ -20,7 +20,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -30,13 +30,13 @@ import java.util.List;
 
 @JeiPlugin
 public class ConstructionStickJeiPlugin implements IModPlugin {
-	private static final ResourceLocation pluginId = ConstructionStick.modLoc(ConstructionStick.MOD_ID);
+	private static final Identifier pluginId = ConstructionStick.modLoc(ConstructionStick.MOD_ID);
 	private static final String baseKey = ConstructionStick.MOD_ID + ".description.";
 	private static final String baseKeyItem = "item." + ConstructionStick.MOD_ID + ".";
 
 	@NotNull
 	@Override
-	public ResourceLocation getPluginUid() {
+	public Identifier getPluginUid() {
 		return pluginId;
 	}
 

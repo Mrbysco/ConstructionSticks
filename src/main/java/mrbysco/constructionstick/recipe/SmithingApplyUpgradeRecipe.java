@@ -10,7 +10,7 @@ import mrbysco.constructionstick.registry.ModRecipes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -50,7 +50,7 @@ public class SmithingApplyUpgradeRecipe implements SmithingRecipe {
 	}
 
 	public SmithingApplyUpgradeRecipe(Ingredient template, Ingredient base,
-	                                  Ingredient addition, ItemStack result, ResourceLocation upgrade) {
+	                                  Ingredient addition, ItemStack result, Identifier upgrade) {
 		this(template, base, addition, result, StickUtil.getUpgrade(upgrade).orElseThrow(() ->
 				new IllegalArgumentException("Unknown upgrade: " + upgrade)));
 	}
@@ -126,7 +126,7 @@ public class SmithingApplyUpgradeRecipe implements SmithingRecipe {
 								Ingredient.CODEC.fieldOf("base").forGetter(p_300938_ -> p_300938_.base),
 								Ingredient.CODEC.fieldOf("addition").forGetter(p_301153_ -> p_301153_.addition),
 								ItemStack.STRICT_CODEC.fieldOf("result").forGetter(p_300935_ -> p_300935_.result),
-								ResourceLocation.CODEC.fieldOf("upgrade").forGetter(p_300935_ -> p_300935_.upgrade.getRegistryName())
+								Identifier.CODEC.fieldOf("upgrade").forGetter(p_300935_ -> p_300935_.upgrade.getRegistryName())
 						)
 						.apply(p_340782_, SmithingApplyUpgradeRecipe::new)
 		);
@@ -150,7 +150,7 @@ public class SmithingApplyUpgradeRecipe implements SmithingRecipe {
 			Ingredient ingredient1 = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
 			Ingredient ingredient2 = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
 			ItemStack itemstack = ItemStack.STREAM_CODEC.decode(buffer);
-			ResourceLocation upgrade = ResourceLocation.STREAM_CODEC.decode(buffer);
+			Identifier upgrade = Identifier.STREAM_CODEC.decode(buffer);
 			return new SmithingApplyUpgradeRecipe(ingredient, ingredient1, ingredient2, itemstack, upgrade);
 		}
 
@@ -159,7 +159,7 @@ public class SmithingApplyUpgradeRecipe implements SmithingRecipe {
 			Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.base);
 			Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.addition);
 			ItemStack.STREAM_CODEC.encode(buffer, recipe.result);
-			ResourceLocation.STREAM_CODEC.encode(buffer, recipe.upgrade.getRegistryName());
+			Identifier.STREAM_CODEC.encode(buffer, recipe.upgrade.getRegistryName());
 		}
 	}
 }

@@ -3,7 +3,7 @@ package mrbysco.constructionstick.basics;
 import mrbysco.constructionstick.ConstructionStick;
 import mrbysco.constructionstick.config.ConstructionConfig;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
@@ -23,7 +23,7 @@ public class ReplacementRegistry {
 			HashSet<Item> set = new HashSet<>();
 
 			for (String id : key.split(";")) {
-				Item item = BuiltInRegistries.ITEM.getValue(ResourceLocation.tryParse(id));
+				Item item = BuiltInRegistries.ITEM.getValue(Identifier.tryParse(id));
 				if (item == null || item == Items.AIR) {
 					ConstructionStick.LOGGER.warn("Replacement Registry: Could not find item {}", id);
 					continue;

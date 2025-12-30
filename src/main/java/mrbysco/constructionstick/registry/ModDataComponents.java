@@ -6,7 +6,7 @@ import mrbysco.constructionstick.basics.option.StickOptions;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -75,10 +75,10 @@ public class ModDataComponents {
 					.networkSynchronized(ByteBufCodecs.INT)
 	);
 
-	public static final DeferredHolder<DataComponentType<?>, DataComponentType<ResourceLocation>> SELECTED = DATA_COMPONENT_TYPES.registerComponentType("selected", builder ->
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Identifier>> SELECTED = DATA_COMPONENT_TYPES.registerComponentType("selected", builder ->
 			builder
-					.persistent(ResourceLocation.CODEC)
-					.networkSynchronized(ResourceLocation.STREAM_CODEC)
+					.persistent(Identifier.CODEC)
+					.networkSynchronized(Identifier.STREAM_CODEC)
 	);
 
 	public static final Supplier<DataComponentType<Boolean>> REPLACEMENT = DATA_COMPONENT_TYPES.registerComponentType("replacement", builder ->

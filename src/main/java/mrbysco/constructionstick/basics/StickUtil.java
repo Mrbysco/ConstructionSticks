@@ -12,7 +12,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
@@ -98,7 +98,7 @@ public class StickUtil {
 	public static boolean isTEAllowed(BlockState state) {
 		if (!state.hasBlockEntity()) return true;
 
-		ResourceLocation name = BuiltInRegistries.BLOCK.getKey(state.getBlock());
+		Identifier name = BuiltInRegistries.BLOCK.getKey(state.getBlock());
 		if (name == null) return false;
 
 		String fullId = name.toString();
@@ -287,7 +287,7 @@ public class StickUtil {
 		return new ArrayList<>(upgradeList);
 	}
 
-	public static Optional<IStickTemplate> getUpgrade(ResourceLocation id) {
+	public static Optional<IStickTemplate> getUpgrade(Identifier id) {
 		for (IStickUpgrade upgrade : getAllUpgrades()) {
 			if (upgrade instanceof IStickTemplate template && template.getRegistryName().equals(id)) {
 				return Optional.of(template);

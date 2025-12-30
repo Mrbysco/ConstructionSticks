@@ -4,7 +4,7 @@ import mrbysco.constructionstick.ConstructionStick;
 import mrbysco.constructionstick.basics.ModTags;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagEntry;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
@@ -34,7 +34,7 @@ public class BlockTagsGenerator extends BlockTagsProvider {
 		reactors.forEach(tagAppender::add);
 	}
 
-	private ResourceLocation modLoc(String modID, String path) {
-		return net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(modID, path);
+	private Identifier modLoc(String modID, String path) {
+		return net.minecraft.resources.Identifier.fromNamespaceAndPath(modID, path);
 	}
 }

@@ -4,7 +4,7 @@ import mrbysco.constructionstick.api.IStickUpgrade;
 import mrbysco.constructionstick.basics.StickUtil;
 import mrbysco.constructionstick.registry.ModDataComponents;
 import net.minecraft.core.component.DataComponentType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class StickUpgradesSelectable<T extends IStickUpgrade> implements IOption
 		}
 	}
 
-	private T getUpgradeFromId(ResourceLocation id) {
+	private T getUpgradeFromId(Identifier id) {
 		for (T upgrade : upgrades) {
 			if (upgrade.getRegistryName().equals(id)) {
 				return upgrade;

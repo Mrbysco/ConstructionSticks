@@ -8,9 +8,8 @@ import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementType;
 import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.DisplayInfo;
-import net.minecraft.advancements.critereon.InventoryChangeTrigger;
-import net.minecraft.advancements.critereon.InventoryChangeTrigger.TriggerInstance;
-import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.advancements.criterion.InventoryChangeTrigger;
+import net.minecraft.advancements.criterion.ItemPredicate;
 import net.minecraft.core.ClientAsset;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.registries.Registries;
@@ -18,7 +17,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.advancements.AdvancementProvider;
 import net.minecraft.data.advancements.AdvancementSubProvider;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -68,7 +67,7 @@ public class AdvancementGenerator extends AdvancementProvider {
 		protected static AdvancementHolder onHasItems(Consumer<AdvancementHolder> consumer, DeferredHolder<Item, ? extends Item> iconItem,
 		                                              AdvancementType type, AdvancementHolder root) {
 			String path = iconItem.getId().getPath();
-			ResourceLocation registryLocation = modLoc(path);
+			Identifier registryLocation = modLoc(path);
 
 			DisplayInfo info = simpleDisplay(iconItem.get(), path, type);
 			return Advancement.Builder.advancement()
@@ -84,7 +83,7 @@ public class AdvancementGenerator extends AdvancementProvider {
 		 * @param items The items.
 		 * @return The trigger instance.
 		 */
-		protected static Criterion<TriggerInstance> hasItemsTrigger(ItemLike... items) {
+		protected static Criterion<InventoryChangeTrigger.TriggerInstance> hasItemsTrigger(ItemLike... items) {
 			return InventoryChangeTrigger.TriggerInstance.hasItems(items);
 		}
 
@@ -100,7 +99,7 @@ public class AdvancementGenerator extends AdvancementProvider {
 		protected static AdvancementHolder onHasItems(Provider registries, Consumer<AdvancementHolder> consumer, DeferredHolder<Item, ? extends Item> iconItem, TagKey<Item> itemTag,
 		                                              AdvancementType type, AdvancementHolder root) {
 			String path = iconItem.getId().getPath();
-			ResourceLocation registryLocation = modLoc(path);
+			Identifier registryLocation = modLoc(path);
 
 			DisplayInfo info = simpleDisplay(iconItem.get(), path, type);
 			return Advancement.Builder.advancement()
@@ -117,7 +116,7 @@ public class AdvancementGenerator extends AdvancementProvider {
 		 * @param itemTag The item tag.
 		 * @return The trigger instance.
 		 */
-		protected static Criterion<TriggerInstance> hasItemsTrigger(Provider registries, TagKey<Item> itemTag) {
+		protected static Criterion<InventoryChangeTrigger.TriggerInstance> hasItemsTrigger(Provider registries, TagKey<Item> itemTag) {
 			return InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item()
 					.of(registries.lookupOrThrow(Registries.ITEM), itemTag));
 		}
@@ -131,7 +130,7 @@ public class AdvancementGenerator extends AdvancementProvider {
 		 * @param background The background texture.
 		 * @return The DisplayInfo object.
 		 */
-		protected static DisplayInfo rootDisplay(ItemLike icon, String titleKey, String descKey, ResourceLocation background) {
+		protected static DisplayInfo rootDisplay(ItemLike icon, String titleKey, String descKey, Identifier background) {
 			return new DisplayInfo(new ItemStack(icon),
 					Component.translatable(titleKey),
 					Component.translatable(descKey),
@@ -153,23 +152,23 @@ public class AdvancementGenerator extends AdvancementProvider {
 		}
 
 		/**
-		 * Generate a ResourceLocation that has the mod ID as the namespace.
+		 * Generate a Identifier that has the mod ID as the namespace.
 		 *
 		 * @param path The path.
-		 * @return The ResourceLocation.
+		 * @return The Identifier.
 		 */
-		private static ResourceLocation modLoc(String path) {
+		private static Identifier modLoc(String path) {
 			return ConstructionStick.modLoc(path);
 		}
 
 		/**
-		 * Generate a ResourceLocation that has the Minecraft namespace.
+		 * Generate a Identifier that has the Minecraft namespace.
 		 *
 		 * @param path The path.
-		 * @return The ResourceLocation.
+		 * @return The Identifier.
 		 */
-		private static ResourceLocation mcLoc(String path) {
-			return ResourceLocation.withDefaultNamespace(path);
+		private static Identifier mcLoc(String path) {
+			return Identifier.withDefaultNamespace(path);
 		}
 
 		/**
