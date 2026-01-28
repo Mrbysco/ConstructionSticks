@@ -154,7 +154,7 @@ if (System.getenv().CURSEFORGE_KEY) {
         apiToken = System.getenv().CURSEFORGE_KEY
 
         def mainFile = upload(project.curseforge_id, reobfJar)
-        mainFile.releaseType = 'release'
+        mainFile.releaseType = 'beta'
         mainFile.addModLoader("Forge", "NeoForge")
         mainFile.addGameVersion("${mc_version}")
         mainFile.addJavaVersion("Java 17")
@@ -172,7 +172,7 @@ if (System.getenv().MODRINTH_KEY) {
     modrinth {
         token = System.getenv().MODRINTH_KEY
         projectId = project.modrinth_id
-        versionType = "release"
+        versionType = "beta"
         versionName = "${mod_name} ${mc_version}"
         versionNumber = project.version
         uploadFile = reobfJar
