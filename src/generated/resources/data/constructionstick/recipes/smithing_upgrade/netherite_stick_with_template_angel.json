@@ -1,0 +1,17 @@
+{
+  "type": "constructionstick:smithing_upgrade",
+  "addition": {
+    "tag": "forge:feathers"
+  },
+  "base": {
+    "item": "constructionstick:netherite_stick"
+  },
+  "result": {
+    "item": "constructionstick:netherite_stick",
+    "nbt": "{\"constructionstick:options\":{angel:1b}}"
+  },
+  "template": {
+    "item": "constructionstick:template_angel"
+  },
+  "upgrade": "constructionstick:upgrade_angel"
+}

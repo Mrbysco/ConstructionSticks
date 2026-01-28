@@ -2,43 +2,28 @@ package mrbysco.constructionstick.network;
 
 import mrbysco.constructionstick.ConstructionStick;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
+import net.minecraftforge.network.NetworkEvent;
 
-public record PacketQueryUndo(boolean undoPressed) implements CustomPacketPayload {
-	public static final StreamCodec<FriendlyByteBuf, PacketQueryUndo> CODEC = CustomPacketPayload.codec(
-			PacketQueryUndo::encode,
-			PacketQueryUndo::new);
-	public static final Type<PacketQueryUndo> ID = new Type<>(ConstructionStick.modLoc("query_undo"));
+import java.util.function.Supplier;
 
-	public PacketQueryUndo(FriendlyByteBuf buf) {
-		this(buf.readBoolean());
+public record PacketQueryUndo(boolean undoPressed) {
+	public static PacketQueryUndo decode(final FriendlyByteBuf packetBuffer) {
+		return new PacketQueryUndo(packetBuffer.readBoolean());
 	}
 
 	public void encode(FriendlyByteBuf buf) {
 		buf.writeBoolean(undoPressed);
 	}
 
-	@Override
-	public Type<? extends CustomPacketPayload> type() {
-		return ID;
-	}
-
-	public static class Handler {
-		public static void handle(final PacketQueryUndo msg, final IPayloadContext ctx) {
-			ctx.enqueueWork(() -> {
-						if (ctx.flow().isServerbound() && ctx.player() instanceof ServerPlayer player) {
-							ConstructionStick.undoHistory.updateClient(player, msg.undoPressed);
-						}
-					})
-					.exceptionally(e -> {
-						// Handle exception
-						ctx.disconnect(Component.translatable("constructionstick.networking.query_undo.failed", e.getMessage()));
-						return null;
-					});
-		}
+	public void handle(Supplier<NetworkEvent.Context> context) {
+		NetworkEvent.Context ctx = context.get();
+		ctx.enqueueWork(() -> {
+			if (ctx.getDirection().getReceptionSide().isServer() && ctx.getSender() != null) {
+				ServerPlayer player = ctx.getSender();
+				ConstructionStick.undoHistory.updateClient(player, undoPressed);
+			}
+		});
+		ctx.setPacketHandled(true);
 	}
 }

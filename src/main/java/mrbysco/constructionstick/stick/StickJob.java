@@ -112,7 +112,7 @@ public class StickJob {
 
 		// Play place sound
 		if (!placeSnapshots.isEmpty()) {
-			SoundType sound = placeSnapshots.getFirst().getBlockState().getSoundType();
+			SoundType sound = placeSnapshots.get(0).getBlockState().getSoundType();
 			level.playSound(null, player.blockPosition(), sound.getPlaceSound(), SoundSource.BLOCKS, sound.volume, sound.pitch);
 
 			// Add to job history for undo

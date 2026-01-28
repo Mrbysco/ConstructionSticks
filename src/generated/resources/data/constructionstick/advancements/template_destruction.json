@@ -1,0 +1,38 @@
+{
+  "parent": "constructionstick:iron_stick",
+  "criteria": {
+    "template_destruction": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "constructionstick:template_destruction"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancement.constructionstick.template_destruction.desc"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "constructionstick:template_destruction"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancement.constructionstick.template_destruction.title"
+    }
+  },
+  "requirements": [
+    [
+      "template_destruction"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

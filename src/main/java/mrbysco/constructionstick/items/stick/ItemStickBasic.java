@@ -1,12 +1,22 @@
 package mrbysco.constructionstick.items.stick;
 
+import mrbysco.constructionstick.ConstructionStick;
 import mrbysco.constructionstick.config.ConstructionConfig;
-import mrbysco.constructionstick.registry.ModDataComponents;
+import mrbysco.constructionstick.util.NBTHelper;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.energy.EnergyStorage;
+import net.minecraftforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class ItemStickBasic extends ItemStick {
 	private final Tier tier;
@@ -18,18 +28,19 @@ public class ItemStickBasic extends ItemStick {
 
 	@Override
 	public boolean isDamageable(ItemStack stack) {
-		return !stack.has(ModDataComponents.UNBREAKABLE) && super.isDamageable(stack);
+		return !NBTHelper.hasKey(stack, ConstructionStick.UNBREAKABLE_KEY) && super.isDamageable(stack);
+
 	}
 
 	@Override
 	public boolean isBarVisible(ItemStack stack) {
-		return super.isBarVisible(stack) || stack.has(ModDataComponents.BATTERY);
+		return super.isBarVisible(stack) || NBTHelper.hasKey(stack, ConstructionStick.BATTERY_KEY);
 	}
 
 	@Override
 	public int getBarWidth(ItemStack stack) {
-		if (stack.has(ModDataComponents.BATTERY_ENABLED)) {
-			IEnergyStorage storage = stack.getCapability(Capabilities.EnergyStorage.ITEM);
+		if (NBTHelper.hasKey(stack, ConstructionStick.BATTERY_KEY)) {
+			IEnergyStorage storage = stack.getCapability(ForgeCapabilities.ENERGY).orElse(null);
 			if (storage != null) {
 				return Math.round((13.0F / storage.getMaxEnergyStored() * storage.getEnergyStored()));
 			}
@@ -39,7 +50,7 @@ public class ItemStickBasic extends ItemStick {
 
 	@Override
 	public int getBarColor(ItemStack stack) {
-		if (stack.has(ModDataComponents.BATTERY_ENABLED)) {
+		if (NBTHelper.hasKey(stack, ConstructionStick.BATTERY_KEY)) {
 			return 0x971607;
 		}
 		return super.getBarColor(stack);
@@ -52,11 +63,11 @@ public class ItemStickBasic extends ItemStick {
 
 	@Override
 	public int remainingDurability(ItemStack stack) {
-		if (stack.has(ModDataComponents.UNBREAKABLE)) {
+		if (NBTHelper.hasKey(stack, ConstructionStick.UNBREAKABLE_KEY)) {
 			return Integer.MAX_VALUE;
 		}
-		if (stack.has(ModDataComponents.BATTERY_ENABLED)) {
-			IEnergyStorage storage = stack.getCapability(Capabilities.EnergyStorage.ITEM);
+		if (NBTHelper.hasKey(stack, ConstructionStick.BATTERY_KEY)) {
+			IEnergyStorage storage = stack.getCapability(ForgeCapabilities.ENERGY).orElse(null);
 			if (storage != null) {
 				int usage = ConstructionConfig.getStickProperties(this).getBatteryUsage();
 				return storage.getEnergyStored() / usage;
@@ -68,5 +79,49 @@ public class ItemStickBasic extends ItemStick {
 	@Override
 	public boolean isValidRepairItem(@NotNull ItemStack toRepair, @NotNull ItemStack repair) {
 		return this.tier.getRepairIngredient().test(repair);
+	}
+
+	@Override
+	public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag tag) {
+		ConstructionConfig.StickProperties properties = ConstructionConfig.getStickProperties(stack.getItem());
+		return new BatteryEnergyStorage(stack, properties.getBatteryStorage(), 200, properties.getBatteryUsage());
+	}
+
+	private static class BatteryEnergyStorage implements ICapabilityProvider, INBTSerializable<Tag> {
+		private final EnergyStorage storage;
+		private final LazyOptional<IEnergyStorage> optional;
+
+		public BatteryEnergyStorage(ItemStack stack, int capacity, int maxReceive, int maxTransfer) {
+			this.storage = new EnergyStorage(capacity, maxReceive, maxTransfer) {
+				@Override
+				public boolean canExtract() {
+					return NBTHelper.hasKey(stack, ConstructionStick.BATTERY_KEY) && super.canExtract();
+				}
+
+				@Override
+				public boolean canReceive() {
+					return NBTHelper.hasKey(stack, ConstructionStick.BATTERY_KEY) && super.canReceive();
+				}
+			};
+			this.optional = LazyOptional.of(() -> this.storage);
+		}
+
+		@Override
+		public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
+			if (cap == ForgeCapabilities.ENERGY) {
+				return this.optional.cast();
+			}
+			return LazyOptional.empty();
+		}
+
+		@Override
+		public Tag serializeNBT() {
+			return this.storage.serializeNBT();
+		}
+
+		@Override
+		public void deserializeNBT(Tag nbt) {
+			this.storage.deserializeNBT(nbt);
+		}
 	}
 }

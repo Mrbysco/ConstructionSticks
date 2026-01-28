@@ -2,9 +2,7 @@ package mrbysco.constructionstick.items.template;
 
 import mrbysco.constructionstick.ConstructionStick;
 import mrbysco.constructionstick.api.IStickAction;
-import mrbysco.constructionstick.registry.ModDataComponents;
 import mrbysco.constructionstick.stick.action.ActionAngel;
-import net.minecraft.core.component.DataComponentType;
 import net.minecraft.resources.ResourceLocation;
 
 public class ItemAngelTemplate extends ItemUpgradeTemplate {
@@ -20,8 +18,8 @@ public class ItemAngelTemplate extends ItemUpgradeTemplate {
 	}
 
 	@Override
-	public DataComponentType<Boolean> getStickComponent() {
-		return ModDataComponents.ANGEL.get();
+	public String getUpgradeKey() {
+		return ConstructionStick.ANGEL_KEY;
 	}
 
 	@Override

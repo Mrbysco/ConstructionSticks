@@ -4,22 +4,22 @@ import mrbysco.constructionstick.ConstructionStick;
 import mrbysco.constructionstick.items.stick.ItemStick;
 import mrbysco.constructionstick.items.template.ItemAngelTemplate;
 import mrbysco.constructionstick.items.template.ItemDestructionTemplate;
-import mrbysco.constructionstick.registry.ModDataComponents;
 import mrbysco.constructionstick.registry.ModItems;
+import mrbysco.constructionstick.util.NBTHelper;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.world.item.Item;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.registries.DeferredItem;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.registries.RegistryObject;
 
 public class ClientHandler {
 	public static RenderBlockPreview renderBlockPreview;
 
 	public static void onClientSetup(final FMLClientSetupEvent event) {
 		renderBlockPreview = new RenderBlockPreview();
-		NeoForge.EVENT_BUS.register(renderBlockPreview);
-		NeoForge.EVENT_BUS.register(new KeybindHandler());
+		MinecraftForge.EVENT_BUS.register(renderBlockPreview);
+		MinecraftForge.EVENT_BUS.register(new KeybindHandler());
 
 		event.enqueueWork(ClientHandler::registerModelProperties);
 	}
@@ -34,21 +34,21 @@ public class ClientHandler {
 	}
 
 	public static void registerModelProperties() {
-		for (DeferredItem<ItemStick> itemSupplier : ModItems.STICKS) {
+		for (RegistryObject<ItemStick> itemSupplier : ModItems.STICKS) {
 			Item item = itemSupplier.get();
 			ItemProperties.register(
 					item, ConstructionStick.modLoc("angel_selected"),
 					(stack, world, entity, n) ->
 							stack.getItem() instanceof ItemStick &&
-									stack.has(ModDataComponents.SELECTED) &&
-									stack.get(ModDataComponents.SELECTED).equals(ItemAngelTemplate.UPGRADE_ID) ? 1 : 0
+									NBTHelper.hasKey(stack, ConstructionStick.SELECTED_KEY) &&
+									NBTHelper.getSelectedUpgrade(stack) != null && NBTHelper.getSelectedUpgrade(stack).equals(ItemAngelTemplate.UPGRADE_ID) ? 1 : 0
 			);
 			ItemProperties.register(
 					item, ConstructionStick.modLoc("destruction_selected"),
 					(stack, world, entity, n) ->
 							stack.getItem() instanceof ItemStick &&
-									stack.has(ModDataComponents.SELECTED) &&
-									stack.get(ModDataComponents.SELECTED).equals(ItemDestructionTemplate.UPGRADE_ID) ? 1 : 0
+									NBTHelper.hasKey(stack, ConstructionStick.SELECTED_KEY) &&
+									NBTHelper.getSelectedUpgrade(stack) != null && NBTHelper.getSelectedUpgrade(stack).equals(ItemDestructionTemplate.UPGRADE_ID) ? 1 : 0
 			);
 		}
 	}

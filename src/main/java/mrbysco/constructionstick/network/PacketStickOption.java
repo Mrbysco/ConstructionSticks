@@ -1,26 +1,19 @@
 package mrbysco.constructionstick.network;
 
-import mrbysco.constructionstick.ConstructionStick;
 import mrbysco.constructionstick.basics.StickUtil;
 import mrbysco.constructionstick.basics.option.IOption;
 import mrbysco.constructionstick.basics.option.StickOptions;
 import mrbysco.constructionstick.items.stick.ItemStick;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
+import net.minecraftforge.network.NetworkEvent;
 
-public record PacketStickOption(String key, String value, boolean notifyMessage) implements CustomPacketPayload {
-	public static final StreamCodec<FriendlyByteBuf, PacketStickOption> CODEC = CustomPacketPayload.codec(
-			PacketStickOption::encode,
-			PacketStickOption::new);
-	public static final Type<PacketStickOption> ID = new Type<>(ConstructionStick.modLoc("stick_option"));
+import java.util.function.Supplier;
 
-	private PacketStickOption(FriendlyByteBuf buffer) {
-		this(buffer.readUtf(100), buffer.readUtf(100), buffer.readBoolean());
+public record PacketStickOption(String key, String value, boolean notifyMessage) {
+	public static PacketStickOption decode(FriendlyByteBuf buffer) {
+		return new PacketStickOption(buffer.readUtf(100), buffer.readUtf(100), buffer.readBoolean());
 	}
 
 	public PacketStickOption(IOption<?> option, boolean notify) {
@@ -33,32 +26,23 @@ public record PacketStickOption(String key, String value, boolean notifyMessage)
 		buffer.writeBoolean(notifyMessage);
 	}
 
-	@Override
-	public Type<? extends CustomPacketPayload> type() {
-		return ID;
-	}
+	public void handle(Supplier<NetworkEvent.Context> context) {
+		NetworkEvent.Context ctx = context.get();
+		ctx.enqueueWork(() -> {
+			if (ctx.getDirection().getReceptionSide().isServer() && ctx.getSender() != null) {
+				ServerPlayer player = ctx.getSender();
+				ItemStack stick = StickUtil.holdingStick(player);
+				if (stick == null) return;
+				StickOptions options = new StickOptions(stick);
 
-	public static class Handler {
-		public static void handle(final PacketStickOption msg, final IPayloadContext ctx) {
-			ctx.enqueueWork(() -> {
-						if (ctx.flow().isServerbound() && ctx.player() instanceof ServerPlayer player) {
-							ItemStack stick = StickUtil.holdingStick(player);
-							if (stick == null) return;
-							StickOptions options = new StickOptions(stick);
+				IOption<?> option = options.get(key);
+				if (option == null) return;
+				option.setValueString(value);
 
-							IOption<?> option = options.get(msg.key);
-							if (option == null) return;
-							option.setValueString(msg.value);
-
-							if (msg.notifyMessage) ItemStick.optionMessage(player, option);
-							player.getInventory().setChanged();
-						}
-					})
-					.exceptionally(e -> {
-						// Handle exception
-						ctx.disconnect(Component.translatable("constructionstick.networking.stick_option.failed", e.getMessage()));
-						return null;
-					});
-		}
+				if (notifyMessage) ItemStick.optionMessage(player, option);
+				player.getInventory().setChanged();
+			}
+		});
+		ctx.setPacketHandled(true);
 	}
 }

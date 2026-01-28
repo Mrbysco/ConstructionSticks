@@ -3,9 +3,7 @@ package mrbysco.constructionstick.items.template;
 import mrbysco.constructionstick.ConstructionStick;
 import mrbysco.constructionstick.api.IStickAction;
 import mrbysco.constructionstick.api.IStickUpgrade;
-import mrbysco.constructionstick.registry.ModDataComponents;
 import mrbysco.constructionstick.stick.action.ActionConstruction;
-import net.minecraft.core.component.DataComponentType;
 import net.minecraft.resources.ResourceLocation;
 
 public class ItemUnbreakableTemplate extends ItemUpgradeTemplate {
@@ -21,8 +19,8 @@ public class ItemUnbreakableTemplate extends ItemUpgradeTemplate {
 	}
 
 	@Override
-	public DataComponentType<Boolean> getStickComponent() {
-		return ModDataComponents.UNBREAKABLE.get();
+	public String getUpgradeKey() {
+		return ConstructionStick.UNBREAKABLE_KEY;
 	}
 
 	@Override

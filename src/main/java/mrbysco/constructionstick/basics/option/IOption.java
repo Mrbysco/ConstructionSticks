@@ -1,11 +1,8 @@
 package mrbysco.constructionstick.basics.option;
 
 import mrbysco.constructionstick.ConstructionStick;
-import net.minecraft.core.component.DataComponentType;
 
 public interface IOption<T> {
-	DataComponentType<?> getComponentType();
-
 	String getKey();
 
 	String getValueString();

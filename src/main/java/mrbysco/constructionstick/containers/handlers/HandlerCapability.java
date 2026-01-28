@@ -4,18 +4,18 @@ import mrbysco.constructionstick.api.IContainerHandler;
 import mrbysco.constructionstick.basics.StickUtil;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.items.IItemHandler;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.items.IItemHandler;
 
 public class HandlerCapability implements IContainerHandler {
 	@Override
 	public boolean matches(Player player, ItemStack itemStack, ItemStack inventoryStack) {
-		return inventoryStack != null && inventoryStack.getCapability(Capabilities.ItemHandler.ITEM) != null;
+		return inventoryStack != null && inventoryStack.getCapability(ForgeCapabilities.ITEM_HANDLER).isPresent();
 	}
 
 	@Override
 	public int countItems(Player player, ItemStack itemStack, ItemStack inventoryStack) {
-		IItemHandler itemHandler = inventoryStack.getCapability(Capabilities.ItemHandler.ITEM);
+		IItemHandler itemHandler = inventoryStack.getCapability(ForgeCapabilities.ITEM_HANDLER).orElse(null);
 		if (itemHandler == null) return 0;
 
 		int total = 0;
@@ -31,7 +31,7 @@ public class HandlerCapability implements IContainerHandler {
 
 	@Override
 	public int useItems(Player player, ItemStack itemStack, ItemStack inventoryStack, int count) {
-		IItemHandler itemHandler = inventoryStack.getCapability(Capabilities.ItemHandler.ITEM);
+		IItemHandler itemHandler = inventoryStack.getCapability(ForgeCapabilities.ITEM_HANDLER).orElse(null);
 		if (itemHandler == null) return 0;
 
 		for (int i = 0; i < itemHandler.getSlots(); i++) {

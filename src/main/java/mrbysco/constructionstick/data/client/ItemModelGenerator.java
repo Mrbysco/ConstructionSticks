@@ -6,10 +6,10 @@ import mrbysco.constructionstick.registry.ModItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.neoforged.neoforge.registries.DeferredHolder;
+import net.minecraftforge.client.model.generators.ItemModelProvider;
+import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 
 public class ItemModelGenerator extends ItemModelProvider {
@@ -19,9 +19,9 @@ public class ItemModelGenerator extends ItemModelProvider {
 
 	@Override
 	protected void registerModels() {
-		for (DeferredHolder<Item, ? extends Item> deferredHolder : ModItems.ITEMS.getEntries()) {
-			Item item = deferredHolder.get();
-			String name = deferredHolder.getId().getPath();
+		for (RegistryObject<? extends Item> registryObject : ModItems.ITEMS.getEntries()) {
+			Item item = registryObject.get();
+			String name = registryObject.getId().getPath();
 
 			if (item instanceof ItemStick)
 				generateStick(name);

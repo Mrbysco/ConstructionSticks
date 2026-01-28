@@ -10,9 +10,9 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
-import net.neoforged.neoforge.client.event.InputEvent;
+import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.lwjgl.glfw.GLFW;
 
 public class KeybindHandler {
@@ -48,7 +48,7 @@ public class KeybindHandler {
 	}
 
 	@SubscribeEvent
-	public void onClientTick(ClientTickEvent.Post event) {
+	public void onClientTick(TickEvent.ClientTickEvent event) {
 		Player player = Minecraft.getInstance().player;
 		if (player == null) return;
 		if (StickUtil.holdingStick(player) == null) return;

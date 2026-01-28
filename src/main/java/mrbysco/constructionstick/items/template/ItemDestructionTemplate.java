@@ -2,9 +2,7 @@ package mrbysco.constructionstick.items.template;
 
 import mrbysco.constructionstick.ConstructionStick;
 import mrbysco.constructionstick.api.IStickAction;
-import mrbysco.constructionstick.registry.ModDataComponents;
 import mrbysco.constructionstick.stick.action.ActionDestruction;
-import net.minecraft.core.component.DataComponentType;
 import net.minecraft.resources.ResourceLocation;
 
 public class ItemDestructionTemplate extends ItemUpgradeTemplate {
@@ -20,8 +18,8 @@ public class ItemDestructionTemplate extends ItemUpgradeTemplate {
 	}
 
 	@Override
-	public DataComponentType<Boolean> getStickComponent() {
-		return ModDataComponents.DESTRUCTION.get();
+	public String getUpgradeKey() {
+		return ConstructionStick.DESTRUCTION_KEY;
 	}
 
 	@Override

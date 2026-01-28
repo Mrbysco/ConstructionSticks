@@ -1,0 +1,17 @@
+{
+  "type": "constructionstick:smithing_upgrade",
+  "addition": {
+    "tag": "forge:ender_pearls"
+  },
+  "base": {
+    "item": "constructionstick:diamond_stick"
+  },
+  "result": {
+    "item": "constructionstick:diamond_stick",
+    "nbt": "{\"constructionstick:options\":{replacement:1b}}"
+  },
+  "template": {
+    "item": "constructionstick:template_replacement"
+  },
+  "upgrade": "constructionstick:upgrade_replacement"
+}

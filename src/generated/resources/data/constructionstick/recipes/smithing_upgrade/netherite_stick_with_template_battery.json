@@ -1,0 +1,17 @@
+{
+  "type": "constructionstick:smithing_upgrade",
+  "addition": {
+    "tag": "forge:storage_blocks/copper"
+  },
+  "base": {
+    "item": "constructionstick:netherite_stick"
+  },
+  "result": {
+    "item": "constructionstick:netherite_stick",
+    "nbt": "{\"constructionstick:options\":{battery:1b}}"
+  },
+  "template": {
+    "item": "constructionstick:template_battery"
+  },
+  "upgrade": "constructionstick:upgrade_battery"
+}

@@ -6,19 +6,18 @@ import mrbysco.constructionstick.config.ConstructionConfig;
 import mrbysco.constructionstick.containers.ContainerManager;
 import mrbysco.constructionstick.containers.ContainerRegistrar;
 import mrbysco.constructionstick.network.ModMessages;
-import mrbysco.constructionstick.registry.ModDataComponents;
 import mrbysco.constructionstick.registry.ModItems;
 import mrbysco.constructionstick.registry.ModRecipes;
 import mrbysco.constructionstick.stick.undo.UndoHistory;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.config.ModConfig;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.neoforge.client.gui.ConfigurationScreen;
-import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,34 +29,47 @@ public class ConstructionStick {
 
 	public static final Logger LOGGER = LogManager.getLogger();
 
+
+	public static final String OPTIONS_KEY = "constructionstick:options";
+	public static final String SELECTED_KEY = "SelectedUpgrade";
+	public static final String ANGEL_KEY = "angel";
+	public static final String BATTERY_KEY = "battery";
+	public static final String DESTRUCTION_KEY = "destruction";
+	public static final String REPLACEMENT_KEY = "replacement";
+	public static final String UNBREAKABLE_KEY = "unbreakable";
+
 	public static ContainerManager containerManager;
 	public static UndoHistory undoHistory;
 
-	public ConstructionStick(IEventBus eventBus, ModContainer container, Dist dist) {
+	public ConstructionStick() {
+		IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
 		containerManager = new ContainerManager();
 		undoHistory = new UndoHistory();
 
 		// Register setup methods for modloading
 		eventBus.addListener(this::commonSetup);
 		// Register packets
-		eventBus.addListener(ModMessages::registerPayloads);
-		eventBus.addListener(ModItems::registerCapabilities);
+		eventBus.addListener(this::setup);
 
 		// Register Item DeferredRegister
-		ModDataComponents.DATA_COMPONENT_TYPES.register(eventBus);
+//		ModDataComponents.DATA_COMPONENT_TYPES.register(eventBus);
 		ModItems.ITEMS.register(eventBus);
 		ModItems.CREATIVE_MODE_TABS.register(eventBus);
 		ModStats.CUSTOM_STATS.register(eventBus);
 		ModRecipes.RECIPE_SERIALIZERS.register(eventBus);
 
 		// Config setup
-		container.registerConfig(ModConfig.Type.SERVER, ConstructionConfig.SPEC);
+		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ConstructionConfig.SPEC);
 
-		if (dist.isClient()) {
-			container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
 			eventBus.addListener(ClientHandler::onClientSetup);
 			eventBus.addListener(ClientHandler::registerKeymapping);
-		}
+		});
+	}
+
+	private void setup(final FMLCommonSetupEvent event) {
+		ModMessages.init();
 	}
 
 	private void commonSetup(final FMLCommonSetupEvent event) {

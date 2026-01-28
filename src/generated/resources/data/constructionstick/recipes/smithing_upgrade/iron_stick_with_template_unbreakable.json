@@ -1,0 +1,17 @@
+{
+  "type": "constructionstick:smithing_upgrade",
+  "addition": {
+    "item": "minecraft:crying_obsidian"
+  },
+  "base": {
+    "item": "constructionstick:iron_stick"
+  },
+  "result": {
+    "item": "constructionstick:iron_stick",
+    "nbt": "{\"constructionstick:options\":{unbreakable:1b}}"
+  },
+  "template": {
+    "item": "constructionstick:template_unbreakable"
+  },
+  "upgrade": "constructionstick:upgrade_unbreakable"
+}

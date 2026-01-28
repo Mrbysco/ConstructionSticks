@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "tag": "forge:glass"
+    },
+    "O": {
+      "item": "minecraft:tnt"
+    },
+    "X": {
+      "item": "minecraft:diamond_pickaxe"
+    }
+  },
+  "pattern": [
+    " #X",
+    "#O#",
+    "X# "
+  ],
+  "result": {
+    "item": "constructionstick:template_destruction"
+  },
+  "show_notification": true
+}

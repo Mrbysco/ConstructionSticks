@@ -1,31 +1,34 @@
 package mrbysco.constructionstick.network;
 
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import mrbysco.constructionstick.ConstructionStick;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.neoforged.neoforge.network.PacketDistributor;
-import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
-import net.neoforged.neoforge.network.registration.PayloadRegistrar;
-
-import static mrbysco.constructionstick.ConstructionStick.MOD_ID;
+import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.PacketDistributor;
+import net.minecraftforge.network.simple.SimpleChannel;
 
 public final class ModMessages {
+	private static final String PROTOCOL_VERSION = "1";
+	public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
+			new ResourceLocation(ConstructionStick.MOD_ID, "main"),
+			() -> PROTOCOL_VERSION,
+			PROTOCOL_VERSION::equals,
+			PROTOCOL_VERSION::equals
+	);
 
-	private ModMessages() {
+	private static int id = 0;
+
+	public static void init() {
+		CHANNEL.registerMessage(id++, PacketUndoBlocks.class, PacketUndoBlocks::encode, PacketUndoBlocks::decode, PacketUndoBlocks::handle);
+		CHANNEL.registerMessage(id++, PacketQueryUndo.class, PacketQueryUndo::encode, PacketQueryUndo::decode, PacketQueryUndo::handle);
+		CHANNEL.registerMessage(id++, PacketStickOption.class, PacketStickOption::encode, PacketStickOption::decode, PacketStickOption::handle);
 	}
 
-	public static void registerPayloads(final RegisterPayloadHandlersEvent event) {
-		final PayloadRegistrar registrar = event.registrar(MOD_ID);
-
-		registrar.playToClient(PacketUndoBlocks.ID, PacketUndoBlocks.CODEC, PacketUndoBlocks.Handler::handle);
-		registrar.playToServer(PacketQueryUndo.ID, PacketQueryUndo.CODEC, PacketQueryUndo.Handler::handle);
-		registrar.playToServer(PacketStickOption.ID, PacketStickOption.CODEC, PacketStickOption.Handler::handle);
+	public static <MSG> void sendToServer(MSG message) {
+		CHANNEL.send(PacketDistributor.SERVER.noArg(), message);
 	}
 
-	public static void sendToServer(CustomPacketPayload message) {
-		PacketDistributor.sendToServer(message);
-	}
-
-	public static void sendToPlayer(CustomPacketPayload message, ServerPlayer player) {
-		player.connection.send(message);
+	public static <MSG> void sendToPlayer(MSG message, ServerPlayer player) {
+		CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), message);
 	}
 }

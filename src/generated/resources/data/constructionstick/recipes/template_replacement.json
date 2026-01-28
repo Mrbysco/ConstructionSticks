@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "tag": "forge:glass"
+    },
+    "O": {
+      "tag": "forge:ender_pearls"
+    },
+    "X": {
+      "item": "minecraft:sculk"
+    }
+  },
+  "pattern": [
+    " #X",
+    "#O#",
+    "X# "
+  ],
+  "result": {
+    "item": "constructionstick:template_replacement"
+  },
+  "show_notification": true
+}

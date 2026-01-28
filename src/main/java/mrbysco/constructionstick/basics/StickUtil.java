@@ -28,9 +28,9 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.common.util.BlockSnapshot;
-import net.neoforged.neoforge.event.level.BlockEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.BlockSnapshot;
+import net.minecraftforge.event.level.BlockEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ import java.util.function.Predicate;
 
 public class StickUtil {
 	public static boolean stackEquals(ItemStack stackA, ItemStack stackB) {
-		return ItemStack.isSameItemSameComponents(stackA, stackB);
+		return ItemStack.isSameItemSameTags(stackA, stackB);
 	}
 
 	public static boolean stackEquals(ItemStack stackA, Item item) {
@@ -118,7 +118,7 @@ public class StickUtil {
 
 		BlockSnapshot snapshot = BlockSnapshot.create(level.dimension(), level, pos);
 		BlockEvent.EntityPlaceEvent placeEvent = new BlockEvent.EntityPlaceEvent(snapshot, block, player);
-		NeoForge.EVENT_BUS.post(placeEvent);
+		MinecraftForge.EVENT_BUS.post(placeEvent);
 		if (placeEvent.isCanceled()) {
 			return false;
 		} else {
@@ -154,7 +154,7 @@ public class StickUtil {
 		}
 
 		BlockEvent.BreakEvent breakEvent = new BlockEvent.BreakEvent(level, pos, currentBlock, player);
-		NeoForge.EVENT_BUS.post(breakEvent);
+		MinecraftForge.EVENT_BUS.post(breakEvent);
 		if (breakEvent.isCanceled()) return false;
 
 		level.removeBlock(pos, false);

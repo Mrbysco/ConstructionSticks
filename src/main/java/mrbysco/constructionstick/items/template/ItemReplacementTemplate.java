@@ -2,9 +2,7 @@ package mrbysco.constructionstick.items.template;
 
 import mrbysco.constructionstick.ConstructionStick;
 import mrbysco.constructionstick.api.IStickAction;
-import mrbysco.constructionstick.registry.ModDataComponents;
 import mrbysco.constructionstick.stick.action.ActionReplace;
-import net.minecraft.core.component.DataComponentType;
 import net.minecraft.resources.ResourceLocation;
 
 public class ItemReplacementTemplate extends ItemUpgradeTemplate {
@@ -20,8 +18,8 @@ public class ItemReplacementTemplate extends ItemUpgradeTemplate {
 	}
 
 	@Override
-	public DataComponentType<Boolean> getStickComponent() {
-		return ModDataComponents.REPLACEMENT.get();
+	public String getUpgradeKey() {
+		return ConstructionStick.REPLACEMENT_KEY;
 	}
 
 	@Override

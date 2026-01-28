@@ -7,11 +7,11 @@ import mrbysco.constructionstick.basics.option.IOption;
 import mrbysco.constructionstick.basics.option.StickOptions;
 import mrbysco.constructionstick.basics.option.StickUpgradesSelectable;
 import mrbysco.constructionstick.config.ConstructionConfig;
-import mrbysco.constructionstick.registry.ModDataComponents;
 import mrbysco.constructionstick.stick.StickJob;
+import mrbysco.constructionstick.util.NBTHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -23,13 +23,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.Unbreakable;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.energy.EnergyStorage;
+import net.minecraftforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -98,28 +98,55 @@ public abstract class ItemStick extends Item {
 	}
 
 	public void hurtItem(ItemStack stack, int amount, LivingEntity entity, EquipmentSlot slot) {
-		if (stack.has(ModDataComponents.BATTERY_ENABLED)) {
-			if (entity.hasInfiniteMaterials()) return;
-			IEnergyStorage storage = stack.getCapability(Capabilities.EnergyStorage.ITEM);
-			if (storage != null) {
-				int usage = ConstructionConfig.getStickProperties(this).getBatteryUsage();
-				storage.extractEnergy(usage, false);
-			}
+		if (NBTHelper.hasKey(stack, ConstructionStick.BATTERY_KEY)) {
+			if (entity instanceof Player player && player.getAbilities().instabuild) return;
+			int usage = ConstructionConfig.getStickProperties(this).getBatteryUsage();
+			stack.getCapability(ForgeCapabilities.ENERGY)
+					.map(cap ->
+							cap.extractEnergy(usage * amount, false)
+					);
 		} else {
-			stack.hurtAndBreak(amount, entity, slot);
+			stack.hurtAndBreak(amount, entity, (livingEntity) -> {
+				livingEntity.broadcastBreakEvent(slot);
+			});
 		}
+	}
+
+	@Nullable
+	@Override
+	public CompoundTag getShareTag(ItemStack stack) {
+		CompoundTag tag = super.getShareTag(stack);
+		IEnergyStorage cap = stack.getCapability(ForgeCapabilities.ENERGY).orElse(null);
+		if (cap instanceof EnergyStorage storage) {
+			if (tag == null) {
+				tag = new CompoundTag();
+			}
+			tag.put("EnergyStorage", storage.serializeNBT());
+		}
+		return tag;
+	}
+
+	@Override
+	public void readShareTag(ItemStack stack, @Nullable CompoundTag nbt) {
+		if (nbt != null && nbt.contains("EnergyStorage")) {
+			IEnergyStorage cap = stack.getCapability(ForgeCapabilities.ENERGY).orElse(null);
+			if (cap instanceof EnergyStorage storage) {
+				storage.deserializeNBT(nbt.getCompound("EnergyStorage"));
+			}
+		}
+		super.readShareTag(stack, nbt);
 	}
 
 	@Override
 	public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
 		super.inventoryTick(stack, level, entity, slotId, isSelected);
-		if (stack.has(ModDataComponents.UNBREAKABLE) && !stack.has(DataComponents.UNBREAKABLE)) {
-			stack.set(DataComponents.UNBREAKABLE, new Unbreakable(false));
+		if (NBTHelper.hasKey(stack, ConstructionStick.UNBREAKABLE_KEY) && !NBTHelper.hasKey(stack, "Unbreakable")) {
+			NBTHelper.setKey(stack, "Unbreakable", false);
 		}
 	}
 
 	@Override
-	public void appendHoverText(@NotNull ItemStack itemstack, TooltipContext context, @NotNull List<Component> lines, @NotNull TooltipFlag extraInfo) {
+	public void appendHoverText(ItemStack itemstack, @Nullable Level level, List<Component> lines, TooltipFlag isAdvanced) {
 		StickOptions options = new StickOptions(itemstack);
 		int limit = options.upgrades.get().getStickAction().getLimit(itemstack);
 
@@ -150,8 +177,8 @@ public abstract class ItemStick extends Item {
 			StickUpgradesSelectable<IStickTemplate> upgrades = options.upgrades;
 			lines.add(Component.translatable(langTooltip + "blocks", limit).withStyle(ChatFormatting.GRAY));
 
-			if (itemstack.has(ModDataComponents.BATTERY_ENABLED)) {
-				IEnergyStorage storage = itemstack.getCapability(Capabilities.EnergyStorage.ITEM);
+			if (NBTHelper.hasKey(itemstack, ConstructionStick.BATTERY_KEY)) {
+				IEnergyStorage storage = itemstack.getCapability(ForgeCapabilities.ENERGY).orElse(null);
 				if (storage != null) {
 					int energy = storage.getEnergyStored();
 					NumberFormat format = NumberFormat.getInstance();

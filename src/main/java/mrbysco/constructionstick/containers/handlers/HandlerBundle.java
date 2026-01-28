@@ -2,11 +2,11 @@ package mrbysco.constructionstick.containers.handlers;
 
 import mrbysco.constructionstick.api.IContainerHandler;
 import mrbysco.constructionstick.basics.StickUtil;
-import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.component.BundleContents;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -43,12 +43,24 @@ public class HandlerBundle implements IContainerHandler {
 	}
 
 	private Stream<ItemStack> getContents(ItemStack bundleStack) {
-		BundleContents contents = bundleStack.getOrDefault(DataComponents.BUNDLE_CONTENTS, BundleContents.EMPTY);
-		return contents.itemCopyStream();
+		CompoundTag compoundtag = bundleStack.getTag();
+		if (compoundtag == null) {
+			return Stream.empty();
+		} else {
+			ListTag listtag = compoundtag.getList("Items", 10);
+			return listtag.stream().map(CompoundTag.class::cast).map(ItemStack::of);
+		}
 	}
 
 	private void setItemList(ItemStack itemStack, List<ItemStack> itemStacks) {
-		BundleContents contents = new BundleContents(itemStacks);
-		itemStack.set(DataComponents.BUNDLE_CONTENTS, contents);
+		CompoundTag rootTag = itemStack.getOrCreateTag();
+		ListTag listTag = new ListTag();
+		rootTag.put("Items", listTag);
+
+		for (ItemStack stack : itemStacks) {
+			CompoundTag itemTag = new CompoundTag();
+			stack.save(itemTag);
+			listTag.add(itemTag);
+		}
 	}
 }

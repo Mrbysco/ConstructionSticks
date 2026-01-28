@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "tag": "forge:glass"
+    },
+    "O": {
+      "item": "minecraft:potato"
+    },
+    "X": {
+      "tag": "forge:dusts/redstone"
+    }
+  },
+  "pattern": [
+    " #X",
+    "#O#",
+    "X# "
+  ],
+  "result": {
+    "item": "constructionstick:template_battery"
+  },
+  "show_notification": true
+}

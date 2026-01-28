@@ -2,12 +2,12 @@ package mrbysco.constructionstick.basics;
 
 import mrbysco.constructionstick.ConstructionStick;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent;
-import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.server.ServerStartingEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
-@EventBusSubscriber(modid = ConstructionStick.MOD_ID)
+@Mod.EventBusSubscriber(modid = ConstructionStick.MOD_ID)
 public class CommonEvents {
 	@SubscribeEvent
 	public static void serverStarting(ServerStartingEvent e) {

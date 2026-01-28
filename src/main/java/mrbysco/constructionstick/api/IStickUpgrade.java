@@ -1,12 +1,11 @@
 package mrbysco.constructionstick.api;
 
-import net.minecraft.core.component.DataComponentType;
 import net.minecraft.resources.ResourceLocation;
 
 public interface IStickUpgrade {
 	ResourceLocation getRegistryName();
 
-	DataComponentType<?> getStickComponent();
+	String getUpgradeKey();
 
 	default boolean specialUpgrade() {
 		return false;

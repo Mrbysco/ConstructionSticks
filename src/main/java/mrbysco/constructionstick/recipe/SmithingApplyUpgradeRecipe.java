@@ -1,21 +1,23 @@
 package mrbysco.constructionstick.recipe;
 
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.google.gson.JsonObject;
 import mrbysco.constructionstick.api.IStickTemplate;
 import mrbysco.constructionstick.basics.StickUtil;
 import mrbysco.constructionstick.basics.option.StickOptions;
 import mrbysco.constructionstick.config.ConstructionConfig;
 import mrbysco.constructionstick.registry.ModRecipes;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
+import mrbysco.constructionstick.util.NBTHelper;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.item.crafting.SmithingRecipe;
-import net.minecraft.world.item.crafting.SmithingRecipeInput;
 import net.minecraft.world.level.Level;
 
 import java.util.stream.Stream;
@@ -24,13 +26,15 @@ import java.util.stream.Stream;
  * A copy of SmithingTransformRecipe specifically for applying upgrades to Construction Sticks
  */
 public class SmithingApplyUpgradeRecipe implements SmithingRecipe {
+	final ResourceLocation id;
 	final Ingredient template;
 	final Ingredient base;
 	final Ingredient addition;
 	final ItemStack result;
 	final IStickTemplate upgrade;
 
-	public SmithingApplyUpgradeRecipe(Ingredient template, Ingredient base, Ingredient addition, ItemStack result, IStickTemplate upgrade) {
+	public SmithingApplyUpgradeRecipe(ResourceLocation id, Ingredient template, Ingredient base, Ingredient addition, ItemStack result, IStickTemplate upgrade) {
+		this.id = id;
 		this.template = template;
 		this.base = base;
 		this.addition = addition;
@@ -38,26 +42,51 @@ public class SmithingApplyUpgradeRecipe implements SmithingRecipe {
 		this.upgrade = upgrade;
 	}
 
-	public SmithingApplyUpgradeRecipe(Ingredient template, Ingredient base, Ingredient addition, ItemStack result, ResourceLocation upgrade) {
-		this(template, base, addition, result, StickUtil.getUpgrade(upgrade).orElseThrow(() -> new IllegalArgumentException("Unknown upgrade: " + upgrade)));
+	public SmithingApplyUpgradeRecipe(ResourceLocation id, Ingredient template, Ingredient base, Ingredient addition, ItemStack result, ResourceLocation upgrade) {
+		this(id, template, base, addition, result,
+				StickUtil.getUpgrade(upgrade).orElseThrow(
+						() -> new IllegalArgumentException("Unknown upgrade: " + upgrade)
+				)
+		);
 	}
 
-	public boolean matches(SmithingRecipeInput input, Level level) {
-		ItemStack base = input.base();
-		if (base.has(upgrade.getStickComponent()) || !new StickOptions(base).upgrades.isCompatible(upgrade) || !ConstructionConfig.getStickProperties(base.getItem()).isUpgradeable())
+	@Override
+	public boolean matches(Container container, Level level) {
+		if (container.getContainerSize() != 3) {
 			return false;
-		return this.template.test(input.template()) && this.base.test(base) && this.addition.test(input.addition());
+		}
+		ItemStack base = container.getItem(1);
+		if (NBTHelper.hasKey(base, upgrade.getUpgradeKey()) ||
+				!new StickOptions(base).upgrades.isCompatible(upgrade) ||
+				!ConstructionConfig.getStickProperties(base.getItem()).isUpgradeable())
+			return false;
+		return this.template.test(container.getItem(0))
+				&& this.base.test(base) &&
+				this.addition.test(container.getItem(2));
 	}
 
-	public ItemStack assemble(SmithingRecipeInput input, HolderLookup.Provider registries) {
-		ItemStack itemstack = input.base().transmuteCopy(this.result.getItem(), this.result.getCount());
-		itemstack.applyComponents(this.result.getComponentsPatch());
+	@Override
+	public ItemStack assemble(Container container, RegistryAccess registryAccess) {
+		if (container.getContainerSize() != 3) {
+			return ItemStack.EMPTY;
+		}
+		ItemStack base = container.getItem(1);
+
+		ItemStack itemstack = base.copy();
+		CompoundTag tag = itemstack.getOrCreateTag();
+		tag = tag.merge(result.copy().getOrCreateTag());
+		itemstack.setTag(tag);
 		return itemstack;
 	}
 
 	@Override
-	public ItemStack getResultItem(HolderLookup.Provider registries) {
+	public ItemStack getResultItem(RegistryAccess registryAccess) {
 		return this.result;
+	}
+
+	@Override
+	public ResourceLocation getId() {
+		return id;
 	}
 
 	@Override
@@ -82,7 +111,7 @@ public class SmithingApplyUpgradeRecipe implements SmithingRecipe {
 
 	@Override
 	public boolean isIncomplete() {
-		return Stream.of(this.template, this.base, this.addition).anyMatch(Ingredient::hasNoItems);
+		return Stream.of(this.template, this.base, this.addition).anyMatch(Ingredient::isEmpty);
 	}
 
 	public Ingredient getBase() {
@@ -98,45 +127,30 @@ public class SmithingApplyUpgradeRecipe implements SmithingRecipe {
 	}
 
 	public static class Serializer implements RecipeSerializer<SmithingApplyUpgradeRecipe> {
-		private static final MapCodec<SmithingApplyUpgradeRecipe> CODEC = RecordCodecBuilder.mapCodec(
-				p_340782_ -> p_340782_.group(
-								Ingredient.CODEC.fieldOf("template").forGetter(p_301310_ -> p_301310_.template),
-								Ingredient.CODEC.fieldOf("base").forGetter(p_300938_ -> p_300938_.base),
-								Ingredient.CODEC.fieldOf("addition").forGetter(p_301153_ -> p_301153_.addition),
-								ItemStack.STRICT_CODEC.fieldOf("result").forGetter(p_300935_ -> p_300935_.result),
-								ResourceLocation.CODEC.fieldOf("upgrade").forGetter(p_300935_ -> p_300935_.upgrade.getRegistryName())
-						)
-						.apply(p_340782_, SmithingApplyUpgradeRecipe::new)
-		);
-		public static final StreamCodec<RegistryFriendlyByteBuf, SmithingApplyUpgradeRecipe> STREAM_CODEC = StreamCodec.of(
-				SmithingApplyUpgradeRecipe.Serializer::toNetwork, SmithingApplyUpgradeRecipe.Serializer::fromNetwork
-		);
-
-		@Override
-		public MapCodec<SmithingApplyUpgradeRecipe> codec() {
-			return CODEC;
+		public SmithingApplyUpgradeRecipe fromJson(ResourceLocation recipeId, JsonObject jsonObject) {
+			Ingredient ingredient = Ingredient.fromJson(GsonHelper.getNonNull(jsonObject, "template"));
+			Ingredient ingredient1 = Ingredient.fromJson(GsonHelper.getNonNull(jsonObject, "base"));
+			Ingredient ingredient2 = Ingredient.fromJson(GsonHelper.getNonNull(jsonObject, "addition"));
+			ItemStack itemstack = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(jsonObject, "result"));
+			ResourceLocation upgrade = new ResourceLocation(GsonHelper.getAsString(jsonObject, "upgrade"));
+			return new SmithingApplyUpgradeRecipe(recipeId, ingredient, ingredient1, ingredient2, itemstack, upgrade);
 		}
 
-		@Override
-		public StreamCodec<RegistryFriendlyByteBuf, SmithingApplyUpgradeRecipe> streamCodec() {
-			return STREAM_CODEC;
+		public SmithingApplyUpgradeRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf friendlyByteBuf) {
+			Ingredient ingredient = Ingredient.fromNetwork(friendlyByteBuf);
+			Ingredient ingredient1 = Ingredient.fromNetwork(friendlyByteBuf);
+			Ingredient ingredient2 = Ingredient.fromNetwork(friendlyByteBuf);
+			ItemStack itemstack = friendlyByteBuf.readItem();
+			ResourceLocation upgrade = friendlyByteBuf.readResourceLocation();
+			return new SmithingApplyUpgradeRecipe(recipeId, ingredient, ingredient1, ingredient2, itemstack, upgrade);
 		}
 
-		private static SmithingApplyUpgradeRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
-			Ingredient ingredient = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
-			Ingredient ingredient1 = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
-			Ingredient ingredient2 = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
-			ItemStack itemstack = ItemStack.STREAM_CODEC.decode(buffer);
-			ResourceLocation upgrade = ResourceLocation.STREAM_CODEC.decode(buffer);
-			return new SmithingApplyUpgradeRecipe(ingredient, ingredient1, ingredient2, itemstack, upgrade);
-		}
-
-		private static void toNetwork(RegistryFriendlyByteBuf buffer, SmithingApplyUpgradeRecipe recipe) {
-			Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.template);
-			Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.base);
-			Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.addition);
-			ItemStack.STREAM_CODEC.encode(buffer, recipe.result);
-			ResourceLocation.STREAM_CODEC.encode(buffer, recipe.upgrade.getRegistryName());
+		public void toNetwork(FriendlyByteBuf friendlyByteBuf, SmithingApplyUpgradeRecipe upgradeRecipe) {
+			upgradeRecipe.template.toNetwork(friendlyByteBuf);
+			upgradeRecipe.base.toNetwork(friendlyByteBuf);
+			upgradeRecipe.addition.toNetwork(friendlyByteBuf);
+			friendlyByteBuf.writeItem(upgradeRecipe.result);
+			friendlyByteBuf.writeResourceLocation(upgradeRecipe.upgrade.getRegistryName());
 		}
 	}
 }

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "tag": "forge:glass"
+    },
+    "O": {
+      "tag": "forge:nether_stars"
+    },
+    "X": {
+      "item": "minecraft:crying_obsidian"
+    }
+  },
+  "pattern": [
+    " #X",
+    "#O#",
+    "X# "
+  ],
+  "result": {
+    "item": "constructionstick:template_unbreakable"
+  },
+  "show_notification": true
+}

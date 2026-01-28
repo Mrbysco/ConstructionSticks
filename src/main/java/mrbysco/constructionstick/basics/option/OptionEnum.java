@@ -1,41 +1,33 @@
 package mrbysco.constructionstick.basics.option;
 
 import com.google.common.base.Enums;
-import net.minecraft.core.component.DataComponentType;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 
 public class OptionEnum<E extends Enum<E>> implements IOption<E> {
-	private final ItemStack stack;
-	private final DataComponentType<E> componentType;
+	private final CompoundTag tag;
 	private final String key;
 	private final Class<E> enumClass;
 	private final boolean enabled;
 	private final E dval;
 	private E value;
 
-	public OptionEnum(ItemStack stack, DataComponentType<E> componentType, String key, Class<E> enumClass, E dval, boolean enabled) {
-		this.stack = stack;
-		this.componentType = componentType;
+	public OptionEnum(CompoundTag tag, String key, Class<E> enumClass, E dval, boolean enabled) {
+		this.tag = tag;
 		this.key = key;
 		this.enumClass = enumClass;
 		this.enabled = enabled;
 		this.dval = dval;
 
-		value = stack.getOrDefault(componentType, dval);
+		value = Enums.getIfPresent(enumClass, tag.getString(key).toUpperCase()).or(dval);
 	}
 
-	public OptionEnum(ItemStack stack, DataComponentType<E> componentType, String key, Class<E> enumClass, E dval) {
-		this(stack, componentType, key, enumClass, dval, true);
+	public OptionEnum(CompoundTag tag, String key, Class<E> enumClass, E dval) {
+		this(tag, key, enumClass, dval, true);
 	}
 
 	@Override
 	public String getKey() {
 		return key;
-	}
-
-	@Override
-	public DataComponentType<?> getComponentType() {
-		return componentType;
 	}
 
 	@Override
@@ -57,7 +49,7 @@ public class OptionEnum<E extends Enum<E>> implements IOption<E> {
 	public void set(E val) {
 		if (!enabled) return;
 		value = val;
-		stack.set(componentType, val);
+		tag.putString(key, getValueString());
 	}
 
 	@Override

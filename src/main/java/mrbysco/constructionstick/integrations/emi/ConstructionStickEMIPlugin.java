@@ -8,11 +8,10 @@ import mrbysco.constructionstick.integrations.emi.recipe.ApplyUpgradeEMIRecipe;
 import mrbysco.constructionstick.recipe.SmithingApplyUpgradeRecipe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.SmithingRecipe;
 
+import java.util.List;
 import java.util.Objects;
 
 @EmiEntrypoint
@@ -22,10 +21,10 @@ public class ConstructionStickEMIPlugin implements EmiPlugin {
 	@Override
 	public void register(EmiRegistry registry) {
 		RecipeManager manager = Objects.requireNonNull(Minecraft.getInstance().level).getRecipeManager();
-		for (RecipeHolder<SmithingRecipe> holder : manager.getAllRecipesFor(RecipeType.SMITHING).stream().filter(holder ->
-				holder.value() instanceof SmithingApplyUpgradeRecipe).toList()) {
-			SmithingApplyUpgradeRecipe recipe = (SmithingApplyUpgradeRecipe) holder.value();
-			registry.addRecipe(new ApplyUpgradeEMIRecipe(recipe, holder.id()));
+		List<SmithingApplyUpgradeRecipe> upgradeRecipeList = manager.getAllRecipesFor(RecipeType.SMITHING).stream().filter(holder ->
+				holder instanceof SmithingApplyUpgradeRecipe).map(holder -> (SmithingApplyUpgradeRecipe) holder).toList();
+		for (SmithingApplyUpgradeRecipe recipe : upgradeRecipeList) {
+			registry.addRecipe(new ApplyUpgradeEMIRecipe(recipe, recipe.getId()));
 		}
 	}
 }

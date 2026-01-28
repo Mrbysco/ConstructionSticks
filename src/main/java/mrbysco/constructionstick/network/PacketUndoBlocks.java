@@ -1,29 +1,21 @@
 package mrbysco.constructionstick.network;
 
-import mrbysco.constructionstick.ConstructionStick;
 import mrbysco.constructionstick.client.ClientHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
+import net.minecraftforge.network.NetworkEvent;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Supplier;
 
-public record PacketUndoBlocks(HashSet<BlockPos> undoBlocks) implements CustomPacketPayload {
-	public static final StreamCodec<FriendlyByteBuf, PacketUndoBlocks> CODEC = CustomPacketPayload.codec(
-			PacketUndoBlocks::encode,
-			PacketUndoBlocks::new);
-	public static final Type<PacketUndoBlocks> ID = new Type<>(ConstructionStick.modLoc("undo_blocks"));
-
-	public PacketUndoBlocks(FriendlyByteBuf buffer) {
-		this(getSet(buffer));
-	}
-
+public record PacketUndoBlocks(HashSet<BlockPos> undoBlocks) {
 	public PacketUndoBlocks(Set<BlockPos> undoBlocks) {
 		this(new HashSet<>(undoBlocks));
+	}
+
+	public static PacketUndoBlocks decode(final FriendlyByteBuf packetBuffer) {
+		return new PacketUndoBlocks(getSet(packetBuffer));
 	}
 
 	private static HashSet<BlockPos> getSet(FriendlyByteBuf buffer) {
@@ -41,23 +33,14 @@ public record PacketUndoBlocks(HashSet<BlockPos> undoBlocks) implements CustomPa
 		}
 	}
 
-	@Override
-	public Type<? extends CustomPacketPayload> type() {
-		return ID;
-	}
-
-	public static class Handler {
-		public static void handle(final PacketUndoBlocks msg, final IPayloadContext ctx) {
-			ctx.enqueueWork(() -> {
-						//ConstructionStick.LOGGER.debug("PacketUndoBlocks received, Blocks: " + msg.undoBlocks.size());
-						ClientHandler.renderBlockPreview.undoBlocks = msg.undoBlocks;
-					})
-					.exceptionally(e -> {
-						// Handle exception
-						ctx.disconnect(Component.translatable("constructionstick.networking.undo_blocks.failed", e.getMessage()));
-						return null;
-					});
-
-		}
+	public void handle(Supplier<NetworkEvent.Context> context) {
+		NetworkEvent.Context ctx = context.get();
+		ctx.enqueueWork(() -> {
+			if (ctx.getDirection().getReceptionSide().isClient()) {
+				//ConstructionStick.LOGGER.debug("PacketUndoBlocks received, Blocks: " + msg.undoBlocks.size());
+				ClientHandler.renderBlockPreview.undoBlocks = undoBlocks;
+			}
+		});
+		ctx.setPacketHandled(true);
 	}
 }

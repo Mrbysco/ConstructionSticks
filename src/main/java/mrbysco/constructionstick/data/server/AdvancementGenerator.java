@@ -4,10 +4,8 @@ import mrbysco.constructionstick.ConstructionStick;
 import mrbysco.constructionstick.basics.ModTags;
 import mrbysco.constructionstick.registry.ModItems;
 import net.minecraft.advancements.Advancement;
-import net.minecraft.advancements.AdvancementHolder;
-import net.minecraft.advancements.AdvancementType;
-import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.DisplayInfo;
+import net.minecraft.advancements.FrameType;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger.TriggerInstance;
 import net.minecraft.advancements.critereon.ItemPredicate;
@@ -19,17 +17,16 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
-import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.common.data.AdvancementProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.neoforged.neoforge.registries.DeferredHolder;
+import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.common.data.ForgeAdvancementProvider;
+import net.minecraftforge.registries.RegistryObject;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
-public class AdvancementGenerator extends AdvancementProvider {
+public class AdvancementGenerator extends ForgeAdvancementProvider {
 
 	public AdvancementGenerator(PackOutput output, CompletableFuture<Provider> registries, ExistingFileHelper existingFileHelper) {
 		super(output, registries, existingFileHelper, List.of(new StickAdvancementGenerator()));
@@ -37,20 +34,20 @@ public class AdvancementGenerator extends AdvancementProvider {
 
 	public static class StickAdvancementGenerator implements AdvancementGenerator {
 		@Override
-		public void generate(Provider registries, Consumer<AdvancementHolder> consumer, ExistingFileHelper existingFileHelper) {
-			AdvancementHolder root = Advancement.Builder.advancement()
-					.display(rootDisplay(ModItems.STICK_WOODEN, advancementPrefix("root.title"),
+		public void generate(Provider registries, Consumer<Advancement> consumer, ExistingFileHelper existingFileHelper) {
+			Advancement root = Advancement.Builder.advancement()
+					.display(rootDisplay(ModItems.STICK_WOODEN.get(), advancementPrefix("root.title"),
 							advancementPrefix("root.desc"), mcLoc("textures/block/oak_planks.png")))
-					.addCriterion("stick", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(Tags.Items.RODS_WOODEN)))
+					.addCriterion("stick", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(Tags.Items.RODS_WOODEN).build()))
 					.save(consumer, rootID("root"));
 
-			AdvancementHolder sticks = onHasItems(consumer, ModItems.STICK_IRON, ModTags.CONSTRUCTION_STICKS, AdvancementType.TASK, root);
+			Advancement sticks = onHasItems(consumer, ModItems.STICK_IRON, ModTags.CONSTRUCTION_STICKS, FrameType.TASK, root);
 
-			AdvancementHolder angelTemplate = onHasItems(consumer, ModItems.TEMPLATE_ANGEL, AdvancementType.TASK, sticks);
-			AdvancementHolder destructionTemplate = onHasItems(consumer, ModItems.TEMPLATE_DESTRUCTION, AdvancementType.TASK, sticks);
-			AdvancementHolder replacementTemplate = onHasItems(consumer, ModItems.TEMPLATE_REPLACEMENT, AdvancementType.TASK, sticks);
-			AdvancementHolder unbreakableTemplate = onHasItems(consumer, ModItems.TEMPLATE_UNBREAKABLE, AdvancementType.TASK, sticks);
-			AdvancementHolder batteryTemplate = onHasItems(consumer, ModItems.TEMPLATE_BATTERY, AdvancementType.TASK, sticks);
+			Advancement angelTemplate = onHasItems(consumer, ModItems.TEMPLATE_ANGEL, FrameType.TASK, sticks);
+			Advancement destructionTemplate = onHasItems(consumer, ModItems.TEMPLATE_DESTRUCTION, FrameType.TASK, sticks);
+			Advancement replacementTemplate = onHasItems(consumer, ModItems.TEMPLATE_REPLACEMENT, FrameType.TASK, sticks);
+			Advancement unbreakableTemplate = onHasItems(consumer, ModItems.TEMPLATE_UNBREAKABLE, FrameType.TASK, sticks);
+			Advancement batteryTemplate = onHasItems(consumer, ModItems.TEMPLATE_BATTERY, FrameType.TASK, sticks);
 		}
 
 		/**
@@ -61,8 +58,8 @@ public class AdvancementGenerator extends AdvancementProvider {
 		 * @param type     The frame type.
 		 * @param root     The root advancement.
 		 */
-		protected static AdvancementHolder onHasItems(Consumer<AdvancementHolder> consumer, DeferredHolder<Item, ? extends Item> iconItem,
-		                                              AdvancementType type, AdvancementHolder root) {
+		protected static Advancement onHasItems(Consumer<Advancement> consumer, RegistryObject<? extends Item> iconItem,
+		                                        FrameType type, Advancement root) {
 			String path = iconItem.getId().getPath();
 			ResourceLocation registryLocation = modLoc(path);
 
@@ -80,7 +77,7 @@ public class AdvancementGenerator extends AdvancementProvider {
 		 * @param items The items.
 		 * @return The trigger instance.
 		 */
-		protected static Criterion<TriggerInstance> hasItemsTrigger(ItemLike... items) {
+		protected static TriggerInstance hasItemsTrigger(ItemLike... items) {
 			return InventoryChangeTrigger.TriggerInstance.hasItems(items);
 		}
 
@@ -93,8 +90,8 @@ public class AdvancementGenerator extends AdvancementProvider {
 		 * @param type     The frame type.
 		 * @param root     The root advancement.
 		 */
-		protected static AdvancementHolder onHasItems(Consumer<AdvancementHolder> consumer, DeferredHolder<Item, ? extends Item> iconItem, TagKey<Item> itemTag,
-		                                              AdvancementType type, AdvancementHolder root) {
+		protected static Advancement onHasItems(Consumer<Advancement> consumer, RegistryObject<? extends Item> iconItem, TagKey<Item> itemTag,
+		                                        FrameType type, Advancement root) {
 			String path = iconItem.getId().getPath();
 			ResourceLocation registryLocation = modLoc(path);
 
@@ -112,8 +109,8 @@ public class AdvancementGenerator extends AdvancementProvider {
 		 * @param itemTag The item tag.
 		 * @return The trigger instance.
 		 */
-		protected static Criterion<TriggerInstance> hasItemsTrigger(TagKey<Item> itemTag) {
-			return InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(itemTag));
+		protected static TriggerInstance hasItemsTrigger(TagKey<Item> itemTag) {
+			return InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(itemTag).build());
 		}
 
 		/**
@@ -129,7 +126,7 @@ public class AdvancementGenerator extends AdvancementProvider {
 			return new DisplayInfo(new ItemStack(icon),
 					Component.translatable(titleKey),
 					Component.translatable(descKey),
-					Optional.of(background), AdvancementType.TASK, false, false, false);
+					background, FrameType.TASK, false, false, false);
 		}
 
 		/**
@@ -139,11 +136,11 @@ public class AdvancementGenerator extends AdvancementProvider {
 		 * @param name The name of the advancement.
 		 * @return The DisplayInfo object.
 		 */
-		protected static DisplayInfo simpleDisplay(ItemLike icon, String name, AdvancementType type) {
+		protected static DisplayInfo simpleDisplay(ItemLike icon, String name, FrameType type) {
 			return new DisplayInfo(new ItemStack(icon),
 					Component.translatable(advancementPrefix(name + ".title")),
 					Component.translatable(advancementPrefix(name + ".desc")),
-					Optional.empty(), type, true, true, false);
+					null, type, true, true, false);
 		}
 
 		/**

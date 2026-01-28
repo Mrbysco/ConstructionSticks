@@ -1,0 +1,38 @@
+{
+  "parent": "constructionstick:iron_stick",
+  "criteria": {
+    "template_unbreakable": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "constructionstick:template_unbreakable"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancement.constructionstick.template_unbreakable.desc"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "constructionstick:template_unbreakable"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancement.constructionstick.template_unbreakable.title"
+    }
+  },
+  "requirements": [
+    [
+      "template_unbreakable"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

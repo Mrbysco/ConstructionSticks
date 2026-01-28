@@ -5,26 +5,26 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Tiers;
-import net.neoforged.neoforge.common.ModConfigSpec;
-import net.neoforged.neoforge.registries.DeferredHolder;
+import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.registries.RegistryObject;
 
 import java.util.HashMap;
 import java.util.List;
 
 public class ConstructionConfig {
-	public static final ModConfigSpec SPEC;
+	public static final ForgeConfigSpec SPEC;
 
-	public static final ModConfigSpec.IntValue MAX_RANGE;
-	public static final ModConfigSpec.IntValue UNDO_HISTORY;
-	public static final ModConfigSpec.BooleanValue ANGEL_FALLING;
+	public static final ForgeConfigSpec.IntValue MAX_RANGE;
+	public static final ForgeConfigSpec.IntValue UNDO_HISTORY;
+	public static final ForgeConfigSpec.BooleanValue ANGEL_FALLING;
 
-	public static final ModConfigSpec.ConfigValue<List<? extends String>> SIMILAR_BLOCKS;
+	public static final ForgeConfigSpec.ConfigValue<List<? extends String>> SIMILAR_BLOCKS;
 	private static final String[] SIMILAR_BLOCKS_DEFAULT = {
 			"minecraft:dirt;minecraft:grass_block;minecraft:coarse_dirt;minecraft:podzol;minecraft:mycelium;minecraft:farmland;minecraft:dirt_path;minecraft:rooted_dirt"
 	};
 
-	public static final ModConfigSpec.BooleanValue BE_WHITELIST;
-	public static final ModConfigSpec.ConfigValue<List<? extends String>> BE_LIST;
+	public static final ForgeConfigSpec.BooleanValue BE_WHITELIST;
+	public static final ForgeConfigSpec.ConfigValue<List<? extends String>> BE_LIST;
 	private static final String[] BE_LIST_DEFAULT = {"chiselsandbits", "mekanism", "waystones"};
 
 	private static final HashMap<ResourceLocation, StickProperties> stickProperties = new HashMap<>();
@@ -36,19 +36,19 @@ public class ConstructionConfig {
 	public static class StickProperties {
 		public static final StickProperties DEFAULT = new StickProperties(null, null, null, null, null, null, null);
 
-		private final ModConfigSpec.IntValue durability;
-		private final ModConfigSpec.IntValue batteryStorage;
-		private final ModConfigSpec.IntValue batteryUsage;
-		private final ModConfigSpec.IntValue limit;
-		private final ModConfigSpec.IntValue angel;
-		private final ModConfigSpec.IntValue destruction;
-		private final ModConfigSpec.BooleanValue upgradeable;
+		private final ForgeConfigSpec.IntValue durability;
+		private final ForgeConfigSpec.IntValue batteryStorage;
+		private final ForgeConfigSpec.IntValue batteryUsage;
+		private final ForgeConfigSpec.IntValue limit;
+		private final ForgeConfigSpec.IntValue angel;
+		private final ForgeConfigSpec.IntValue destruction;
+		private final ForgeConfigSpec.BooleanValue upgradeable;
 
-		private StickProperties(ModConfigSpec.IntValue durability,
-		                        ModConfigSpec.IntValue storage, ModConfigSpec.IntValue usage,
-		                        ModConfigSpec.IntValue limit,
-		                        ModConfigSpec.IntValue angel, ModConfigSpec.IntValue destruction,
-		                        ModConfigSpec.BooleanValue upgradeable) {
+		private StickProperties(ForgeConfigSpec.IntValue durability,
+		                        ForgeConfigSpec.IntValue storage, ForgeConfigSpec.IntValue usage,
+		                        ForgeConfigSpec.IntValue limit,
+		                        ForgeConfigSpec.IntValue angel, ForgeConfigSpec.IntValue destruction,
+		                        ForgeConfigSpec.BooleanValue upgradeable) {
 			this.durability = durability;
 			this.batteryStorage = storage;
 			this.batteryUsage = usage;
@@ -58,7 +58,7 @@ public class ConstructionConfig {
 			this.upgradeable = upgradeable;
 		}
 
-		public StickProperties(ModConfigSpec.Builder builder, DeferredHolder<Item, ? extends Item> stickSupplier, int defDurability,
+		public StickProperties(ForgeConfigSpec.Builder builder, RegistryObject<? extends Item> stickSupplier, int defDurability,
 		                       int defStorage, int defUsage, int defLimit,
 		                       int defAngel, int defDestruction, boolean defUpgradeable) {
 			ResourceLocation registryName = stickSupplier.getId();
@@ -114,7 +114,7 @@ public class ConstructionConfig {
 	}
 
 	static {
-		final var builder = new ModConfigSpec.Builder();
+		final var builder = new ForgeConfigSpec.Builder();
 
 		new StickProperties(builder, ModItems.STICK_WOODEN, Tiers.WOOD.getUses(), 5000, 10, 3, 1, 1, true);
 		new StickProperties(builder, ModItems.STICK_COPPER, Tiers.STONE.getUses(), 10000, 10, 9, 2, 3, true);
@@ -130,13 +130,13 @@ public class ConstructionConfig {
 		builder.comment("Place blocks below you while falling > 10 blocks with angel upgrade (Can be used to save you from drops/the void)");
 		ANGEL_FALLING = builder.define("AngelFalling", false);
 		builder.comment("Blocks to treat equally when in Similar mode. Enter block IDs separated by ;");
-		SIMILAR_BLOCKS = builder.defineListAllowEmpty("SimilarBlocks", List.of(SIMILAR_BLOCKS_DEFAULT), String::new, o -> (o instanceof String));
+		SIMILAR_BLOCKS = builder.defineListAllowEmpty("SimilarBlocks", List.of(SIMILAR_BLOCKS_DEFAULT), o -> (o instanceof String));
 		builder.pop();
 
 		builder.push("blockentity");
 		builder.comment("White/Blacklist for Block Entities. Allow/Prevent blocks with BEs from being placed by stick.",
 				"You can either add block ids like minecraft:chest or mod ids like minecraft");
-		BE_LIST = builder.defineListAllowEmpty("BEList", List.of(BE_LIST_DEFAULT), String::new, o -> (o instanceof String));
+		BE_LIST = builder.defineListAllowEmpty("BEList", List.of(BE_LIST_DEFAULT), o -> (o instanceof String));
 		builder.comment("If set to TRUE, treat BEList as a whitelist, otherwise blacklist");
 		BE_WHITELIST = builder.define("BEWhitelist", false);
 		builder.pop();

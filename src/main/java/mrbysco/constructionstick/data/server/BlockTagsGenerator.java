@@ -5,9 +5,9 @@ import mrbysco.constructionstick.basics.ModTags;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.common.data.BlockTagsProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.minecraft.tags.BlockTags;
+import net.minecraftforge.common.data.BlockTagsProvider;
+import net.minecraftforge.common.data.ExistingFileHelper;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -19,7 +19,8 @@ public class BlockTagsGenerator extends BlockTagsProvider {
 
 	@Override
 	protected void addTags(Provider provider) {
-		this.tag(ModTags.NON_REPLACEABLE).addTag(Tags.Blocks.RELOCATION_NOT_SUPPORTED).addTag(ModTags.NON_PLACABLE);
+		this.tag(ModTags.NON_REPLACEABLE).addOptionalTag(BlockTags.create(new ResourceLocation("forge", "relocation_not_supported")))
+				.addTag(ModTags.NON_PLACABLE);
 
 		var tagAppender = this.tag(ModTags.NON_PLACABLE);
 		List<ResourceLocation> reactors = List.of(

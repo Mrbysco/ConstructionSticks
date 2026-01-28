@@ -3,9 +3,7 @@ package mrbysco.constructionstick.items.template;
 import mrbysco.constructionstick.ConstructionStick;
 import mrbysco.constructionstick.api.IStickAction;
 import mrbysco.constructionstick.api.IStickUpgrade;
-import mrbysco.constructionstick.registry.ModDataComponents;
 import mrbysco.constructionstick.stick.action.ActionConstruction;
-import net.minecraft.core.component.DataComponentType;
 import net.minecraft.resources.ResourceLocation;
 
 public class ItemBatteryTemplate extends ItemUpgradeTemplate {
@@ -21,8 +19,8 @@ public class ItemBatteryTemplate extends ItemUpgradeTemplate {
 	}
 
 	@Override
-	public DataComponentType<Boolean> getStickComponent() {
-		return ModDataComponents.BATTERY_ENABLED.get();
+	public String getUpgradeKey() {
+		return ConstructionStick.BATTERY_KEY;
 	}
 
 	@Override

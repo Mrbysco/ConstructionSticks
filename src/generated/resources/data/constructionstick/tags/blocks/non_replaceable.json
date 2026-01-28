@@ -1,0 +1,9 @@
+{
+  "values": [
+    {
+      "id": "#forge:relocation_not_supported",
+      "required": false
+    },
+    "#constructionstick:non_placable"
+  ]
+}

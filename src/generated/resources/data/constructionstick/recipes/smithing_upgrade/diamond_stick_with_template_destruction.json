@@ -1,0 +1,17 @@
+{
+  "type": "constructionstick:smithing_upgrade",
+  "addition": {
+    "tag": "forge:storage_blocks/redstone"
+  },
+  "base": {
+    "item": "constructionstick:diamond_stick"
+  },
+  "result": {
+    "item": "constructionstick:diamond_stick",
+    "nbt": "{\"constructionstick:options\":{destruction:1b}}"
+  },
+  "template": {
+    "item": "constructionstick:template_destruction"
+  },
+  "upgrade": "constructionstick:upgrade_destruction"
+}

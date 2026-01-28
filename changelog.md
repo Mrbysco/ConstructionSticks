@@ -1,1 +1,0 @@
-* Add `constructionsticks:non_placable` for blocks that are not allowed to be placed with construction sticks

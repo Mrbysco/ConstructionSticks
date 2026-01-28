@@ -1,6 +1,6 @@
 {
-    "pack": {
-        "description": "Construction Sticks resources",
-        "pack_format": 34
-    }
+  "pack": {
+    "description": "Construction Sticks resources",
+    "pack_format": 15
+  }
 }
