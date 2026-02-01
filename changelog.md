@@ -1,1 +1,1 @@
-* Initial backport to 1.20.1
+* Fixed network and deserialization issues ([#35](https://github.com/Mrbysco/ConstructionSticks/pull/35) courtesy of Saereth)
