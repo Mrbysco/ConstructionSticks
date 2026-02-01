@@ -36,11 +36,8 @@ public record PacketUndoBlocks(HashSet<BlockPos> undoBlocks) {
 
 	public void handle(Supplier<NetworkEvent.Context> context) {
 		NetworkEvent.Context ctx = context.get();
-		// consumerMainThread already runs on main thread
 		if (ctx.getDirection().getReceptionSide().isClient()) {
-			// Use DistExecutor to safely call client-only code without loading ClientHandler on the server
-			HashSet<BlockPos> blocks = this.undoBlocks;
-			DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientPacketHandler.handleUndoBlocks(blocks));
+			DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientPacketHandler.handleUndoBlocks(undoBlocks));
 		}
 		ctx.setPacketHandled(true);
 	}

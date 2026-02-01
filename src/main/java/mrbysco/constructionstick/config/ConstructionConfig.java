@@ -1,6 +1,5 @@
 package mrbysco.constructionstick.config;
 
-import mrbysco.constructionstick.ConstructionStick;
 import mrbysco.constructionstick.registry.ModItems;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -63,8 +62,7 @@ public class ConstructionConfig {
 		                       int defStorage, int defUsage, int defLimit,
 		                       int defAngel, int defDestruction, boolean defUpgradeable) {
 			ResourceLocation registryName = stick.getId();
-			String stickName = registryName.getPath();
-			builder.push(stickName);
+			builder.push(registryName.getPath());
 
 			if (defDurability > 0) {
 				builder.comment("Stick durability");
