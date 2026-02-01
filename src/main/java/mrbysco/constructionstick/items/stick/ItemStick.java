@@ -10,8 +10,6 @@ import mrbysco.constructionstick.config.ConstructionConfig;
 import mrbysco.constructionstick.stick.StickJob;
 import mrbysco.constructionstick.util.NBTHelper;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -27,8 +25,8 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -112,30 +110,8 @@ public abstract class ItemStick extends Item {
 		}
 	}
 
-	@Nullable
-	@Override
-	public CompoundTag getShareTag(ItemStack stack) {
-		CompoundTag tag = super.getShareTag(stack);
-		IEnergyStorage cap = stack.getCapability(ForgeCapabilities.ENERGY).orElse(null);
-		if (cap instanceof EnergyStorage storage) {
-			if (tag == null) {
-				tag = new CompoundTag();
-			}
-			tag.put("EnergyStorage", storage.serializeNBT());
-		}
-		return tag;
-	}
-
-	@Override
-	public void readShareTag(ItemStack stack, @Nullable CompoundTag nbt) {
-		if (nbt != null && nbt.contains("EnergyStorage")) {
-			IEnergyStorage cap = stack.getCapability(ForgeCapabilities.ENERGY).orElse(null);
-			if (cap instanceof EnergyStorage storage) {
-				storage.deserializeNBT(nbt.getCompound("EnergyStorage"));
-			}
-		}
-		super.readShareTag(stack, nbt);
-	}
+	// NOTE: Do NOT override getShareTag/readShareTag for capability syncing!
+	// Using NBT-backed energy storage instead - syncs automatically via item NBT.
 
 	@Override
 	public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
@@ -201,4 +177,5 @@ public abstract class ItemStick extends Item {
 						.append(Component.translatable(option.getDescTranslation()).withStyle(ChatFormatting.WHITE))
 				, true);
 	}
+
 }

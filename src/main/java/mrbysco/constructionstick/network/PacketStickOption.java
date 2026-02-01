@@ -3,9 +3,11 @@ package mrbysco.constructionstick.network;
 import mrbysco.constructionstick.basics.StickUtil;
 import mrbysco.constructionstick.basics.option.IOption;
 import mrbysco.constructionstick.basics.option.StickOptions;
-import mrbysco.constructionstick.items.stick.ItemStick;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 
@@ -28,21 +30,33 @@ public record PacketStickOption(String key, String value, boolean notifyMessage)
 
 	public void handle(Supplier<NetworkEvent.Context> context) {
 		NetworkEvent.Context ctx = context.get();
-		ctx.enqueueWork(() -> {
-			if (ctx.getDirection().getReceptionSide().isServer() && ctx.getSender() != null) {
-				ServerPlayer player = ctx.getSender();
-				ItemStack stick = StickUtil.holdingStick(player);
-				if (stick == null) return;
-				StickOptions options = new StickOptions(stick);
+		// consumerMainThread already runs on main thread
+		if (ctx.getDirection().getReceptionSide().isServer() && ctx.getSender() != null) {
+			ServerPlayer player = ctx.getSender();
+			ItemStack stick = StickUtil.holdingStick(player);
+			if (stick == null) return;
+			StickOptions options = new StickOptions(stick);
 
-				IOption<?> option = options.get(key);
-				if (option == null) return;
-				option.setValueString(value);
+			IOption<?> option = options.get(key);
+			if (option == null) return;
+			option.setValueString(value);
 
-				if (notifyMessage) ItemStick.optionMessage(player, option);
-				player.getInventory().setChanged();
-			}
-		});
+			if (notifyMessage) sendOptionMessage(player, option);
+			player.getInventory().setChanged();
+		}
 		ctx.setPacketHandled(true);
+	}
+
+	/**
+	 * Send option change message to player.
+	 * Inlined here to avoid importing ItemStick which causes class loading issues.
+	 */
+	private static void sendOptionMessage(Player player, IOption<?> option) {
+		player.displayClientMessage(
+				Component.translatable(option.getKeyTranslation()).withStyle(ChatFormatting.AQUA)
+						.append(Component.translatable(option.getValueTranslation()).withStyle(ChatFormatting.WHITE))
+						.append(Component.literal(" - ").withStyle(ChatFormatting.GRAY))
+						.append(Component.translatable(option.getDescTranslation()).withStyle(ChatFormatting.WHITE))
+				, true);
 	}
 }

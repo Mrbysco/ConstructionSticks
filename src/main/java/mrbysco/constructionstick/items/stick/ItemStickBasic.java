@@ -5,15 +5,12 @@ import mrbysco.constructionstick.config.ConstructionConfig;
 import mrbysco.constructionstick.util.NBTHelper;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -84,15 +81,19 @@ public class ItemStickBasic extends ItemStick {
 	@Override
 	public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag tag) {
 		ConstructionConfig.StickProperties properties = ConstructionConfig.getStickProperties(stack.getItem());
-		return new BatteryEnergyStorage(stack, properties.getBatteryStorage(), 200, properties.getBatteryUsage());
+		return new BatteryCapabilityProvider(stack, properties.getBatteryStorage(), 200, properties.getBatteryUsage());
 	}
 
-	private static class BatteryEnergyStorage implements ICapabilityProvider, INBTSerializable<Tag> {
-		private final EnergyStorage storage;
+	/**
+	 * Capability provider that uses NBT-backed energy storage.
+	 * Energy is stored directly in item NBT - syncs automatically, no getShareTag needed.
+	 */
+	private static class BatteryCapabilityProvider implements ICapabilityProvider {
 		private final LazyOptional<IEnergyStorage> optional;
 
-		public BatteryEnergyStorage(ItemStack stack, int capacity, int maxReceive, int maxTransfer) {
-			this.storage = new EnergyStorage(capacity, maxReceive, maxTransfer) {
+		public BatteryCapabilityProvider(ItemStack stack, int capacity, int maxReceive, int maxExtract) {
+			// Use NBT-backed storage - energy stored in item tag, syncs automatically
+			NBTEnergyStorage storage = new NBTEnergyStorage(stack, capacity, maxReceive, maxExtract) {
 				@Override
 				public boolean canExtract() {
 					return NBTHelper.hasKey(stack, ConstructionStick.BATTERY_KEY) && super.canExtract();
@@ -103,7 +104,7 @@ public class ItemStickBasic extends ItemStick {
 					return NBTHelper.hasKey(stack, ConstructionStick.BATTERY_KEY) && super.canReceive();
 				}
 			};
-			this.optional = LazyOptional.of(() -> this.storage);
+			this.optional = LazyOptional.of(() -> storage);
 		}
 
 		@Override
@@ -112,16 +113,6 @@ public class ItemStickBasic extends ItemStick {
 				return this.optional.cast();
 			}
 			return LazyOptional.empty();
-		}
-
-		@Override
-		public Tag serializeNBT() {
-			return this.storage.serializeNBT();
-		}
-
-		@Override
-		public void deserializeNBT(Tag nbt) {
-			this.storage.deserializeNBT(nbt);
 		}
 	}
 }

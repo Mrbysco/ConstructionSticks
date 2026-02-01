@@ -1,5 +1,6 @@
 package mrbysco.constructionstick.config;
 
+import mrbysco.constructionstick.ConstructionStick;
 import mrbysco.constructionstick.registry.ModItems;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -58,11 +59,12 @@ public class ConstructionConfig {
 			this.upgradeable = upgradeable;
 		}
 
-		public StickProperties(ForgeConfigSpec.Builder builder, RegistryObject<? extends Item> stickSupplier, int defDurability,
+		public StickProperties(ForgeConfigSpec.Builder builder, RegistryObject<? extends Item> stick, int defDurability,
 		                       int defStorage, int defUsage, int defLimit,
 		                       int defAngel, int defDestruction, boolean defUpgradeable) {
-			ResourceLocation registryName = stickSupplier.getId();
-			builder.push(registryName.getPath());
+			ResourceLocation registryName = stick.getId();
+			String stickName = registryName.getPath();
+			builder.push(stickName);
 
 			if (defDurability > 0) {
 				builder.comment("Stick durability");
