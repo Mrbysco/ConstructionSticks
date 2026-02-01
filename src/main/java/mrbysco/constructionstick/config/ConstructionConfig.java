@@ -58,10 +58,10 @@ public class ConstructionConfig {
 			this.upgradeable = upgradeable;
 		}
 
-		public StickProperties(ForgeConfigSpec.Builder builder, RegistryObject<? extends Item> stick, int defDurability,
+		public StickProperties(ForgeConfigSpec.Builder builder, RegistryObject<? extends Item> stickSupplier, int defDurability,
 		                       int defStorage, int defUsage, int defLimit,
 		                       int defAngel, int defDestruction, boolean defUpgradeable) {
-			ResourceLocation registryName = stick.getId();
+			ResourceLocation registryName = stickSupplier.getId();
 			builder.push(registryName.getPath());
 
 			if (defDurability > 0) {
