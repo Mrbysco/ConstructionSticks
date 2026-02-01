@@ -18,12 +18,11 @@ public record PacketQueryUndo(boolean undoPressed) {
 
 	public void handle(Supplier<NetworkEvent.Context> context) {
 		NetworkEvent.Context ctx = context.get();
-		ctx.enqueueWork(() -> {
-			if (ctx.getDirection().getReceptionSide().isServer() && ctx.getSender() != null) {
-				ServerPlayer player = ctx.getSender();
-				ConstructionStick.undoHistory.updateClient(player, undoPressed);
-			}
-		});
+		// consumerMainThread already runs on main thread
+		if (ctx.getDirection().getReceptionSide().isServer() && ctx.getSender() != null) {
+			ServerPlayer player = ctx.getSender();
+			ConstructionStick.undoHistory.updateClient(player, undoPressed);
+		}
 		ctx.setPacketHandled(true);
 	}
 }

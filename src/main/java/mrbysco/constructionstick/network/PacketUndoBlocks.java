@@ -1,8 +1,9 @@
 package mrbysco.constructionstick.network;
 
-import mrbysco.constructionstick.client.ClientHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.HashSet;
@@ -35,12 +36,9 @@ public record PacketUndoBlocks(HashSet<BlockPos> undoBlocks) {
 
 	public void handle(Supplier<NetworkEvent.Context> context) {
 		NetworkEvent.Context ctx = context.get();
-		ctx.enqueueWork(() -> {
-			if (ctx.getDirection().getReceptionSide().isClient()) {
-				//ConstructionStick.LOGGER.debug("PacketUndoBlocks received, Blocks: " + msg.undoBlocks.size());
-				ClientHandler.renderBlockPreview.undoBlocks = undoBlocks;
-			}
-		});
+		if (ctx.getDirection().getReceptionSide().isClient()) {
+			DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientPacketHandler.handleUndoBlocks(undoBlocks));
+		}
 		ctx.setPacketHandled(true);
 	}
 }
