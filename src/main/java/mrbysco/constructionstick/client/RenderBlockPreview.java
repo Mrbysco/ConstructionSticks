@@ -3,8 +3,8 @@ package mrbysco.constructionstick.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import mrbysco.constructionstick.basics.StickUtil;
-import mrbysco.constructionstick.items.stick.ItemStick;
-import mrbysco.constructionstick.stick.StickJob;
+import mrbysco.constructionstick.network.ModMessages;
+import mrbysco.constructionstick.network.PacketRequestPreview;
 import net.minecraft.client.Camera;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -22,8 +22,10 @@ import net.neoforged.neoforge.client.event.RenderHighlightEvent;
 import java.util.Set;
 
 public class RenderBlockPreview {
-	private StickJob stickJob;
+    private BlockHitResult lastRayTraceResult = null;
+    private ItemStack lastStick = ItemStack.EMPTY;
 	public Set<BlockPos> undoBlocks;
+	public Set<BlockPos> previewBlocks;
 
 	@SubscribeEvent
 	public void renderBlockHighlight(RenderHighlightEvent.Block event) {
@@ -38,18 +40,21 @@ public class RenderBlockPreview {
 		ItemStack stick = StickUtil.holdingStick(player);
 		if (stick == null) return;
 
-		if (!KeybindHandler.KEY_SHOW_PREVIOUS.isDown()) {
+		if (KeybindHandler.KEY_SHOW_PREVIOUS.isDown()) {
+			blocks = undoBlocks;
+			colorG = 1;
+		} 
+		else {
 			// Use cached stickJob for previews of the same target pos/dir
 			// Exception: always update if blockCount < 2 to prevent 1-block previews when block updates
 			// from the last placement are lagging
-			if (stickJob == null || !compareRTR(stickJob.blockHitResult, target) || !(stickJob.stick.equals(stick))
-					|| stickJob.blockCount() < 2) {
-				stickJob = ItemStick.getStickJob(player, player.level(), target, stick);
+            if(lastRayTraceResult == null || !compareRTR(lastRayTraceResult, target) || !lastStick.equals(stick)
+                || previewBlocks == null || previewBlocks.size() < 2) {
+			    lastRayTraceResult = target;
+                lastStick = stick;
+				ModMessages.sendToServer(new PacketRequestPreview(target, stick));
 			}
-			blocks = stickJob.getBlockPositions();
-		} else {
-			blocks = undoBlocks;
-			colorG = 1;
+			blocks = previewBlocks;
 		}
 
 		if (blocks == null || blocks.isEmpty()) return;
@@ -72,7 +77,9 @@ public class RenderBlockPreview {
 	}
 
 	public void reset() {
-		stickJob = null;
+		lastRayTraceResult = null;
+		lastStick = ItemStack.EMPTY;
+		previewBlocks = null;
 	}
 
 	private static boolean compareRTR(BlockHitResult rtr1, BlockHitResult rtr2) {

@@ -1,0 +1,177 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "request": "launch",
+      "name": "ConstructionSticks - Client",
+      "presentation": {
+        "group": "NG - ConstructionSticks",
+        "order": 0
+      },
+      "projectName": "ConstructionSticks",
+      "mainClass": "cpw.mods.bootstraplauncher.BootstrapLauncher",
+      "args": [
+        "--launchTarget",
+        "forgeclientdev",
+        "--version",
+        "21.1.170",
+        "--assetIndex",
+        "asset-index",
+        "--assetsDir",
+        "D:\\.gradle\\caches\\minecraft\\assets",
+        "--gameDir",
+        ".",
+        "--fml.fmlVersion",
+        "4.0.39",
+        "--fml.mcVersion",
+        "1.21.1",
+        "--fml.neoForgeVersion",
+        "21.1.170",
+        "--fml.neoFormVersion",
+        "20240808.144430"
+      ],
+      "vmArgs": [
+        "-Xmx4G",
+        "-p",
+        "D:\\.gradle\\caches\\modules-2\\files-2.1\\cpw.mods\\bootstraplauncher\\2.0.2\\1a2d076cbc33b0520cbacd591224427b2a20047d\\bootstraplauncher-2.0.2.jar;D:\\.gradle\\caches\\modules-2\\files-2.1\\cpw.mods\\securejarhandler\\3.0.8\\c0ef95cecd8699a0449053ac7d9c160748d902cd\\securejarhandler-3.0.8.jar;D:\\.gradle\\caches\\modules-2\\files-2.1\\org.ow2.asm\\asm-commons\\9.7\\e86dda4696d3c185fcc95d8d311904e7ce38a53f\\asm-commons-9.7.jar;D:\\.gradle\\caches\\modules-2\\files-2.1\\org.ow2.asm\\asm-util\\9.7\\c0655519f24d92af2202cb681cd7c1569df6ead6\\asm-util-9.7.jar;D:\\.gradle\\caches\\modules-2\\files-2.1\\org.ow2.asm\\asm-analysis\\9.7\\e4a258b7eb96107106c0599f0061cfc1832fe07a\\asm-analysis-9.7.jar;D:\\.gradle\\caches\\modules-2\\files-2.1\\org.ow2.asm\\asm-tree\\9.7\\e446a17b175bfb733b87c5c2560ccb4e57d69f1a\\asm-tree-9.7.jar;D:\\.gradle\\caches\\modules-2\\files-2.1\\org.ow2.asm\\asm\\9.7\\73d7b3086e14beb604ced229c302feff6449723\\asm-9.7.jar;D:\\.gradle\\caches\\modules-2\\files-2.1\\net.neoforged\\JarJarFileSystems\\0.4.1\\78f59f89defcd032ed788b151ca6a0d40ace796a\\JarJarFileSystems-0.4.1.jar",
+        "--add-modules",
+        "ALL-MODULE-PATH",
+        "--add-opens",
+        "java.base/java.util.jar\u003dcpw.mods.securejarhandler",
+        "--add-opens",
+        "java.base/java.lang.invoke\u003dcpw.mods.securejarhandler",
+        "--add-exports",
+        "java.base/sun.security.util\u003dcpw.mods.securejarhandler",
+        "--add-exports",
+        "jdk.naming.dns/com.sun.jndi.dns\u003djava.naming",
+        "-XX:HeapDumpPath\u003dMojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump",
+        "-Dforge.logging.markers\u003dREGISTRIES",
+        "-Dforge.logging.console.level\u003ddebug",
+        "-Dforge.enabledGameTestNamespaces\u003dconstructionstick",
+        "-Dneoforge.enableGameTest\u003dtrue",
+        "-DlegacyClassPath.file\u003dD:\\Git\\ConstructionSticks\\.gradle\\configuration\\neoForm\\neoFormJoined1.21.1-20240808.144430\\steps\\writeMinecraftClasspathClient\\classpath.txt",
+        "-DignoreList\u003dmixinextras-neoforge-0.4.1.jar,client-extra,neoforge-",
+        "-Djava.net.preferIPv6Addresses\u003dsystem"
+      ],
+      "cwd": "${workspaceFolder}\\runs\\client",
+      "env": {
+        "MOD_CLASSES": "ConstructionSticks%%D:\\Git\\ConstructionSticks\\bin\\main"
+      },
+      "shortenCommandLine": "argfile"
+    },
+    {
+      "type": "java",
+      "request": "launch",
+      "name": "ConstructionSticks - Data",
+      "presentation": {
+        "group": "NG - ConstructionSticks",
+        "order": 1
+      },
+      "projectName": "ConstructionSticks",
+      "mainClass": "cpw.mods.bootstraplauncher.BootstrapLauncher",
+      "args": [
+        "--mod",
+        "constructionstick",
+        "--all",
+        "--output",
+        "D:\\Git\\ConstructionSticks\\src\\generated\\resources",
+        "--existing",
+        "D:\\Git\\ConstructionSticks\\src\\main\\resources",
+        "--launchTarget",
+        "forgedatadev",
+        "--assetIndex",
+        "asset-index",
+        "--assetsDir",
+        "D:\\.gradle\\caches\\minecraft\\assets",
+        "--gameDir",
+        ".",
+        "--fml.fmlVersion",
+        "4.0.39",
+        "--fml.mcVersion",
+        "1.21.1",
+        "--fml.neoForgeVersion",
+        "21.1.170",
+        "--fml.neoFormVersion",
+        "20240808.144430"
+      ],
+      "vmArgs": [
+        "-Xmx4G",
+        "-p",
+        "D:\\.gradle\\caches\\modules-2\\files-2.1\\cpw.mods\\bootstraplauncher\\2.0.2\\1a2d076cbc33b0520cbacd591224427b2a20047d\\bootstraplauncher-2.0.2.jar;D:\\.gradle\\caches\\modules-2\\files-2.1\\cpw.mods\\securejarhandler\\3.0.8\\c0ef95cecd8699a0449053ac7d9c160748d902cd\\securejarhandler-3.0.8.jar;D:\\.gradle\\caches\\modules-2\\files-2.1\\org.ow2.asm\\asm-commons\\9.7\\e86dda4696d3c185fcc95d8d311904e7ce38a53f\\asm-commons-9.7.jar;D:\\.gradle\\caches\\modules-2\\files-2.1\\org.ow2.asm\\asm-util\\9.7\\c0655519f24d92af2202cb681cd7c1569df6ead6\\asm-util-9.7.jar;D:\\.gradle\\caches\\modules-2\\files-2.1\\org.ow2.asm\\asm-analysis\\9.7\\e4a258b7eb96107106c0599f0061cfc1832fe07a\\asm-analysis-9.7.jar;D:\\.gradle\\caches\\modules-2\\files-2.1\\org.ow2.asm\\asm-tree\\9.7\\e446a17b175bfb733b87c5c2560ccb4e57d69f1a\\asm-tree-9.7.jar;D:\\.gradle\\caches\\modules-2\\files-2.1\\org.ow2.asm\\asm\\9.7\\73d7b3086e14beb604ced229c302feff6449723\\asm-9.7.jar;D:\\.gradle\\caches\\modules-2\\files-2.1\\net.neoforged\\JarJarFileSystems\\0.4.1\\78f59f89defcd032ed788b151ca6a0d40ace796a\\JarJarFileSystems-0.4.1.jar",
+        "--add-modules",
+        "ALL-MODULE-PATH",
+        "--add-opens",
+        "java.base/java.util.jar\u003dcpw.mods.securejarhandler",
+        "--add-opens",
+        "java.base/java.lang.invoke\u003dcpw.mods.securejarhandler",
+        "--add-exports",
+        "java.base/sun.security.util\u003dcpw.mods.securejarhandler",
+        "--add-exports",
+        "jdk.naming.dns/com.sun.jndi.dns\u003djava.naming",
+        "-Dforge.logging.markers\u003dREGISTRIES",
+        "-Dforge.logging.console.level\u003ddebug",
+        "-DlegacyClassPath.file\u003dD:\\Git\\ConstructionSticks\\.gradle\\configuration\\neoForm\\neoFormJoined1.21.1-20240808.144430\\steps\\writeMinecraftClasspathData\\classpath.txt",
+        "-DignoreList\u003dmixinextras-neoforge-0.4.1.jar,client-extra,neoforge-",
+        "-Djava.net.preferIPv6Addresses\u003dsystem"
+      ],
+      "cwd": "${workspaceFolder}\\runs\\data",
+      "env": {
+        "MOD_CLASSES": "ConstructionSticks%%D:\\Git\\ConstructionSticks\\bin\\main"
+      },
+      "shortenCommandLine": "argfile"
+    },
+    {
+      "type": "java",
+      "request": "launch",
+      "name": "ConstructionSticks - Server",
+      "presentation": {
+        "group": "NG - ConstructionSticks",
+        "order": 2
+      },
+      "projectName": "ConstructionSticks",
+      "mainClass": "cpw.mods.bootstraplauncher.BootstrapLauncher",
+      "args": [
+        "--nogui",
+        "--launchTarget",
+        "forgeserverdev",
+        "--gameDir",
+        ".",
+        "--fml.fmlVersion",
+        "4.0.39",
+        "--fml.mcVersion",
+        "1.21.1",
+        "--fml.neoForgeVersion",
+        "21.1.170",
+        "--fml.neoFormVersion",
+        "20240808.144430"
+      ],
+      "vmArgs": [
+        "-Xmx4G",
+        "-p",
+        "D:\\.gradle\\caches\\modules-2\\files-2.1\\cpw.mods\\bootstraplauncher\\2.0.2\\1a2d076cbc33b0520cbacd591224427b2a20047d\\bootstraplauncher-2.0.2.jar;D:\\.gradle\\caches\\modules-2\\files-2.1\\cpw.mods\\securejarhandler\\3.0.8\\c0ef95cecd8699a0449053ac7d9c160748d902cd\\securejarhandler-3.0.8.jar;D:\\.gradle\\caches\\modules-2\\files-2.1\\org.ow2.asm\\asm-commons\\9.7\\e86dda4696d3c185fcc95d8d311904e7ce38a53f\\asm-commons-9.7.jar;D:\\.gradle\\caches\\modules-2\\files-2.1\\org.ow2.asm\\asm-util\\9.7\\c0655519f24d92af2202cb681cd7c1569df6ead6\\asm-util-9.7.jar;D:\\.gradle\\caches\\modules-2\\files-2.1\\org.ow2.asm\\asm-analysis\\9.7\\e4a258b7eb96107106c0599f0061cfc1832fe07a\\asm-analysis-9.7.jar;D:\\.gradle\\caches\\modules-2\\files-2.1\\org.ow2.asm\\asm-tree\\9.7\\e446a17b175bfb733b87c5c2560ccb4e57d69f1a\\asm-tree-9.7.jar;D:\\.gradle\\caches\\modules-2\\files-2.1\\org.ow2.asm\\asm\\9.7\\73d7b3086e14beb604ced229c302feff6449723\\asm-9.7.jar;D:\\.gradle\\caches\\modules-2\\files-2.1\\net.neoforged\\JarJarFileSystems\\0.4.1\\78f59f89defcd032ed788b151ca6a0d40ace796a\\JarJarFileSystems-0.4.1.jar",
+        "--add-modules",
+        "ALL-MODULE-PATH",
+        "--add-opens",
+        "java.base/java.util.jar\u003dcpw.mods.securejarhandler",
+        "--add-opens",
+        "java.base/java.lang.invoke\u003dcpw.mods.securejarhandler",
+        "--add-exports",
+        "java.base/sun.security.util\u003dcpw.mods.securejarhandler",
+        "--add-exports",
+        "jdk.naming.dns/com.sun.jndi.dns\u003djava.naming",
+        "-Dforge.logging.markers\u003dREGISTRIES",
+        "-Dforge.logging.console.level\u003ddebug",
+        "-Dforge.enabledGameTestNamespaces\u003dconstructionstick",
+        "-DlegacyClassPath.file\u003dD:\\Git\\ConstructionSticks\\.gradle\\configuration\\neoForm\\neoFormJoined1.21.1-20240808.144430\\steps\\writeMinecraftClasspathServer\\classpath.txt",
+        "-DignoreList\u003dmixinextras-neoforge-0.4.1.jar,client-extra,neoforge-",
+        "-Djava.net.preferIPv6Addresses\u003dsystem"
+      ],
+      "cwd": "${workspaceFolder}\\runs\\server",
+      "env": {
+        "MOD_CLASSES": "ConstructionSticks%%D:\\Git\\ConstructionSticks\\bin\\main"
+      },
+      "shortenCommandLine": "argfile"
+    }
+  ]
+}
