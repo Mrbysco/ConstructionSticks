@@ -2,7 +2,6 @@ package mrbysco.constructionstick.network;
 
 import mrbysco.constructionstick.ConstructionStick;
 import mrbysco.constructionstick.items.stick.ItemStick;
-import mrbysco.constructionstick.network.ModMessages;
 import mrbysco.constructionstick.stick.StickJob;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -12,11 +11,9 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.BlockHitResult;
-import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import java.util.Set;
-import java.util.function.Supplier;
 
 public record PacketRequestPreview(BlockHitResult rtr, ItemStack stick) implements CustomPacketPayload {
 	public static final StreamCodec<RegistryFriendlyByteBuf, PacketRequestPreview> CODEC = CustomPacketPayload.codec(
@@ -29,8 +26,8 @@ public record PacketRequestPreview(BlockHitResult rtr, ItemStack stick) implemen
     }
 
     public static void encode(PacketRequestPreview msg, RegistryFriendlyByteBuf buffer) {
-        ItemStack.STREAM_CODEC.encode(buffer, msg.stick);
         buffer.writeBlockHitResult(msg.rtr);
+        ItemStack.STREAM_CODEC.encode(buffer, msg.stick);
     }
 
 	@Override
