@@ -2,6 +2,7 @@ package mrbysco.constructionstick.containers.handlers;
 
 import mrbysco.constructionstick.api.IContainerHandler;
 import mrbysco.constructionstick.basics.StickUtil;
+import mrbysco.constructionstick.containers.ContainerTrace;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -9,12 +10,17 @@ import net.neoforged.neoforge.items.IItemHandler;
 
 public class HandlerCapability implements IContainerHandler {
 	@Override
-	public boolean matches(Player player, ItemStack itemStack, ItemStack inventoryStack) {
+	public boolean matches(Player player, ItemStack inventoryStack) {
 		return inventoryStack != null && inventoryStack.getCapability(Capabilities.ItemHandler.ITEM) != null;
 	}
 
+    @Override
+    public int getSignature(Player player, ItemStack inventoryStack) {
+        return inventoryStack.hashCode();
+    }
+
 	@Override
-	public int countItems(Player player, ItemStack itemStack, ItemStack inventoryStack) {
+	public int countItems(Player player, ContainerTrace trace, ItemStack itemStack, ItemStack inventoryStack) {
 		IItemHandler itemHandler = inventoryStack.getCapability(Capabilities.ItemHandler.ITEM);
 		if (itemHandler == null) return 0;
 
@@ -30,7 +36,7 @@ public class HandlerCapability implements IContainerHandler {
 	}
 
 	@Override
-	public int useItems(Player player, ItemStack itemStack, ItemStack inventoryStack, int count) {
+	public int useItems(Player player, ContainerTrace trace, ItemStack itemStack, ItemStack inventoryStack, int count) {
 		IItemHandler itemHandler = inventoryStack.getCapability(Capabilities.ItemHandler.ITEM);
 		if (itemHandler == null) return 0;
 

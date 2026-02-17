@@ -2,6 +2,7 @@ package mrbysco.constructionstick.containers.handlers;
 
 import mrbysco.constructionstick.api.IContainerHandler;
 import mrbysco.constructionstick.basics.StickUtil;
+import mrbysco.constructionstick.containers.ContainerTrace;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.player.Player;
@@ -14,12 +15,17 @@ public class HandlerShulkerbox implements IContainerHandler {
 	private final int SLOTS = 27;
 
 	@Override
-	public boolean matches(Player player, ItemStack itemStack, ItemStack inventoryStack) {
+	public boolean matches(Player player, ItemStack inventoryStack) {
 		return inventoryStack != null && inventoryStack.getCount() == 1 && Block.byItem(inventoryStack.getItem()) instanceof ShulkerBoxBlock;
 	}
 
+    @Override
+    public int getSignature(Player player, ItemStack inventoryStack) {
+        return inventoryStack.hashCode();
+    }
+
 	@Override
-	public int countItems(Player player, ItemStack itemStack, ItemStack inventoryStack) {
+	public int countItems(Player player, ContainerTrace trace, ItemStack itemStack, ItemStack inventoryStack) {
 		int count = 0;
 
 		for (ItemStack stack : getItemList(inventoryStack)) {
@@ -30,7 +36,7 @@ public class HandlerShulkerbox implements IContainerHandler {
 	}
 
 	@Override
-	public int useItems(Player player, ItemStack itemStack, ItemStack inventoryStack, int count) {
+	public int useItems(Player player, ContainerTrace trace, ItemStack itemStack, ItemStack inventoryStack, int count) {
 		NonNullList<ItemStack> itemList = getItemList(inventoryStack);
 		boolean changed = false;
 

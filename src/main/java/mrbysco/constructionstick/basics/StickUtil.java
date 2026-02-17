@@ -5,6 +5,7 @@ import mrbysco.constructionstick.api.IStickTemplate;
 import mrbysco.constructionstick.api.IStickUpgrade;
 import mrbysco.constructionstick.config.ConstructionConfig;
 import mrbysco.constructionstick.containers.ContainerManager;
+import mrbysco.constructionstick.containers.ContainerTrace;
 import mrbysco.constructionstick.items.stick.ItemStick;
 import mrbysco.constructionstick.stick.StickItemUseContext;
 import net.minecraft.ChatFormatting;
@@ -13,6 +14,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
@@ -187,18 +189,21 @@ public class StickUtil {
 		if (player.isCreative()) return Integer.MAX_VALUE;
 
 		int total = 0;
-		ContainerManager containerManager = ConstructionStick.containerManager;
-		List<ItemStack> inventory = StickUtil.getFullInv(player);
+        if(player instanceof ServerPlayer serverPlayer) {
+			ContainerManager containerManager = ConstructionStick.containerManager;
+			ContainerTrace trace = new ContainerTrace(serverPlayer);
+			List<ItemStack> inventory = StickUtil.getFullInv(serverPlayer);
 
-		for (ItemStack stack : inventory) {
-			if (stack == null || stack.isEmpty()) continue;
+			for (ItemStack stack : inventory) {
+				if (stack == null || stack.isEmpty()) continue;
 
-			if (StickUtil.stackEquals(stack, item)) {
-				total += stack.getCount();
-			} else {
-				int amount = containerManager.countItems(player, new ItemStack(item), stack);
-				if (amount == Integer.MAX_VALUE) return Integer.MAX_VALUE;
-				total += amount;
+				if (StickUtil.stackEquals(stack, item)) {
+					total += stack.getCount();
+				} else {
+					int amount = containerManager.countItems(serverPlayer, trace, new ItemStack(item), stack);
+					if (amount == Integer.MAX_VALUE) return Integer.MAX_VALUE;
+					total += amount;
+				}
 			}
 		}
 		return total;
