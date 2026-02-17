@@ -17,13 +17,13 @@ public class ContainerTrace {
 	public ContainerTrace(ServerLevel level) {
 		this.level = level;
 		this.player = null;
-        visited.add(-1);
+		visited.add(-1);
 	}
 
 	public ContainerTrace(ServerPlayer player) {
 		this.player = player;
 		this.level = player.serverLevel();
-        visited.add(-1);
+		visited.add(-1);
 	}
 
 	public boolean push(int sig) {

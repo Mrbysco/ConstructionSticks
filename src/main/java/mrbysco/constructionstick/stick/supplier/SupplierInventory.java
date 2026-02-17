@@ -76,7 +76,7 @@ public class SupplierInventory implements IStickSupplier {
 	@Override
 	@Nullable
 	public PlaceSnapshot getPlaceSnapshot(Level level, BlockPos pos, BlockHitResult blockHitResult,
-	                                      @Nullable BlockState supportingBlock) {
+										  @Nullable BlockState supportingBlock) {
 		if (!StickUtil.isPositionPlaceable(level, player, pos, options.replace.get())) return null;
 		itemPool.reset();
 
@@ -125,7 +125,7 @@ public class SupplierInventory implements IStickSupplier {
 
 	private int takeItemsInvList(int count, Item item, List<ItemStack> inv, boolean container) {
 		if (count == 0) return 0;
-	    if (player instanceof ServerPlayer serverPlayer) {
+		if (player instanceof ServerPlayer serverPlayer) {
 			ContainerManager containerManager = ConstructionStick.containerManager;
 			// In use, ContainerTrace is just a placeholder
 			ContainerTrace trace = new ContainerTrace(serverPlayer);

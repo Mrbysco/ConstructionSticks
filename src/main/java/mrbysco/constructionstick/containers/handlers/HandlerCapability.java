@@ -10,14 +10,14 @@ import net.neoforged.neoforge.items.IItemHandler;
 
 public class HandlerCapability implements IContainerHandler {
 	@Override
-	public boolean matches(Player player, ItemStack inventoryStack) {
+	public boolean matches(Player player, ItemStack itemStack, ItemStack inventoryStack) {
 		return inventoryStack != null && inventoryStack.getCapability(Capabilities.ItemHandler.ITEM) != null;
 	}
 
-    @Override
-    public int getSignature(Player player, ItemStack inventoryStack) {
-        return inventoryStack.hashCode();
-    }
+	@Override
+	public int getSignature(Player player, ItemStack inventoryStack) {
+		return inventoryStack.hashCode();
+	}
 
 	@Override
 	public int countItems(Player player, ContainerTrace trace, ItemStack itemStack, ItemStack inventoryStack) {

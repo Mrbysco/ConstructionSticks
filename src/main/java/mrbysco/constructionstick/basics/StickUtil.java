@@ -189,7 +189,7 @@ public class StickUtil {
 		if (player.isCreative()) return Integer.MAX_VALUE;
 
 		int total = 0;
-        if(player instanceof ServerPlayer serverPlayer) {
+		if(player instanceof ServerPlayer serverPlayer) {
 			ContainerManager containerManager = ConstructionStick.containerManager;
 			ContainerTrace trace = new ContainerTrace(serverPlayer);
 			List<ItemStack> inventory = StickUtil.getFullInv(serverPlayer);

@@ -15,14 +15,14 @@ public class HandlerShulkerbox implements IContainerHandler {
 	private final int SLOTS = 27;
 
 	@Override
-	public boolean matches(Player player, ItemStack inventoryStack) {
+	public boolean matches(Player player, ItemStack itemStack, ItemStack inventoryStack) {
 		return inventoryStack != null && inventoryStack.getCount() == 1 && Block.byItem(inventoryStack.getItem()) instanceof ShulkerBoxBlock;
 	}
 
-    @Override
-    public int getSignature(Player player, ItemStack inventoryStack) {
-        return inventoryStack.hashCode();
-    }
+	@Override
+	public int getSignature(Player player, ItemStack inventoryStack) {
+		return inventoryStack.hashCode();
+	}
 
 	@Override
 	public int countItems(Player player, ContainerTrace trace, ItemStack itemStack, ItemStack inventoryStack) {

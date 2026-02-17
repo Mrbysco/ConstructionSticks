@@ -14,15 +14,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 public class HandlerBundle implements IContainerHandler {
-    @Override
-    public boolean matches(Player player, ItemStack inventoryStack) {
-        return inventoryStack != null && inventoryStack.getCount() == 1 && inventoryStack.getItem() == Items.BUNDLE;
-    }
+	@Override
+	public boolean matches(Player player, ItemStack itemStack, ItemStack inventoryStack) {
+		return inventoryStack != null && inventoryStack.getCount() == 1 && inventoryStack.getItem() == Items.BUNDLE;
+	}
 
-    @Override
-    public int getSignature(Player player, ItemStack inventoryStack) {
-        return inventoryStack.hashCode();
-    }
+	@Override
+	public int getSignature(Player player, ItemStack inventoryStack) {
+		return inventoryStack.hashCode();
+	}
 
 	@Override
 	public int countItems(Player player, ContainerTrace trace, ItemStack itemStack, ItemStack inventoryStack) {
