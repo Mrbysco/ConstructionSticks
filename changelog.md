@@ -1,1 +1,2 @@
-* Fixed network and deserialization issues ([#35](https://github.com/Mrbysco/ConstructionSticks/pull/35) courtesy of Saereth)
+* Fix config not being registered
+* Fix smithing recipes
