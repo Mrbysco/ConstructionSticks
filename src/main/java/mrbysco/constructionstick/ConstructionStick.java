@@ -1,14 +1,19 @@
 package mrbysco.constructionstick;
 
+import mrbysco.constructionstick.basics.ModStats;
+import mrbysco.constructionstick.config.ConstructionConfig;
 import mrbysco.constructionstick.containers.ContainerManager;
 import mrbysco.constructionstick.network.ModMessages;
 import mrbysco.constructionstick.registry.ModItems;
+import mrbysco.constructionstick.registry.ModRecipes;
 import mrbysco.constructionstick.stick.undo.UndoHistory;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
@@ -43,11 +48,16 @@ public class ConstructionStick {
 		// Register common setup (network init)
 		eventBus.addListener(this::onCommonSetup);
 
-		// Register client setup only on client side
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientSetup.register(eventBus));
-
 		ModItems.ITEMS.register(eventBus);
 		ModItems.CREATIVE_MODE_TABS.register(eventBus);
+		ModStats.CUSTOM_STATS.register(eventBus);
+		ModRecipes.RECIPE_SERIALIZERS.register(eventBus);
+
+		// Config setup
+		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ConstructionConfig.SPEC);
+
+		// Register client setup only on client side
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientSetup.register(eventBus));
 
 		LOGGER.info("ConstructionStick initialized");
 	}
