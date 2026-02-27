@@ -2,6 +2,7 @@ package mrbysco.constructionstick.containers.handlers;
 
 import mrbysco.constructionstick.api.IContainerHandler;
 import mrbysco.constructionstick.basics.StickUtil;
+import mrbysco.constructionstick.containers.ContainerTrace;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -19,13 +20,18 @@ public class HandlerBundle implements IContainerHandler {
 	}
 
 	@Override
-	public int countItems(Player player, ItemStack itemStack, ItemStack inventoryStack) {
+	public int getSignature(Player player, ItemStack inventoryStack) {
+		return inventoryStack.hashCode();
+	}
+
+	@Override
+	public int countItems(Player player, ContainerTrace trace, ItemStack itemStack, ItemStack inventoryStack) {
 		return getContents(inventoryStack).filter((stack) -> StickUtil.stackEquals(stack, itemStack))
 				.map(ItemStack::getCount).reduce(0, Integer::sum);
 	}
 
 	@Override
-	public int useItems(Player player, ItemStack itemStack, ItemStack inventoryStack, int count) {
+	public int useItems(Player player, ContainerTrace trace, ItemStack itemStack, ItemStack inventoryStack, int count) {
 		AtomicInteger newCount = new AtomicInteger(count);
 
 		List<ItemStack> itemStacks = getContents(inventoryStack).filter((stack -> {

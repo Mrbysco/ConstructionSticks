@@ -8,8 +8,10 @@ import mrbysco.constructionstick.basics.option.StickOptions;
 import mrbysco.constructionstick.basics.pool.IPool;
 import mrbysco.constructionstick.basics.pool.OrderedPool;
 import mrbysco.constructionstick.containers.ContainerManager;
+import mrbysco.constructionstick.containers.ContainerTrace;
 import mrbysco.constructionstick.stick.undo.PlaceSnapshot;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
@@ -122,20 +124,25 @@ public class SupplierInventory implements IStickSupplier {
 	}
 
 	private int takeItemsInvList(int count, Item item, List<ItemStack> inv, boolean container) {
-		ContainerManager containerManager = ConstructionStick.containerManager;
+		if (count == 0) return 0;
+		if (player instanceof ServerPlayer serverPlayer) {
+			ContainerManager containerManager = ConstructionStick.containerManager;
+			// In use, ContainerTrace is just a placeholder
+			ContainerTrace trace = new ContainerTrace(serverPlayer);
 
-		for (ItemStack stack : inv) {
-			if (count == 0) break;
+			for (ItemStack stack : inv) {
+				if (count == 0) break;
 
-			if (container) {
-				count = containerManager.useItems(player, new ItemStack(item), stack, count);
-			}
+				if (container) {
+					count = containerManager.useItems(serverPlayer, trace, new ItemStack(item), stack, count);
+				}
 
-			if (!container && StickUtil.stackEquals(stack, item)) {
-				int toTake = Math.min(count, stack.getCount());
-				stack.shrink(toTake);
-				count -= toTake;
-				player.getInventory().setChanged();
+				if (!container && StickUtil.stackEquals(stack, item)) {
+					int toTake = Math.min(count, stack.getCount());
+					stack.shrink(toTake);
+					count -= toTake;
+					serverPlayer.getInventory().setChanged();
+				}
 			}
 		}
 		return count;

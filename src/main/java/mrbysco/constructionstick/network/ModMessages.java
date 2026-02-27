@@ -19,6 +19,8 @@ public final class ModMessages {
 		registrar.playToClient(PacketUndoBlocks.ID, PacketUndoBlocks.CODEC, PacketUndoBlocks.Handler::handle);
 		registrar.playToServer(PacketQueryUndo.ID, PacketQueryUndo.CODEC, PacketQueryUndo.Handler::handle);
 		registrar.playToServer(PacketStickOption.ID, PacketStickOption.CODEC, PacketStickOption.Handler::handle);
+		registrar.playToServer(PacketRequestPreview.ID, PacketRequestPreview.CODEC, PacketRequestPreview.Handler::handle);
+		registrar.playToClient(PacketPreviewResult.ID, PacketPreviewResult.CODEC, PacketPreviewResult.Handler::handle);
 	}
 
 	public static void sendToServer(CustomPacketPayload message) {
