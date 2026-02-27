@@ -1,8 +1,8 @@
 package mrbysco.constructionstick.api;
 
+import mrbysco.constructionstick.containers.ContainerTrace;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import mrbysco.constructionstick.containers.ContainerTrace;
 
 public interface IContainerHandler {
 	boolean matches(Player player, ItemStack itemStack, ItemStack inventoryStack);
