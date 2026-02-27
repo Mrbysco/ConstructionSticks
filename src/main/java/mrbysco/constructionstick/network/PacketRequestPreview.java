@@ -35,23 +35,22 @@ public record PacketRequestPreview(BlockHitResult rtr, ItemStack stick) implemen
 		return ID;
 	}
 
-	public static class Handler
-	{
+	public static class Handler {
 		public static void handle(final PacketRequestPreview msg, final IPayloadContext ctx) {
 			ctx.enqueueWork(() -> {
-				if (ctx.flow().isServerbound() && ctx.player() instanceof ServerPlayer player) {
-					StickJob job = ItemStick.getStickJob(player, player.level(), msg.rtr, msg.stick);
-					if (job == null) return;
-					Set<BlockPos> blocks = job.getBlockPositions();
+						if (ctx.flow().isServerbound() && ctx.player() instanceof ServerPlayer player) {
+							StickJob job = ItemStick.getStickJob(player, player.level(), msg.rtr, msg.stick);
+							if (job == null) return;
+							Set<BlockPos> blocks = job.getBlockPositions();
 
-					ModMessages.sendToPlayer(new PacketPreviewResult(blocks), player);
-				}
-			})
-			.exceptionally(e -> {
-				// Handle exception
-				ctx.disconnect(Component.translatable("constructionstick.networking.preview_request.failed", e.getMessage()));
-				return null;
-			});
+							ModMessages.sendToPlayer(new PacketPreviewResult(blocks), player);
+						}
+					})
+					.exceptionally(e -> {
+						// Handle exception
+						ctx.disconnect(Component.translatable("constructionstick.networking.preview_request.failed", e.getMessage()));
+						return null;
+					});
 		}
 	}
 }

@@ -76,7 +76,7 @@ public class SupplierInventory implements IStickSupplier {
 	@Override
 	@Nullable
 	public PlaceSnapshot getPlaceSnapshot(Level level, BlockPos pos, BlockHitResult blockHitResult,
-										  @Nullable BlockState supportingBlock) {
+	                                      @Nullable BlockState supportingBlock) {
 		if (!StickUtil.isPositionPlaceable(level, player, pos, options.replace.get())) return null;
 		itemPool.reset();
 

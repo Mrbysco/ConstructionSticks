@@ -6,8 +6,7 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
 
-public class ContainerManager
-{
+public class ContainerManager {
 	private final ArrayList<IContainerHandler> handlers;
 
 	public ContainerManager() {
@@ -19,8 +18,8 @@ public class ContainerManager
 	}
 
 	public int countItems(Player player, ContainerTrace trace, ItemStack itemStack, ItemStack inventoryStack) {
-		for(IContainerHandler handler : handlers) {
-			if(handler.matches(player, itemStack, inventoryStack)) {
+		for (IContainerHandler handler : handlers) {
+			if (handler.matches(player, itemStack, inventoryStack)) {
 				int sig = handler.getSignature(player, inventoryStack);
 				if (trace.push(sig)) {
 					int count = handler.countItems(player, trace, itemStack, inventoryStack);
@@ -34,8 +33,8 @@ public class ContainerManager
 	}
 
 	public int useItems(Player player, ContainerTrace trace, ItemStack itemStack, ItemStack inventoryStack, int count) {
-		for(IContainerHandler handler : handlers) {
-			if(handler.matches(player, itemStack, inventoryStack)) {
+		for (IContainerHandler handler : handlers) {
+			if (handler.matches(player, itemStack, inventoryStack)) {
 				int sig = handler.getSignature(player, inventoryStack);
 				if (trace.push(sig)) {
 					int remaining = handler.useItems(player, trace, itemStack, inventoryStack, count);

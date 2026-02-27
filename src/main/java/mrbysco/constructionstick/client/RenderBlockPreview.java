@@ -43,13 +43,12 @@ public class RenderBlockPreview {
 		if (KeybindHandler.KEY_SHOW_PREVIOUS.isDown()) {
 			blocks = undoBlocks;
 			colorG = 1;
-		} 
-		else {
+		} else {
 			// Use cached stickJob for previews of the same target pos/dir
 			// Exception: always update if blockCount < 2 to prevent 1-block previews when block updates
 			// from the last placement are lagging
-			if(lastRayTraceResult == null || !compareRTR(lastRayTraceResult, target) || !lastStick.equals(stick)
-				|| previewBlocks == null || previewBlocks.size() < 2) {
+			if (lastRayTraceResult == null || !compareRTR(lastRayTraceResult, target) || !lastStick.equals(stick)
+					|| previewBlocks == null || previewBlocks.size() < 2) {
 				lastRayTraceResult = target;
 				lastStick = stick;
 				ModMessages.sendToServer(new PacketRequestPreview(target, stick));
