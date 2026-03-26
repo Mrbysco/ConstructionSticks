@@ -18,7 +18,6 @@
       "translate": "advancement.constructionstick.root.desc"
     },
     "icon": {
-      "count": 1,
       "id": "constructionstick:wooden_stick"
     },
     "show_toast": false,

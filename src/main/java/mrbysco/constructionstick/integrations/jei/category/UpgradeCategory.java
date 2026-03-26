@@ -45,14 +45,13 @@ public class UpgradeCategory implements ISmithingCategoryExtension<SmithingApply
 		Minecraft minecraft = Minecraft.getInstance();
 		ClientLevel level = minecraft.level;
 		assert level != null;
-		RegistryAccess registryAccess = level.registryAccess();
 
 		SmithingRecipeInput input = new SmithingRecipeInput(
 				templateSlot.getDisplayedItemStack().orElse(ItemStack.EMPTY),
 				baseSlot.getDisplayedItemStack().orElse(ItemStack.EMPTY),
 				additionSlot.getDisplayedItemStack().orElse(ItemStack.EMPTY)
 		);
-		ItemStack result = recipe.assemble(input, registryAccess);
+		ItemStack result = recipe.assemble(input);
 		outputSlot.createDisplayOverrides()
 				.add(result);
 	}

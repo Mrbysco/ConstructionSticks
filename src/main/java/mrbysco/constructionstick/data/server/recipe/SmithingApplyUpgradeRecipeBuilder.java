@@ -12,6 +12,7 @@ import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 
@@ -23,12 +24,12 @@ public class SmithingApplyUpgradeRecipeBuilder {
 	private final Ingredient base;
 	private final Ingredient addition;
 	private final RecipeCategory category;
-	private final ItemStack result;
+	private final ItemStackTemplate result;
 	private final Identifier upgrade;
 	private final Map<String, Criterion<?>> criteria = new LinkedHashMap<>();
 
 	public SmithingApplyUpgradeRecipeBuilder(Ingredient template, Ingredient base, Ingredient addition,
-	                                         RecipeCategory category, ItemStack result,
+	                                         RecipeCategory category, ItemStackTemplate result,
 	                                         Identifier upgradeComponent) {
 		this.category = category;
 		this.template = template;
@@ -39,7 +40,7 @@ public class SmithingApplyUpgradeRecipeBuilder {
 	}
 
 	public static SmithingApplyUpgradeRecipeBuilder smithing(
-			Ingredient template, Ingredient base, Ingredient addition, RecipeCategory category, ItemStack result, Identifier upgradeComponent
+			Ingredient template, Ingredient base, Ingredient addition, RecipeCategory category, ItemStackTemplate result, Identifier upgradeComponent
 	) {
 		return new SmithingApplyUpgradeRecipeBuilder(template, base, addition, category, result, upgradeComponent);
 	}
@@ -64,7 +65,9 @@ public class SmithingApplyUpgradeRecipeBuilder {
 				.rewards(AdvancementRewards.Builder.recipe(resourceKey))
 				.requirements(AdvancementRequirements.Strategy.OR);
 		this.criteria.forEach(advancement$builder::addCriterion);
-		SmithingApplyUpgradeRecipe applyUpgradeRecipe = new SmithingApplyUpgradeRecipe(this.template, this.base, this.addition, this.result, this.upgrade);
+		SmithingApplyUpgradeRecipe applyUpgradeRecipe = new SmithingApplyUpgradeRecipe(new Recipe.CommonInfo(true),
+				this.template, this.base, this.addition, this.result, this.upgrade
+		);
 		output.accept(
 				resourceKey, applyUpgradeRecipe, advancement$builder.build(resourceKey.identifier().withPrefix("recipes/" + this.category.getFolderName() + "/"))
 		);

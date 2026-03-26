@@ -15,6 +15,7 @@ import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.client.renderer.item.ItemModel;
 import net.minecraft.client.renderer.item.SelectItemModel;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.BlockItem;
@@ -73,6 +74,6 @@ public class ModelGenerator extends ModelProvider {
 	}
 
 	public Identifier generateLayeredItem(ItemModelGenerators itemModels, Identifier modelLocation, Identifier layer0, Identifier layer1) {
-		return TWO_LAYERED_HANDHELD.create(modelLocation, TextureMapping.layered(layer0, layer1), itemModels.modelOutput);
+		return TWO_LAYERED_HANDHELD.create(modelLocation, TextureMapping.layered(new Material(layer0), new Material(layer1)), itemModels.modelOutput);
 	}
 }

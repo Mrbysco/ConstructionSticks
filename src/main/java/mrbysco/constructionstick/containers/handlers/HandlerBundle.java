@@ -5,6 +5,7 @@ import mrbysco.constructionstick.basics.StickUtil;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.BundleContents;
 
@@ -48,7 +49,8 @@ public class HandlerBundle implements IContainerHandler {
 	}
 
 	private void setItemList(ItemStack itemStack, List<ItemStack> itemStacks) {
-		BundleContents contents = new BundleContents(itemStacks);
+		BundleContents contents = new BundleContents(itemStacks.stream().map(stack ->
+				new ItemStackTemplate(stack.getItem(), stack.getCount(), stack.getComponentsPatch())).toList());
 		itemStack.set(DataComponents.BUNDLE_CONTENTS, contents);
 	}
 }

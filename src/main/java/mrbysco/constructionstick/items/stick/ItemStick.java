@@ -170,11 +170,11 @@ public abstract class ItemStick extends Item {
 	}
 
 	public static void optionMessage(Player player, IOption<?> option) {
-		player.displayClientMessage(
+		player.sendOverlayMessage(
 				Component.translatable(option.getKeyTranslation()).withStyle(ChatFormatting.AQUA)
 						.append(Component.translatable(option.getValueTranslation()).withStyle(ChatFormatting.WHITE))
 						.append(Component.literal(" - ").withStyle(ChatFormatting.GRAY))
 						.append(Component.translatable(option.getDescTranslation()).withStyle(ChatFormatting.WHITE))
-				, true);
+		);
 	}
 }

@@ -6,7 +6,6 @@
     "components": {
       "constructionstick:angel": true
     },
-    "count": 1,
     "id": "constructionstick:diamond_stick"
   },
   "template": "constructionstick:template_angel",

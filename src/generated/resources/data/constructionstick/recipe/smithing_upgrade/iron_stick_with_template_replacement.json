@@ -6,7 +6,6 @@
     "components": {
       "constructionstick:replacement": true
     },
-    "count": 1,
     "id": "constructionstick:iron_stick"
   },
   "template": "constructionstick:template_replacement",

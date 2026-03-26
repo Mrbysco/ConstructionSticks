@@ -6,7 +6,6 @@
     "components": {
       "constructionstick:battery_enabled": true
     },
-    "count": 1,
     "id": "constructionstick:wooden_stick"
   },
   "template": "constructionstick:template_battery",

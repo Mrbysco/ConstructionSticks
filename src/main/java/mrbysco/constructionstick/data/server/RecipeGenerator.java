@@ -8,12 +8,13 @@ import mrbysco.constructionstick.registry.ModDataComponents;
 import mrbysco.constructionstick.registry.ModItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
@@ -63,8 +64,9 @@ public class RecipeGenerator extends RecipeProvider {
 	private <T> void templateUpgradeRecipe(RecipeOutput output, DeferredItem<? extends ItemUpgradeTemplate> template,
 	                                       IngredientPredicate item1, Supplier<DataComponentType<T>> component, T defaultValue) {
 		for (DeferredItem<? extends ItemStick> stickHolder : ModItems.STICKS) {
-			ItemStack stack = stickHolder.toStack();
-			stack.set(component, defaultValue);
+			ItemStackTemplate stack = new ItemStackTemplate(stickHolder,
+					DataComponentPatch.builder().set(component.get(), defaultValue).build()
+			);
 			SmithingApplyUpgradeRecipeBuilder.smithing(Ingredient.of(template.get()), Ingredient.of(stickHolder),
 							item1.ingredient(), RecipeCategory.TOOLS, stack, template.get().getRegistryName())
 					.unlocks("has_template", has(template.get()))

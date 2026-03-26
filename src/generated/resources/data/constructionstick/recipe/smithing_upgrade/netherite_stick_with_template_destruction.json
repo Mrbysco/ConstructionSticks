@@ -6,7 +6,6 @@
     "components": {
       "constructionstick:destruction": true
     },
-    "count": 1,
     "id": "constructionstick:netherite_stick"
   },
   "template": "constructionstick:template_destruction",
