@@ -49,7 +49,7 @@ public class ConstructionStick {
 		ModRecipes.RECIPE_SERIALIZERS.register(eventBus);
 
 		// Config setup
-		container.registerConfig(ModConfig.Type.SERVER, ConstructionConfig.SPEC);
+		container.registerConfig(ModConfig.Type.STARTUP, ConstructionConfig.SPEC);
 
 		if (dist.isClient()) {
 			container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
