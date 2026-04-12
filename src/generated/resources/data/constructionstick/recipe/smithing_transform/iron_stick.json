@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": "#c:ingots/iron",
+  "base": "#c:rods/wooden",
+  "result": {
+    "id": "constructionstick:iron_stick"
+  },
+  "template": "constructionstick:stick_template"
+}

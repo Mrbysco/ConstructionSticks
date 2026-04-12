@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": "#c:gems/diamond",
+  "base": "#c:rods/wooden",
+  "result": {
+    "id": "constructionstick:diamond_stick"
+  },
+  "template": "constructionstick:stick_template"
+}

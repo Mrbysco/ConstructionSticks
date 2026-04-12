@@ -44,6 +44,8 @@ public class ModItems {
 	public static final DeferredItem<ItemStick> STICK_DIAMOND = ITEMS.registerItem("diamond_stick", (properties) -> new ItemStickBasic(properties, ToolMaterial.DIAMOND));
 	public static final DeferredItem<ItemStick> STICK_NETHERITE = ITEMS.registerItem("netherite_stick", (properties) -> new ItemStickBasic(properties, ToolMaterial.NETHERITE), properties -> properties.fireResistant());
 
+	public static final DeferredItem<Item> STICK_TEMPLATE = ITEMS.registerSimpleItem("stick_template");
+
 	// Upgrade Templates
 	public static final DeferredItem<ItemUpgradeTemplate> TEMPLATE_ANGEL = ITEMS.registerItem("template_angel", ItemAngelTemplate::new, properties -> properties.stacksTo(1));
 	public static final DeferredItem<ItemUpgradeTemplate> TEMPLATE_DESTRUCTION = ITEMS.registerItem("template_destruction", ItemDestructionTemplate::new, properties -> properties.stacksTo(1));

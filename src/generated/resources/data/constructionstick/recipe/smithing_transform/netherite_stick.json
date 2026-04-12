@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": "#c:ingots/netherite",
+  "base": "#c:rods/wooden",
+  "result": {
+    "id": "constructionstick:netherite_stick"
+  },
+  "template": "constructionstick:stick_template"
+}

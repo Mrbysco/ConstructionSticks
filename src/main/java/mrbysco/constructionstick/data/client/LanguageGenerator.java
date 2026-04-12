@@ -21,6 +21,7 @@ public class LanguageGenerator extends LanguageProvider {
 		addItem(ModItems.STICK_IRON, "Iron Stick");
 		addItem(ModItems.STICK_DIAMOND, "Diamond Stick");
 		addItem(ModItems.STICK_NETHERITE, "Netherite Stick");
+		addItem(ModItems.STICK_TEMPLATE, "Stick Template");
 		addItem(ModItems.TEMPLATE_ANGEL, "Angel Stick Template");
 		addItem(ModItems.TEMPLATE_DESTRUCTION, "Destruction Stick Template");
 		addItem(ModItems.TEMPLATE_REPLACEMENT, "Replacement Stick Template");
