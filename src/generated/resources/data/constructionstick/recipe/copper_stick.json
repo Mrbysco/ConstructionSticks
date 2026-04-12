@@ -6,9 +6,9 @@
     "X": "#c:ingots/copper"
   },
   "pattern": [
-    "  X",
-    " # ",
-    "#  "
+    "   ",
+    "##X",
+    "   "
   ],
   "result": {
     "id": "constructionstick:copper_stick"

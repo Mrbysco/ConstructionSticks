@@ -6,9 +6,9 @@
     "X": "#c:gems/diamond"
   },
   "pattern": [
-    "  X",
-    " # ",
-    "#  "
+    "   ",
+    "##X",
+    "   "
   ],
   "result": {
     "id": "constructionstick:diamond_stick"

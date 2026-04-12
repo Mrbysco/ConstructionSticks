@@ -6,9 +6,9 @@
     "X": "#c:ingots/iron"
   },
   "pattern": [
-    "  X",
-    " # ",
-    "#  "
+    "   ",
+    "##X",
+    "   "
   ],
   "result": {
     "id": "constructionstick:iron_stick"

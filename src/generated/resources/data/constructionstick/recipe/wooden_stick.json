@@ -6,9 +6,9 @@
     "X": "#c:rods/wooden"
   },
   "pattern": [
-    "  X",
-    " # ",
-    "#  "
+    "   ",
+    "##X",
+    "   "
   ],
   "result": {
     "id": "constructionstick:wooden_stick"

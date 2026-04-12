@@ -54,9 +54,9 @@ public class RecipeGenerator extends RecipeProvider {
 		shaped(RecipeCategory.TOOLS, stick)
 				.define('X', material.ingredient())
 				.define('#', Tags.Items.RODS_WOODEN)
-				.pattern("  X")
-				.pattern(" # ")
-				.pattern("#  ")
+				.pattern("   ")
+				.pattern("##X")
+				.pattern("   ")
 				.unlockedBy("has_item", inventoryTrigger(material.predicate()))
 				.save(output);
 	}

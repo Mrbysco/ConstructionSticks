@@ -6,9 +6,9 @@
     "X": "#c:ingots/netherite"
   },
   "pattern": [
-    "  X",
-    " # ",
-    "#  "
+    "   ",
+    "##X",
+    "   "
   ],
   "result": {
     "id": "constructionstick:netherite_stick"

@@ -1,1 +1,2 @@
-* Change config to a STARTUP config so RRV doesn't crash as it loads durability too early
+* Update NeoForge to 26.1.0.19-beta
+* Updated crafting recipes to no longer conflict with minecraft spears
