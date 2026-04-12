@@ -8,12 +8,18 @@ import mrbysco.constructionstick.registry.ModDataComponents;
 import mrbysco.constructionstick.registry.ModItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.SmithingTransformRecipeBuilder;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -31,11 +37,30 @@ public class RecipeGenerator extends RecipeProvider {
 
 	@Override
 	protected void buildRecipes() {
-		stickRecipe(output, ModItems.STICK_WOODEN.get(), IngredientPredicate.fromTag(registries, Tags.Items.RODS_WOODEN));
-		stickRecipe(output, ModItems.STICK_COPPER.get(), IngredientPredicate.fromTag(registries, Tags.Items.INGOTS_COPPER));
-		stickRecipe(output, ModItems.STICK_IRON.get(), IngredientPredicate.fromTag(registries, Tags.Items.INGOTS_IRON));
-		stickRecipe(output, ModItems.STICK_DIAMOND.get(), IngredientPredicate.fromTag(registries, Tags.Items.GEMS_DIAMOND));
-		stickRecipe(output, ModItems.STICK_NETHERITE.get(), IngredientPredicate.fromTag(registries, Tags.Items.INGOTS_NETHERITE));
+		shaped(RecipeCategory.MISC, ModItems.STICK_TEMPLATE)
+				.define('S', Tags.Items.RODS_WOODEN)
+				.define('B', ItemTags.WOODEN_BUTTONS)
+				.pattern(" S ")
+				.pattern("SBS")
+				.pattern(" S ")
+				.unlockedBy("has_stick", has(Tags.Items.RODS_WOODEN))
+				.unlockedBy("has_button", has(ItemTags.WOODEN_BUTTONS))
+				.save(output);
+
+		stickRecipe(output, ModItems.STICK_WOODEN, IngredientPredicate.fromTag(registries, Tags.Items.RODS_WOODEN));
+		shaped(RecipeCategory.TOOLS, ModItems.STICK_WOODEN)
+				.define('X', tagIngredient(Tags.Items.RODS_WOODEN))
+				.define('#', Tags.Items.RODS_WOODEN)
+				.pattern("  X")
+				.pattern(" # ")
+				.pattern("#  ")
+				.unlockedBy("has_item", has(Tags.Items.RODS_WOODEN))
+				.save(output);
+
+		stickRecipe(output, ModItems.STICK_COPPER, IngredientPredicate.fromTag(registries, Tags.Items.INGOTS_COPPER));
+		stickRecipe(output, ModItems.STICK_IRON, IngredientPredicate.fromTag(registries, Tags.Items.INGOTS_IRON));
+		stickRecipe(output, ModItems.STICK_DIAMOND, IngredientPredicate.fromTag(registries, Tags.Items.GEMS_DIAMOND));
+		stickRecipe(output, ModItems.STICK_NETHERITE, IngredientPredicate.fromTag(registries, Tags.Items.INGOTS_NETHERITE));
 
 		templateRecipe(output, ModItems.TEMPLATE_ANGEL.get(), IngredientPredicate.fromTag(registries, Tags.Items.FEATHERS), IngredientPredicate.fromTag(registries, Tags.Items.INGOTS_GOLD));
 		templateRecipe(output, ModItems.TEMPLATE_DESTRUCTION.get(), IngredientPredicate.fromItem(registries, Items.TNT), IngredientPredicate.fromItem(registries, Items.DIAMOND_PICKAXE));
@@ -50,15 +75,13 @@ public class RecipeGenerator extends RecipeProvider {
 		templateUpgradeRecipe(output, ModItems.TEMPLATE_BATTERY, IngredientPredicate.fromTag(registries, Tags.Items.STORAGE_BLOCKS_COPPER), ModDataComponents.BATTERY_ENABLED, true);
 	}
 
-	private void stickRecipe(RecipeOutput output, ItemLike stick, IngredientPredicate material) {
-		shaped(RecipeCategory.TOOLS, stick)
-				.define('X', material.ingredient())
-				.define('#', Tags.Items.RODS_WOODEN)
-				.pattern("  X")
-				.pattern(" # ")
-				.pattern("#  ")
-				.unlockedBy("has_item", inventoryTrigger(material.predicate()))
-				.save(output);
+	private void stickRecipe(RecipeOutput output, DeferredItem<ItemStick> stick, IngredientPredicate material) {
+		SmithingTransformRecipeBuilder.smithing(
+						Ingredient.of(ModItems.STICK_TEMPLATE), tagIngredient(Tags.Items.RODS_WOODEN), material.ingredient(),
+						RecipeCategory.TOOLS, stick.get()
+				)
+				.unlocks("has_item", inventoryTrigger(material.predicate()))
+				.save(output, stick.getId().withPrefix("smithing_transform/").toString());
 	}
 
 	private <T> void templateUpgradeRecipe(RecipeOutput output, DeferredItem<? extends ItemUpgradeTemplate> template,
@@ -87,6 +110,14 @@ public class RecipeGenerator extends RecipeProvider {
 				.pattern("X# ")
 				.unlockedBy("has_item", inventoryTrigger(item1.predicate()))
 				.save(output);
+	}
+
+	private HolderSet<Item> tagSet(TagKey<Item> tagKey) {
+		return this.registries.lookupOrThrow(Registries.ITEM).getOrThrow(tagKey);
+	}
+
+	private Ingredient tagIngredient(TagKey<Item> tagKey) {
+		return Ingredient.of(tagSet(tagKey));
 	}
 
 	public static class Runner extends RecipeProvider.Runner {

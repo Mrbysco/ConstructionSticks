@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": "#c:gems/diamond"
+            "items": "#c:rods/wooden"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "constructionstick:diamond_stick"
+        "recipe": "constructionstick:smithing_transform/wooden_stick"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "constructionstick:diamond_stick"
+      "constructionstick:smithing_transform/wooden_stick"
     ]
   }
 }
