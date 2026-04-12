@@ -1,1 +1,1 @@
-* Update to 26.1
+* Change config to a STARTUP config so RRV doesn't crash as it loads durability too early
