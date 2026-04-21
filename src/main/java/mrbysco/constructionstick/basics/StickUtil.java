@@ -31,6 +31,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.util.BlockSnapshot;
 import net.neoforged.neoforge.event.level.BlockEvent;
+import net.neoforged.neoforge.event.level.block.BreakBlockEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -154,7 +155,7 @@ public class StickUtil {
 				if (!ReplacementRegistry.matchBlocks(currentBlock.getBlock(), block.getBlock())) return false;
 		}
 
-		BlockEvent.BreakEvent breakEvent = new BlockEvent.BreakEvent(level, pos, currentBlock, player);
+		BreakBlockEvent breakEvent = new BreakBlockEvent(level, pos, currentBlock, player);
 		NeoForge.EVENT_BUS.post(breakEvent);
 		if (breakEvent.isCanceled()) return false;
 
