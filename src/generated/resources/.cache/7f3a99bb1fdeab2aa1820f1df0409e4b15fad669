@@ -1,8 +1,9 @@
-// 1.21.11	2025-12-30T23:44:39.4587484	Model Definitions - constructionstick
+// 1.21.11	2026-04-21T22:52:52.3045935	Model Definitions - constructionstick
 1953a634c76927c518429f6a75162688d7d130ff assets/constructionstick/items/copper_stick.json
 4b2aa32d7ddad3b638671a182eb88f72d1196519 assets/constructionstick/items/diamond_stick.json
 0ccf42e479514ba636e80f20b93df7a6801473e3 assets/constructionstick/items/iron_stick.json
 280b6c8ea8a0dd6bb8e1e93b3e326d917963e782 assets/constructionstick/items/netherite_stick.json
+df80cd9c3bdecd42a1c463fa678453cb5f6d671c assets/constructionstick/items/stick_template.json
 516acf35559ece302b4af1ea3b3939f64110dd33 assets/constructionstick/items/template_angel.json
 82ca1119deb3a6e2d618cbd7690405f16e8fab48 assets/constructionstick/items/template_battery.json
 b5f1811d7dd5e0ad7d3402cb9b4102d8be259cd4 assets/constructionstick/items/template_destruction.json
@@ -21,6 +22,7 @@ c3be6cc338558784182c30ec5357e20498d023e2 assets/constructionstick/models/item/ir
 00df07aeb15f41179c3288b9b43cb19abc4991ac assets/constructionstick/models/item/netherite_stick.json
 802d060cfd7977114a80284df41205cff4e234e8 assets/constructionstick/models/item/netherite_stick_angel.json
 fae8760c8cf6da60f3afff8fdd4974cba4053c06 assets/constructionstick/models/item/netherite_stick_destruction.json
+85d97965dd026cf6abbdd31e6fbd40644b69d153 assets/constructionstick/models/item/stick_template.json
 920d428a43af19d4927177b7c37a53550bbf06f3 assets/constructionstick/models/item/template_angel.json
 5ec05a95650b76b51fb7131b23d2784aad0615c0 assets/constructionstick/models/item/template_battery.json
 4f701a35747f96fed25c6eaea8b5766b397e33b0 assets/constructionstick/models/item/template_destruction.json
