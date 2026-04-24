@@ -1,1 +1,1 @@
-* Update NeoForge support (Requires **26.1.2.21-beta** or above) (Thanks Satherov)
+* Fix battery upgrade not working properly (Couldn't be charged)
