@@ -82,24 +82,13 @@ public class ModItems {
 	public static void registerCapabilities(RegisterCapabilitiesEvent event) {
 		for (DeferredHolder<Item, ? extends Item> holder : STICKS) {
 			event.registerItem(Capabilities.Energy.ITEM, (stack, access) -> {
-						StickProperties properties = ConstructionConfig.getStickProperties(holder.get());
-						return new ItemAccessEnergyHandler(access, ModDataComponents.BATTERY.get(),
-								properties.getBatteryStorage(), 200, properties.getBatteryUsage()) {
-							@Override
-							public int extract(int amount, TransactionContext transaction) {
-								if (stack.has(ModDataComponents.BATTERY_ENABLED)) return 0;
-								return super.extract(amount, transaction);
-							}
-
-							@Override
-							public int insert(int amount, TransactionContext transaction) {
-								if (stack.has(ModDataComponents.BATTERY_ENABLED)) return 0;
-								return super.insert(amount, transaction);
-							}
-						};
-					},
-					holder.get()
-			);
+				if (stack.has(ModDataComponents.BATTERY_ENABLED)) {
+					StickProperties properties = ConstructionConfig.getStickProperties(holder.get());
+					return new ItemAccessEnergyHandler(access, ModDataComponents.BATTERY.get(),
+							properties.getBatteryStorage(), 200, properties.getBatteryUsage());
+				}
+				return null;
+			}, holder.value());
 		}
 	}
 }
