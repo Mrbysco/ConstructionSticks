@@ -66,6 +66,18 @@ configurations {
 }
 
 repositories {
+    exclusiveContent { // Sable
+        forRepository {
+            maven {
+                url = "https://maven.ryanhcode.dev/releases"
+                name = "RyanHCode Maven"
+            }
+        }
+        filter {
+            includeGroup("dev.ryanhcode.sable")
+            includeGroup("dev.ryanhcode.sable-companion")
+        }
+    }
     maven {
         url = "https://maven.blamejared.com"
     }
@@ -85,6 +97,12 @@ dependencies {
 
     compileOnly "dev.emi:emi-neoforge:${emi_version}:api"
     localRuntime "dev.emi:emi-neoforge:${emi_version}"
+
+    jarJar(api("dev.ryanhcode.sable-companion:sable-companion-common-${mc_version}:[${sable_companion_version},)")) {
+        version {
+            prefer project.sable_companion_version
+        }
+    }
 }
 
 jar {
@@ -127,7 +145,7 @@ if (System.getenv().CURSEFORGE_KEY) {
     task curseforge(type: net.darkhax.curseforgegradle.TaskPublishCurseForge) {
         apiToken = System.getenv().CURSEFORGE_KEY
 
-        def mainFile = upload(project.curseforge_id, jar)
+        def mainFile = upload(project.curseforge_id, jarJar)
         mainFile.releaseType = 'release'
         mainFile.addModLoader("NeoForge")
         mainFile.addGameVersion("${mc_version}")
@@ -149,7 +167,7 @@ if (System.getenv().MODRINTH_KEY) {
         versionType = "release"
         versionName = "${mod_name} ${mc_version}"
         versionNumber = project.version
-        uploadFile = jar
+        uploadFile = jarJar
         changelog = file("$project.rootDir/changelog.md").text
         gameVersions = ["${mc_version}"]
         loaders = ["neoforge"]

@@ -1,5 +1,6 @@
 package mrbysco.constructionstick.basics;
 
+import dev.ryanhcode.sable.companion.SableCompanion;
 import mrbysco.constructionstick.ConstructionStick;
 import mrbysco.constructionstick.api.IStickTemplate;
 import mrbysco.constructionstick.api.IStickUpgrade;
@@ -217,8 +218,21 @@ public class StickUtil {
 		if (!level.mayInteract(player, pos)) return false;
 
 		// Limit range
-		if (ConstructionConfig.MAX_RANGE.get() > 0 &&
-				StickUtil.blockDistance(player.blockPosition(), pos) > ConstructionConfig.MAX_RANGE.get()) return false;
+		int maxRange = ConstructionConfig.MAX_RANGE.get();
+		if (maxRange > 0) {
+			BlockPos playerPos = player.blockPosition();
+			double distance = SableCompanion.INSTANCE.rectilinearDistanceWithSubLevels(
+					level,
+					playerPos.getX() + 0.5,
+					playerPos.getY() + 0.5,
+					playerPos.getZ() + 0.5,
+					pos.getX() + 0.5,
+					pos.getY() + 0.5,
+					pos.getZ() + 0.5);
+			if (distance > maxRange) {
+				return false;
+			}
+		}
 
 		return true;
 	}
