@@ -73,6 +73,7 @@ public class ModDataComponents {
 			builder
 					.persistent(Codec.INT)
 					.networkSynchronized(ByteBufCodecs.INT)
+					.ignoreSwapAnimation()
 	);
 
 	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Identifier>> SELECTED = DATA_COMPONENT_TYPES.registerComponentType("selected", builder ->
