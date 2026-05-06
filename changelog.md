@@ -1,1 +1,1 @@
-* Fix battery upgrade not working properly (Couldn't be charged)
+* Disable the swap animation on Construction Sticks which has the battery upgrade. Charging the Construction Stick will no longer cause the swap animation to play.
