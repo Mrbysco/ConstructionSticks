@@ -18,13 +18,16 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.Shapes;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.CustomBlockOutlineRenderer;
 import net.neoforged.neoforge.client.event.ExtractBlockOutlineRenderStateEvent;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
 import java.util.Set;
 
+@EventBusSubscriber(Dist.CLIENT)
 public class RenderBlockPreview {
 	public static Set<BlockPos> undoBlocks;
 	public static Set<BlockPos> previewBlocks;
