@@ -7,7 +7,6 @@ import mrbysco.constructionstick.basics.StickUtil;
 import mrbysco.constructionstick.basics.option.StickOptions;
 import mrbysco.constructionstick.config.ConstructionConfig;
 import mrbysco.constructionstick.registry.ModRecipes;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;

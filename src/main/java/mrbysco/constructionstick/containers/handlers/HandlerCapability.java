@@ -1,6 +1,5 @@
 package mrbysco.constructionstick.containers.handlers;
 
-import mrbysco.constructionstick.ConstructionStick;
 import mrbysco.constructionstick.api.IContainerHandler;
 import mrbysco.constructionstick.containers.ContainerTrace;
 import net.minecraft.world.entity.player.Player;

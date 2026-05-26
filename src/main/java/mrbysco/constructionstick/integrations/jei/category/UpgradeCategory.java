@@ -7,7 +7,6 @@ import mezz.jei.api.recipe.category.extensions.vanilla.smithing.ISmithingCategor
 import mrbysco.constructionstick.recipe.SmithingApplyUpgradeRecipe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.SmithingRecipeInput;

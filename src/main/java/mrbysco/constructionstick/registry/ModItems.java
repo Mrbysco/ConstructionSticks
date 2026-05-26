@@ -27,7 +27,6 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.transfer.energy.ItemAccessEnergyHandler;
-import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 
 import java.util.List;
 import java.util.function.Supplier;
