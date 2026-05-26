@@ -99,6 +99,16 @@ repositories {
         name = "TerraformersMC"
         url = "https://maven.terraformersmc.com/"
     }
+    exclusiveContent {
+        forRepository {
+            maven {
+                url "https://cursemaven.com"
+            }
+        }
+        filter {
+            includeGroup "curse.maven"
+        }
+    }
 }
 
 dependencies {
@@ -109,6 +119,9 @@ dependencies {
 
 //    compileOnly "dev.emi:emi-neoforge:${emi_version}:api"
 //    localRuntime "dev.emi:emi-neoforge:${emi_version}"
+    compileOnly "curse.maven:sophisticated-core-618298:${sophisticated_core}"
+    localRuntime "curse.maven:sophisticated-core-618298:${sophisticated_core}"
+    localRuntime "curse.maven:sophisticated-backpacks-422301:${sophisticated_backpacks}"
 }
 
 jar {
