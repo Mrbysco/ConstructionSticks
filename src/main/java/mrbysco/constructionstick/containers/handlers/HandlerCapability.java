@@ -1,5 +1,6 @@
 package mrbysco.constructionstick.containers.handlers;
 
+import mrbysco.constructionstick.ConstructionStick;
 import mrbysco.constructionstick.api.IContainerHandler;
 import mrbysco.constructionstick.containers.ContainerTrace;
 import net.minecraft.world.entity.player.Player;
@@ -40,7 +41,7 @@ public class HandlerCapability implements IContainerHandler {
 	@Override
 	public int useItems(Player player, ContainerTrace trace, ItemStack itemStack, ItemStack inventoryStack, int count) {
 		ResourceHandler<ItemResource> resourceHandler = ItemAccess.forStack(inventoryStack).getCapability(Capabilities.Item.ITEM);
-		if (resourceHandler == null) return 0;
+		if (resourceHandler == null) return count;
 
 		try (var tx = Transaction.openRoot()) {
 			int initialCount = count;
