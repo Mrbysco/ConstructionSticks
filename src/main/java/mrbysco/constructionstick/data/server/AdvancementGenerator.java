@@ -113,7 +113,7 @@ public class AdvancementGenerator extends AdvancementProvider {
 		 * Get a trigger instance for holding items.
 		 *
 		 * @param registries The registries provider.
-		 * @param itemTag The item tag.
+		 * @param itemTag    The item tag.
 		 * @return The trigger instance.
 		 */
 		protected static Criterion<InventoryChangeTrigger.TriggerInstance> hasItemsTrigger(Provider registries, TagKey<Item> itemTag) {
