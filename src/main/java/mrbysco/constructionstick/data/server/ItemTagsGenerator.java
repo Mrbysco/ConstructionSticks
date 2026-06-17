@@ -17,7 +17,7 @@ public class ItemTagsGenerator extends ItemTagsProvider {
 
 	@Override
 	protected void addTags(Provider provider) {
-		this.tag(ModTags.CONSTRUCTION_STICKS).add(ModItems.STICK_WOODEN.get(), ModItems.STICK_COPPER.get(), ModItems.STICK_IRON.get(),
-				ModItems.STICK_DIAMOND.get(), ModItems.STICK_NETHERITE.get());
+		this.tag(ModTags.CONSTRUCTION_STICKS).add(ModItems.STICK_WOODEN.getKey(), ModItems.STICK_COPPER.getKey(), ModItems.STICK_IRON.getKey(),
+				ModItems.STICK_DIAMOND.getKey(), ModItems.STICK_NETHERITE.getKey());
 	}
 }

@@ -4,8 +4,9 @@ import mrbysco.constructionstick.recipe.SmithingApplyUpgradeRecipe;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRequirements;
 import net.minecraft.advancements.AdvancementRewards;
-import net.minecraft.advancements.Criterion;
-import net.minecraft.advancements.criterion.RecipeUnlockedTrigger;
+import net.minecraft.advancements.triggers.Criterion;
+import net.minecraft.advancements.triggers.InventoryChangeTrigger;
+import net.minecraft.advancements.triggers.RecipeUnlockedTrigger;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -44,7 +45,7 @@ public class SmithingApplyUpgradeRecipeBuilder {
 		return new SmithingApplyUpgradeRecipeBuilder(template, base, addition, category, result, upgradeComponent);
 	}
 
-	public SmithingApplyUpgradeRecipeBuilder unlocks(String key, Criterion<?> criterion) {
+	public SmithingApplyUpgradeRecipeBuilder unlocks(String key, net.minecraft.advancements.triggers.Criterion<InventoryChangeTrigger.TriggerInstance> criterion) {
 		this.criteria.put(key, criterion);
 		return this;
 	}

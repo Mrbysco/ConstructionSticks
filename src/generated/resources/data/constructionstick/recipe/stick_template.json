@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
   "key": {
     "B": "#minecraft:wooden_buttons",
     "S": "#c:rods/wooden"

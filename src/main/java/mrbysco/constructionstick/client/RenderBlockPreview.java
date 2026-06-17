@@ -1,12 +1,10 @@
 package mrbysco.constructionstick.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import mrbysco.constructionstick.basics.StickUtil;
 import mrbysco.constructionstick.network.PacketRequestPreview;
 import net.minecraft.client.Camera;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.ShapeRenderer;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.BlockOutlineRenderState;
 import net.minecraft.client.renderer.state.level.LevelRenderState;
@@ -50,7 +48,7 @@ public class RenderBlockPreview {
 		}
 
 		@Override
-		public boolean render(BlockOutlineRenderState renderState, MultiBufferSource.BufferSource buffer, PoseStack poseStack, boolean translucentPass, LevelRenderState levelRenderState) {
+		public boolean render(BlockOutlineRenderState renderState, SubmitNodeCollector nodeCollector, PoseStack poseStack, LevelRenderState levelRenderState) {
 			Entity entity = camera.entity();
 			if (!(entity instanceof Player player)) return false;
 			Set<BlockPos> blocks;
@@ -77,16 +75,14 @@ public class RenderBlockPreview {
 
 			if (blocks == null || blocks.isEmpty()) return false;
 
-			VertexConsumer lineBuilder = buffer.getBuffer(RenderTypes.lines());
-
 			double d0 = camera.position().x();
 			double d1 = camera.position().y();
 			double d2 = camera.position().z();
 
 			for (BlockPos block : blocks) {
 				AABB aabb = new AABB(block).move(-d0, -d1, -d2);
-				ShapeRenderer.renderShape(poseStack, lineBuilder, Shapes.create(aabb), 0, 0, 0,
-						ARGB.colorFromFloat(0.4F, colorR, colorG, colorB), 2F);
+				nodeCollector.submitShapeOutline(poseStack, Shapes.create(aabb), RenderTypes.lines(),
+						ARGB.colorFromFloat(0.4F, colorR, colorG, colorB), 2F, false);
 			}
 
 			return true;

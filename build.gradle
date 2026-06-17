@@ -3,7 +3,7 @@ plugins {
     id 'java-library'
     id 'maven-publish'
     id 'net.neoforged.moddev' version '2.0.141'
-    id 'net.darkhax.curseforgegradle' version '1.2.30'
+    id 'net.darkhax.curseforgegradle' version '1.3.32'
     id 'com.modrinth.minotaur' version "2.+"
 }
 
@@ -115,13 +115,13 @@ dependencies {
     compileOnly "mezz.jei:jei-${jei_minecraft}-common-api:${jei_version}"
     compileOnly "mezz.jei:jei-${jei_minecraft}-neoforge-api:${jei_version}"
 
-    localRuntime "mezz.jei:jei-${jei_minecraft}-neoforge:${jei_version}"
+//    localRuntime "mezz.jei:jei-${jei_minecraft}-neoforge:${jei_version}"
 
 //    compileOnly "dev.emi:emi-neoforge:${emi_version}:api"
 //    localRuntime "dev.emi:emi-neoforge:${emi_version}"
     compileOnly "curse.maven:sophisticated-core-618298:${sophisticated_core}"
-    localRuntime "curse.maven:sophisticated-core-618298:${sophisticated_core}"
-    localRuntime "curse.maven:sophisticated-backpacks-422301:${sophisticated_backpacks}"
+//    localRuntime "curse.maven:sophisticated-core-618298:${sophisticated_core}"
+//    localRuntime "curse.maven:sophisticated-backpacks-422301:${sophisticated_backpacks}"
 }
 
 jar {

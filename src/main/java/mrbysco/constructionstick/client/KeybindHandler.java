@@ -74,7 +74,7 @@ public class KeybindHandler {
 		}
 
 		if (KEY_OPEN_GUI.consumeClick()) {
-			Minecraft.getInstance().setScreen(new StickScreen(stick));
+			Minecraft.getInstance().setScreenAndShow(new StickScreen(stick));
 		}
 	}
 
