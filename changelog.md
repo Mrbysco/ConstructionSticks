@@ -1,1 +1,1 @@
-* Disable the swap animation on Construction Sticks which has the battery upgrade. Charging the Construction Stick will no longer cause the swap animation to play.
+* Update to 26.2
