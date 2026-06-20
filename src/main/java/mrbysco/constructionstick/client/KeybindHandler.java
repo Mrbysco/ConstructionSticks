@@ -49,10 +49,13 @@ public class KeybindHandler {
 
 	@SubscribeEvent
 	public void onClientTick(ClientTickEvent.Post event) {
-		Player player = Minecraft.getInstance().player;
+		Minecraft mc = Minecraft.getInstance();
+		Player player = mc.player;
 		if (player == null) return;
 		if (StickUtil.holdingStick(player) == null) return;
 		ItemStack stick = player.getItemInHand(player.getUsedItemHand());
+
+		if (mc.screen instanceof StickScreen) return;
 
 		if (KEY_CHANGE_UPGRADE.consumeClick()) {
 			StickOptions stickOptions = new StickOptions(stick);
@@ -70,7 +73,7 @@ public class KeybindHandler {
 			ModMessages.sendToServer(new PacketStickOption(stickOptions.direction, true));
 		}
 
-		if (KEY_OPEN_GUI.consumeClick()) {
+		if (KEY_OPEN_GUI.isDown()) {
 			Minecraft.getInstance().setScreen(new StickScreen(stick));
 		}
 	}
