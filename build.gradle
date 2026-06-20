@@ -108,6 +108,18 @@ repositories {
         name = "TerraformersMC"
         url = "https://maven.terraformersmc.com/"
     }
+    exclusiveContent { // Sable
+        forRepository {
+            maven {
+                url = "https://maven.ryanhcode.dev/releases"
+                name = "RyanHCode Maven"
+            }
+        }
+        filter {
+            includeGroup("dev.ryanhcode.sable")
+            includeGroup("dev.ryanhcode.sable-companion")
+        }
+    }
 }
 
 dependencies {
@@ -118,6 +130,13 @@ dependencies {
 
     compileOnly "dev.emi:emi-neoforge:${emi_version}:api"
     localRuntime "dev.emi:emi-neoforge:${emi_version}"
+
+    api("dev.ryanhcode.sable:sable-neoforge-${mc_version}:${sable_version}") {
+        exclude(group: "com.simibubi.create")
+        exclude(group: "net.createmod.ponder")
+        exclude(group: "dev.engine-room.flywheel")
+        exclude(group: "com.tterrag.registrate")
+    }
 }
 
 jar {

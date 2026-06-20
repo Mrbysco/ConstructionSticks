@@ -6,6 +6,7 @@ import mrbysco.constructionstick.api.IStickUpgrade;
 import mrbysco.constructionstick.config.ConstructionConfig;
 import mrbysco.constructionstick.containers.ContainerManager;
 import mrbysco.constructionstick.containers.ContainerTrace;
+import mrbysco.constructionstick.integrations.sable.SableCompat;
 import mrbysco.constructionstick.items.stick.ItemStick;
 import mrbysco.constructionstick.stick.StickItemUseContext;
 import net.minecraft.ChatFormatting;
@@ -30,6 +31,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.util.BlockSnapshot;
 import net.neoforged.neoforge.event.level.BlockEvent;
@@ -92,7 +94,14 @@ public class StickUtil {
 		return inventory;
 	}
 
-	public static int blockDistance(BlockPos p1, BlockPos p2) {
+	public static double blockDistance(Level level, BlockPos p1, BlockPos p2) {
+		if (ModList.get().isLoaded("sable")) {
+			return SableCompat.getRange(level, p1, p2);
+		}
+		return blockDistance(p1, p2);
+	}
+
+	public static double blockDistance(BlockPos p1, BlockPos p2) {
 		return Math.max(Math.abs(p1.getX() - p2.getX()), Math.abs(p1.getZ() - p2.getZ()));
 	}
 
@@ -217,8 +226,11 @@ public class StickUtil {
 		if (!level.mayInteract(player, pos)) return false;
 
 		// Limit range
-		if (ConstructionConfig.MAX_RANGE.get() > 0 &&
-				StickUtil.blockDistance(player.blockPosition(), pos) > ConstructionConfig.MAX_RANGE.get()) return false;
+		int maxRange = ConstructionConfig.MAX_RANGE.get();
+		if (maxRange > 0) {
+			double distance = StickUtil.blockDistance(level, player.blockPosition(), pos);
+			return !(distance > maxRange);
+		}
 
 		return true;
 	}
