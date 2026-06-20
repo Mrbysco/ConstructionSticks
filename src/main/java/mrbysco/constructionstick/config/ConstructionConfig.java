@@ -1,14 +1,17 @@
 package mrbysco.constructionstick.config;
 
+import mrbysco.constructionstick.ConstructionStick;
 import mrbysco.constructionstick.registry.ModItems;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Tiers;
+import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 public class ConstructionConfig {
@@ -25,7 +28,9 @@ public class ConstructionConfig {
 
 	public static final ModConfigSpec.BooleanValue BE_WHITELIST;
 	public static final ModConfigSpec.ConfigValue<List<? extends String>> BE_LIST;
+	public static final ModConfigSpec.ConfigValue<List<? extends String>> BE_LIST_EXCLUSIONS;
 	private static final String[] BE_LIST_DEFAULT = {"chiselsandbits", "mekanism", "waystones"};
+	private static final String[] BE_LIST_EXCLUSIONS_DEFAULT = {"mekanism:dynamic_tank", "mekanism:structural_glass"};
 
 	private static final HashMap<ResourceLocation, StickProperties> stickProperties = new HashMap<>();
 
@@ -112,6 +117,30 @@ public class ConstructionConfig {
 			return upgradeable != null && upgradeable.get();
 		}
 	}
+		
+	public static void registerOnLoading(final ModConfigEvent.Loading configEvent) {
+		if (configEvent.getConfig().getSpec() == SPEC) {
+			validateConfig();
+		}
+	}
+	
+	public static void registerOnReloading(final ModConfigEvent.Reloading configEvent) {
+		if (configEvent.getConfig().getSpec() == SPEC) {
+			validateConfig();
+		}
+	}
+	
+	private static void validateConfig() {
+		List<? extends String> blocksList = BE_LIST.get();
+		List<? extends String> excludeList = BE_LIST_EXCLUSIONS.get();
+		
+		HashSet<? extends String> blocksSet = new HashSet<>(blocksList);
+		blocksSet.retainAll(excludeList);
+		if(!blocksSet.isEmpty()) {
+			ConstructionStick.LOGGER.warn("ConstructionStick has blocks both in white/blacklist and exclude list, exclude list will have priority. Duplicate entries:");
+			ConstructionStick.LOGGER.warn(blocksSet.toString());
+		}
+	}
 
 	static {
 		final var builder = new ModConfigSpec.Builder();
@@ -137,7 +166,12 @@ public class ConstructionConfig {
 		builder.comment("White/Blacklist for Block Entities. Allow/Prevent blocks with BEs from being placed by stick.",
 				"You can either add block ids like minecraft:chest or mod ids like minecraft");
 		BE_LIST = builder.defineListAllowEmpty("BEList", List.of(BE_LIST_DEFAULT), String::new, o -> (o instanceof String));
-		builder.comment("If set to TRUE, treat BEList as a whitelist, otherwise blacklist");
+		builder.comment("Exclusion List for Block Entities. Exclude specific entries from the above White/Blacklist.",
+				"You can only add block ids like minecraft:chest (excluding a whole mod from itself would be nonsensical).");
+		BE_LIST_EXCLUSIONS = builder.defineListAllowEmpty("BEListExclusions", List.of(BE_LIST_EXCLUSIONS_DEFAULT), String::new, o -> (o instanceof String));
+		builder.comment("If set to TRUE, treat BEList as a whitelist, otherwise blacklist.",
+				"Exclusions always work opposite to the main list. Blocks get whitelisted when in blacklist mode and vice versa.",
+				"If the block id is in both lists, the exclusion will take priority and a warning is issued in the log.");
 		BE_WHITELIST = builder.define("BEWhitelist", false);
 		builder.pop();
 
