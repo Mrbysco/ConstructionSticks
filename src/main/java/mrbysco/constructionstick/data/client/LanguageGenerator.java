@@ -99,6 +99,7 @@ public class LanguageGenerator extends LanguageProvider {
 		addKeybind("open_gui", "Open Stick Options");
 		addKeybind("undo", "Undo Operation");
 		addKeybind("show_previous", "Show Previous");
+		addKeybind("toggle_random", "Toggle Random");
 
 		add("constructionstick.networking.query_undo.failed", "Failed to undo operation: %s");
 		add("constructionstick.networking.stick_option.undo", "Failed to change stick option: %s");

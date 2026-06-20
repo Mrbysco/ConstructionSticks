@@ -19,6 +19,7 @@ public class KeybindHandler {
 	public static final KeyMapping KEY_CHANGE_RESTRICTION = new KeyMapping(getKey("change_restriction"), GLFW.GLFW_KEY_UNKNOWN, getKey("category"));
 	public static final KeyMapping KEY_CHANGE_UPGRADE = new KeyMapping(getKey("change_upgrade"), GLFW.GLFW_KEY_UNKNOWN, getKey("category"));
 	public static final KeyMapping KEY_CHANGE_DIRECTION = new KeyMapping(getKey("change_direction"), GLFW.GLFW_KEY_UNKNOWN, getKey("category"));
+	public static final KeyMapping KEY_TOGGLE_RANDOM = new KeyMapping(getKey("toggle_random"), GLFW.GLFW_KEY_UNKNOWN, getKey("category"));
 	public static final KeyMapping KEY_OPEN_GUI = new KeyMapping(getKey("open_gui"), GLFW.GLFW_KEY_UNKNOWN, getKey("category"));
 	public static final KeyMapping KEY_UNDO = new KeyMapping(getKey("undo"), GLFW.GLFW_KEY_UNKNOWN, getKey("category"));
 	public static final KeyMapping KEY_SHOW_PREVIOUS = new KeyMapping(getKey("show_previous"), GLFW.GLFW_KEY_UNKNOWN, getKey("category"));
@@ -71,6 +72,11 @@ public class KeybindHandler {
 			StickOptions stickOptions = new StickOptions(stick);
 			stickOptions.direction.next();
 			ModMessages.sendToServer(new PacketStickOption(stickOptions.direction, true));
+		}
+		if (KEY_TOGGLE_RANDOM.consumeClick()) {
+			StickOptions stickOptions = new StickOptions(stick);
+			stickOptions.random.set(!stickOptions.random.get());
+			ModMessages.sendToServer(new PacketStickOption(stickOptions.random, true));
 		}
 
 		if (KEY_OPEN_GUI.isDown()) {

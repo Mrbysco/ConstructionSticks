@@ -28,6 +28,7 @@ public class ClientHandler {
 		event.register(KeybindHandler.KEY_CHANGE_RESTRICTION);
 		event.register(KeybindHandler.KEY_CHANGE_UPGRADE);
 		event.register(KeybindHandler.KEY_CHANGE_DIRECTION);
+		event.register(KeybindHandler.KEY_TOGGLE_RANDOM);
 		event.register(KeybindHandler.KEY_OPEN_GUI);
 		event.register(KeybindHandler.KEY_UNDO);
 		event.register(KeybindHandler.KEY_SHOW_PREVIOUS);
