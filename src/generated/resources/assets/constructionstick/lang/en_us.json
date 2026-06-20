@@ -138,6 +138,7 @@
   "key.constructionstick.change_upgrade": "Toggle Upgrade",
   "key.constructionstick.open_gui": "Open Stick Options",
   "key.constructionstick.show_previous": "Show Previous",
+  "key.constructionstick.toggle_random": "Toggle Random",
   "key.constructionstick.undo": "Undo Operation",
   "stat.constructionstick.use_stick": "Blocks placed using Stick"
 }
