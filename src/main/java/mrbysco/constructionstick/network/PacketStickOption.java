@@ -34,11 +34,17 @@ public record PacketStickOption(String key, String value, boolean notifyMessage)
 		if (ctx.getDirection().getReceptionSide().isServer() && ctx.getSender() != null) {
 			ServerPlayer player = ctx.getSender();
 			ItemStack stick = StickUtil.holdingStick(player);
-			if (stick == null) return;
+			if (stick == null) {
+				ctx.setPacketHandled(true);
+				return;
+			}
 			StickOptions options = new StickOptions(stick);
 
 			IOption<?> option = options.get(key);
-			if (option == null) return;
+			if (option == null) {
+				ctx.setPacketHandled(true);
+				return;
+			}
 			option.setValueString(value);
 
 			if (notifyMessage) sendOptionMessage(player, option);
