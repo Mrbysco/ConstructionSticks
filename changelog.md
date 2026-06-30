@@ -1,2 +1,1 @@
-* Fix config not being registered
-* Fix smithing recipes
+* Fix changing modes not working
