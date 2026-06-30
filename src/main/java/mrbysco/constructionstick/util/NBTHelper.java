@@ -23,9 +23,9 @@ public class NBTHelper {
 
 	@Nullable
 	public static ResourceLocation getSelectedUpgrade(ItemStack stack) {
-		if (hasKey(stack, "SelectedUpgrade")) {
-			assert stack.getTag() != null;
-			return new ResourceLocation(stack.getTag().getString("SelectedUpgrade"));
+		if (hasKey(stack, ConstructionStick.SELECTED_KEY)) {
+			CompoundTag root = stack.getTagElement(ConstructionStick.OPTIONS_KEY);
+			return new ResourceLocation(root.getString(ConstructionStick.SELECTED_KEY));
 		}
 		return null;
 	}

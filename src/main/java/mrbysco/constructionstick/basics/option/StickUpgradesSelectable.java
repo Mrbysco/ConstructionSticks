@@ -1,5 +1,6 @@
 package mrbysco.constructionstick.basics.option;
 
+import mrbysco.constructionstick.ConstructionStick;
 import mrbysco.constructionstick.api.IStickUpgrade;
 import mrbysco.constructionstick.basics.StickUtil;
 import net.minecraft.nbt.CompoundTag;
@@ -20,6 +21,11 @@ public class StickUpgradesSelectable<T extends IStickUpgrade> implements IOption
 		this.upgrades = new ArrayList<>();
 		this.specialUpgrades = new ArrayList<>();
 		this.populateList(dVal);
+
+		if (tag.contains(key + "_sel")) {
+			this.selector = tag.getByte(key + "_sel");
+			fixSelector();
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -96,6 +102,7 @@ public class StickUpgradesSelectable<T extends IStickUpgrade> implements IOption
 
 	private void serializeSelector() {
 		tag.putByte(key + "_sel", selector);
+		tag.putString(ConstructionStick.SELECTED_KEY, get().getRegistryName().toString());
 	}
 
 	public boolean isCompatible(T upgrade) {
