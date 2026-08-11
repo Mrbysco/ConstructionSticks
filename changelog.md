@@ -1,1 +1,1 @@
-* Update to 26.2
+* Fix fluids being seen as replaceable blocks
