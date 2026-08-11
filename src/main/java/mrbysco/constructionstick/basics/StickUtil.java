@@ -255,7 +255,7 @@ public class StickUtil {
 		if (!isPositionModifiable(level, player, pos)) return false;
 
 		BlockState state = level.getBlockState(pos);
-		if (state.is(ModTags.NON_REPLACEABLE)) return false;
+		if (state.is(ModTags.NON_REPLACEABLE) || !state.getFluidState().isEmpty()) return false;
 
 		if (!player.isCreative()) {
 			return !(state.getDestroySpeed(level, pos) <= -1) && level.getBlockEntity(pos) == null;
