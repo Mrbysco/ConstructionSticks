@@ -1,1 +1,1 @@
-* Fix changing modes not working
+* Fix fluids being seen as replaceable blocks
