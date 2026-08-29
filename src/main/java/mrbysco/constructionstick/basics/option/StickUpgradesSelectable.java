@@ -13,24 +13,49 @@ import java.util.List;
 public class StickUpgradesSelectable<T extends IStickUpgrade> implements IOption<T> {
 	private final ItemStack stack;
 	private final String key;
+	private final T defaultUpgrade;
 	protected final List<T> upgrades;
 	protected final List<T> specialUpgrades;
 	private byte selector;
 
 	public StickUpgradesSelectable(ItemStack stack, String key, T dVal) {
 		this.key = key;
+		this.defaultUpgrade = dVal;
 		this.upgrades = new ArrayList<>();
 		this.specialUpgrades = new ArrayList<>();
 		this.stack = stack;
-		this.populateList(dVal);
+		this.refreshUpgrades();
+	}
 
-		// Update the selector to match the already selected upgrade if it exists
-		if (this.stack.has(ModDataComponents.SELECTED.get())) {
-			T upgrade = getUpgradeFromId(this.stack.get(ModDataComponents.SELECTED.get()));
-			if (upgrade != null) {
-				this.selector = (byte) this.upgrades.indexOf(upgrade);
+	@SuppressWarnings("unchecked")
+	private void refreshUpgrades() {
+		upgrades.clear();
+		specialUpgrades.clear();
+
+		if (defaultUpgrade != null) {
+			upgrades.add(defaultUpgrade);
+		}
+		for (IStickUpgrade upgrade : StickUtil.getAllUpgrades()) {
+			if (!this.stack.has(upgrade.getStickComponent())) continue;
+			if (upgrade.specialUpgrade()) {
+				specialUpgrades.add((T) upgrade);
+			} else {
+				upgrades.add((T) upgrade);
 			}
 		}
+
+		selector = 0;
+		// Update the selector to match the already selected upgrade if it exists
+		if (this.stack.has(ModDataComponents.SELECTED.get())) {
+			T selectedUpgrade = getUpgradeFromId(this.stack.get(ModDataComponents.SELECTED.get()));
+			if (selectedUpgrade != null) {
+				int index = upgrades.indexOf(selectedUpgrade);
+				if (index >= 0) {
+					selector = (byte) index;
+				}
+			}
+		}
+		fixSelector();
 	}
 
 	private T getUpgradeFromId(ResourceLocation id) {
@@ -40,18 +65,6 @@ public class StickUpgradesSelectable<T extends IStickUpgrade> implements IOption
 			}
 		}
 		return null;
-	}
-
-	@SuppressWarnings("unchecked")
-	private void populateList(T dVal) {
-		if (dVal != null) upgrades.add(dVal);
-		for (IStickUpgrade upgrade : StickUtil.getAllUpgrades()) {
-			if (!this.stack.has(upgrade.getStickComponent())) continue;
-			if (upgrade.specialUpgrade())
-				specialUpgrades.add((T) upgrade);
-			else
-				upgrades.add((T) upgrade);
-		}
 	}
 
 	@Override
@@ -71,6 +84,7 @@ public class StickUpgradesSelectable<T extends IStickUpgrade> implements IOption
 
 	@Override
 	public void setValueString(String val) {
+		refreshUpgrades();
 		for (byte i = 0; i < upgrades.size(); i++) {
 			if (upgrades.get(i).getRegistryName().toString().equals(val)) {
 				selector = i;
@@ -82,6 +96,7 @@ public class StickUpgradesSelectable<T extends IStickUpgrade> implements IOption
 
 	@Override
 	public boolean isEnabled() {
+		refreshUpgrades();
 		return upgrades.size() > 1;
 	}
 
@@ -95,15 +110,18 @@ public class StickUpgradesSelectable<T extends IStickUpgrade> implements IOption
 
 	@Override
 	public T get() {
-		fixSelector();
+		refreshUpgrades();
 		return upgrades.get(selector);
 	}
 
 	@Override
 	public T next(boolean dir) {
+		refreshUpgrades();
 		selector++;
 		fixSelector();
-		return get();
+		T selected = upgrades.get(selector);
+		set(selected);
+		return selected;
 	}
 
 	private void fixSelector() {
@@ -111,10 +129,12 @@ public class StickUpgradesSelectable<T extends IStickUpgrade> implements IOption
 	}
 
 	public List<T> getUpgrades() {
+		refreshUpgrades();
 		return upgrades;
 	}
 
 	public List<T> getSpecialUpgrades() {
+		refreshUpgrades();
 		return specialUpgrades;
 	}
 
