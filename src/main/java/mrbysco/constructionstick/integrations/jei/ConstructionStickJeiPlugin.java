@@ -50,6 +50,7 @@ public class ConstructionStickJeiPlugin implements IModPlugin {
 	public void registerRecipes(@NotNull IRecipeRegistration registration) {
 
 		MutableComponent stickChangeUpgradeKey = Component.translatable(KeybindHandler.KEY_CHANGE_UPGRADE.getName()).withStyle(ChatFormatting.BLUE);
+		MutableComponent stickChangeRestrictionKey = Component.translatable(KeybindHandler.KEY_CHANGE_RESTRICTION.getName()).withStyle(ChatFormatting.BLUE);
 		MutableComponent stickOpenGuiKey = Component.translatable(KeybindHandler.KEY_OPEN_GUI.getName()).withStyle(ChatFormatting.BLUE);
 		MutableComponent stickUndoKey = Component.translatable(KeybindHandler.KEY_UNDO.getName()).withStyle(ChatFormatting.BLUE);
 		MutableComponent stickShowPrevious = Component.translatable(KeybindHandler.KEY_SHOW_PREVIOUS.getName()).withStyle(ChatFormatting.BLUE);
@@ -63,7 +64,7 @@ public class ConstructionStickJeiPlugin implements IModPlugin {
 			registration.addIngredientInfo(new ItemStack(stick), VanillaTypes.ITEM_STACK,
 					Component.translatable(baseKey + "stick",
 							Component.translatable(baseKeyItem + BuiltInRegistries.ITEM.getKey(stick).getPath()),
-							stickProperties.getLimit(), durabilityComponent, stickChangeUpgradeKey, stickOpenGuiKey, stickShowPrevious, stickUndoKey, stickOpenGuiKey)
+							stickProperties.getLimit(), durabilityComponent, stickChangeRestrictionKey, stickOpenGuiKey, stickShowPrevious, stickUndoKey, stickOpenGuiKey)
 			);
 		}
 
