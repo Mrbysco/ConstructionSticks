@@ -10,6 +10,7 @@ import mrbysco.constructionstick.basics.pool.OrderedPool;
 import mrbysco.constructionstick.containers.ContainerManager;
 import mrbysco.constructionstick.containers.ContainerTrace;
 import mrbysco.constructionstick.stick.undo.PlaceSnapshot;
+import mrbysco.constructionstick.stick.undo.ReplaceSnapshot;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -97,6 +98,34 @@ public class SupplierInventory implements IStickSupplier {
 				if (ncount == 0) itemPool.remove(item);
 
 				return placeSnapshot;
+			}
+		}
+	}
+
+	@Override
+	@Nullable
+	public ReplaceSnapshot getReplaceSnapshot(Level level, Player player, BlockPos pos, BlockState existing) {
+		if (itemPool == null || itemCounts == null) return null;
+		if (!StickUtil.isBlockReplaceable(level, player, pos)) return null;
+		itemPool.reset();
+
+		while (true) {
+			BlockItem item = itemPool.draw();
+			if (item == null) return null;
+
+			Integer count = itemCounts.get(item);
+			if (count == null || count == 0) continue;
+			if (existing.is(item.getBlock())) continue;
+
+			BlockState newBlock = item.getBlock().defaultBlockState();
+			ReplaceSnapshot replaceSnapshot = ReplaceSnapshot.get(level, player, pos, newBlock, item);
+			if (replaceSnapshot != null) {
+				int ncount = count - 1;
+				itemCounts.put(item, ncount);
+
+				if (ncount == 0) itemPool.remove(item);
+
+				return replaceSnapshot;
 			}
 		}
 	}

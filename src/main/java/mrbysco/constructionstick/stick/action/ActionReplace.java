@@ -2,7 +2,6 @@ package mrbysco.constructionstick.stick.action;
 
 import mrbysco.constructionstick.api.IStickAction;
 import mrbysco.constructionstick.api.IStickSupplier;
-import mrbysco.constructionstick.basics.ModTags;
 import mrbysco.constructionstick.basics.option.StickOptions;
 import mrbysco.constructionstick.config.ConstructionConfig;
 import mrbysco.constructionstick.stick.undo.ISnapshot;
@@ -10,7 +9,6 @@ import mrbysco.constructionstick.stick.undo.ReplaceSnapshot;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -35,12 +33,6 @@ public class ActionReplace implements IStickAction {
 		LinkedList<BlockPos> candidates = new LinkedList<>();
 		HashSet<BlockPos> allCandidates = new HashSet<>();
 
-		ItemStack offHand = player.getOffhandItem();
-		if (offHand.isEmpty() || !(offHand.getItem() instanceof BlockItem blockItem)) {
-			return replaceSnapshots;
-		}
-		BlockState newBlock = blockItem.getBlock().defaultBlockState();
-
 		Direction placeDirection = blockHitResult.getDirection();
 		BlockState targetBlock = level.getBlockState(blockHitResult.getBlockPos());
 		BlockPos startingPoint = blockHitResult.getBlockPos();
@@ -56,11 +48,11 @@ public class ActionReplace implements IStickAction {
 			BlockPos currentCandidate = candidates.removeFirst();
 			try {
 				BlockState candidateBlock = level.getBlockState(currentCandidate);
-				if (candidateBlock.is(newBlock.getBlock()) || candidateBlock.isAir()) continue;
+				if (candidateBlock.isAir()) continue;
 
 				if (options.matchBlocks(targetBlock.getBlock(), candidateBlock.getBlock()) &&
-						!targetBlock.is(ModTags.NON_REPLACEABLE) && allCandidates.add(currentCandidate)) {
-					ReplaceSnapshot snapshot = ReplaceSnapshot.get(level, player, currentCandidate, newBlock, blockItem);
+						allCandidates.add(currentCandidate)) {
+					ReplaceSnapshot snapshot = supplier.getReplaceSnapshot(level, player, currentCandidate, candidateBlock);
 					if (snapshot == null) continue;
 					replaceSnapshots.add(snapshot);
 
