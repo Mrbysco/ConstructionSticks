@@ -1,23 +1,16 @@
 package mrbysco.constructionstick.data.server.recipe;
 
 import mrbysco.constructionstick.recipe.SmithingApplyUpgradeRecipe;
-import net.minecraft.advancements.Advancement;
-import net.minecraft.advancements.AdvancementRequirements;
-import net.minecraft.advancements.AdvancementRewards;
-import net.minecraft.advancements.triggers.Criterion;
 import net.minecraft.advancements.triggers.InventoryChangeTrigger;
-import net.minecraft.advancements.triggers.RecipeUnlockedTrigger;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.RecipeUnlockAdvancementBuilder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class SmithingApplyUpgradeRecipeBuilder {
 	private final Ingredient template;
@@ -26,7 +19,7 @@ public class SmithingApplyUpgradeRecipeBuilder {
 	private final RecipeCategory category;
 	private final ItemStackTemplate result;
 	private final Identifier upgrade;
-	private final Map<String, Criterion<?>> criteria = new LinkedHashMap<>();
+	private final RecipeUnlockAdvancementBuilder advancementBuilder = new RecipeUnlockAdvancementBuilder();
 
 	public SmithingApplyUpgradeRecipeBuilder(Ingredient template, Ingredient base, Ingredient addition,
 	                                         RecipeCategory category, ItemStackTemplate result,
@@ -46,7 +39,7 @@ public class SmithingApplyUpgradeRecipeBuilder {
 	}
 
 	public SmithingApplyUpgradeRecipeBuilder unlocks(String key, net.minecraft.advancements.triggers.Criterion<InventoryChangeTrigger.TriggerInstance> criterion) {
-		this.criteria.put(key, criterion);
+		this.advancementBuilder.unlockedBy(key, criterion);
 		return this;
 	}
 
@@ -59,23 +52,9 @@ public class SmithingApplyUpgradeRecipeBuilder {
 	}
 
 	public void save(RecipeOutput output, ResourceKey<Recipe<?>> resourceKey) {
-		this.ensureValid(resourceKey);
-		Advancement.Builder advancement$builder = output.advancement()
-				.addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(resourceKey))
-				.rewards(AdvancementRewards.Builder.recipe(resourceKey))
-				.requirements(AdvancementRequirements.Strategy.OR);
-		this.criteria.forEach(advancement$builder::addCriterion);
 		SmithingApplyUpgradeRecipe applyUpgradeRecipe = new SmithingApplyUpgradeRecipe(new Recipe.CommonInfo(true),
 				this.template, this.base, this.addition, this.result, this.upgrade
 		);
-		output.accept(
-				resourceKey, applyUpgradeRecipe, advancement$builder.build(resourceKey.identifier().withPrefix("recipes/" + this.category.getFolderName() + "/"))
-		);
-	}
-
-	private void ensureValid(ResourceKey<Recipe<?>> recipe) {
-		if (this.criteria.isEmpty()) {
-			throw new IllegalStateException("No way of obtaining recipe " + recipe.identifier());
-		}
+		output.accept(resourceKey, applyUpgradeRecipe, this.advancementBuilder.build(output, resourceKey, this.category));
 	}
 }

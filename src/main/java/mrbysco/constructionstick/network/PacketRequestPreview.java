@@ -22,11 +22,11 @@ public record PacketRequestPreview(BlockHitResult rtr, ItemStack stick) implemen
 	public static final Type<PacketRequestPreview> ID = new Type<>(ConstructionStick.modLoc("request_preview"));
 
 	public PacketRequestPreview(RegistryFriendlyByteBuf buffer) {
-		this(buffer.readBlockHitResult(), ItemStack.STREAM_CODEC.decode(buffer));
+		this(BlockHitResult.STREAM_CODEC.decode(buffer), ItemStack.STREAM_CODEC.decode(buffer));
 	}
 
 	public static void encode(PacketRequestPreview msg, RegistryFriendlyByteBuf buffer) {
-		buffer.writeBlockHitResult(msg.rtr);
+		BlockHitResult.STREAM_CODEC.encode(buffer, msg.rtr);
 		ItemStack.STREAM_CODEC.encode(buffer, msg.stick);
 	}
 

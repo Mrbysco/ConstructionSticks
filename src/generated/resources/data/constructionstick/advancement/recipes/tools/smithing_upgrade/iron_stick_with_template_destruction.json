@@ -33,7 +33,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "constructionstick:smithing_upgrade/iron_stick_with_template_destruction"
+        "recipes": "constructionstick:smithing_upgrade/iron_stick_with_template_destruction"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -33,7 +33,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "constructionstick:smithing_upgrade/copper_stick_with_template_unbreakable"
+        "recipes": "constructionstick:smithing_upgrade/copper_stick_with_template_unbreakable"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

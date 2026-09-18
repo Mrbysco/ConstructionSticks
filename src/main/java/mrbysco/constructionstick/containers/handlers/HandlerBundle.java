@@ -51,7 +51,7 @@ public class HandlerBundle implements IContainerHandler {
 
 	private Stream<ItemStack> getContents(ItemStack bundleStack) {
 		BundleContents contents = bundleStack.getOrDefault(DataComponents.BUNDLE_CONTENTS, BundleContents.EMPTY);
-		return contents.itemCopyStream();
+		return contents.itemCopies();
 	}
 
 	private void setItemList(ItemStack itemStack, List<ItemStack> itemStacks) {

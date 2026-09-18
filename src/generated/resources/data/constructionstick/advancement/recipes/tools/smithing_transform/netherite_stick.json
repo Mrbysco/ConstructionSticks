@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "constructionstick:smithing_transform/netherite_stick"
+        "recipes": "constructionstick:smithing_transform/netherite_stick"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

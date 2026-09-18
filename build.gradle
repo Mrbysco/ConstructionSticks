@@ -2,7 +2,7 @@ plugins {
     id 'idea'
     id 'java-library'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.143'
+    id 'net.neoforged.moddev' version '2.0.147'
     id 'net.darkhax.curseforgegradle' version '1.3.33'
     id 'com.modrinth.minotaur' version "2.+"
 }
@@ -119,9 +119,9 @@ dependencies {
 
 //    compileOnly "dev.emi:emi-neoforge:${emi_version}:api"
 //    localRuntime "dev.emi:emi-neoforge:${emi_version}"
-    compileOnly "curse.maven:sophisticated-core-618298:${sophisticated_core}"
-    localRuntime "curse.maven:sophisticated-core-618298:${sophisticated_core}"
-    localRuntime "curse.maven:sophisticated-backpacks-422301:${sophisticated_backpacks}"
+//    compileOnly "curse.maven:sophisticated-core-618298:${sophisticated_core}"
+//    localRuntime "curse.maven:sophisticated-core-618298:${sophisticated_core}"
+//    localRuntime "curse.maven:sophisticated-backpacks-422301:${sophisticated_backpacks}"
 }
 
 jar {

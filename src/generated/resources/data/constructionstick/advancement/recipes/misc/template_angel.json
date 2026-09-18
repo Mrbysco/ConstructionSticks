@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "constructionstick:template_angel"
+        "recipes": "constructionstick:template_angel"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

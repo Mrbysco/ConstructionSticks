@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "constructionstick:stick_template"
+        "recipes": "constructionstick:stick_template"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

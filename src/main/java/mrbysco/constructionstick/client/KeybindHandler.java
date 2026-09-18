@@ -15,17 +15,17 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
-import org.lwjgl.glfw.GLFW;
+import org.lwjgl.sdl.SDLKeycode;
 
 @EventBusSubscriber(Dist.CLIENT)
 public class KeybindHandler {
 	public static KeyMapping.Category CATEGORY = new KeyMapping.Category(ConstructionStick.modLoc("category"));
-	public static final KeyMapping KEY_CHANGE_RESTRICTION = new KeyMapping(getKey("change_restriction"), GLFW.GLFW_KEY_UNKNOWN, CATEGORY);
-	public static final KeyMapping KEY_CHANGE_UPGRADE = new KeyMapping(getKey("change_upgrade"), GLFW.GLFW_KEY_UNKNOWN, CATEGORY);
-	public static final KeyMapping KEY_CHANGE_DIRECTION = new KeyMapping(getKey("change_direction"), GLFW.GLFW_KEY_UNKNOWN, CATEGORY);
-	public static final KeyMapping KEY_OPEN_GUI = new KeyMapping(getKey("open_gui"), GLFW.GLFW_KEY_UNKNOWN, CATEGORY);
-	public static final KeyMapping KEY_UNDO = new KeyMapping(getKey("undo"), GLFW.GLFW_KEY_UNKNOWN, CATEGORY);
-	public static final KeyMapping KEY_SHOW_PREVIOUS = new KeyMapping(getKey("show_previous"), GLFW.GLFW_KEY_UNKNOWN, CATEGORY);
+	public static final KeyMapping KEY_CHANGE_RESTRICTION = new KeyMapping(getKey("change_restriction"), SDLKeycode.SDLK_UNKNOWN, CATEGORY);
+	public static final KeyMapping KEY_CHANGE_UPGRADE = new KeyMapping(getKey("change_upgrade"), SDLKeycode.SDLK_UNKNOWN, CATEGORY);
+	public static final KeyMapping KEY_CHANGE_DIRECTION = new KeyMapping(getKey("change_direction"), SDLKeycode.SDLK_UNKNOWN, CATEGORY);
+	public static final KeyMapping KEY_OPEN_GUI = new KeyMapping(getKey("open_gui"), SDLKeycode.SDLK_UNKNOWN, CATEGORY);
+	public static final KeyMapping KEY_UNDO = new KeyMapping(getKey("undo"), SDLKeycode.SDLK_UNKNOWN, CATEGORY);
+	public static final KeyMapping KEY_SHOW_PREVIOUS = new KeyMapping(getKey("show_previous"), SDLKeycode.SDLK_UNKNOWN, CATEGORY);
 
 	private static String getKey(String name) {
 		return String.join(".", "key", ConstructionStick.MOD_ID, name);

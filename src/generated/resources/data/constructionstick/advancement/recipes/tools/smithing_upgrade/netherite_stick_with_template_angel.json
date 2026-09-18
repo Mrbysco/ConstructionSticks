@@ -33,7 +33,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "constructionstick:smithing_upgrade/netherite_stick_with_template_angel"
+        "recipes": "constructionstick:smithing_upgrade/netherite_stick_with_template_angel"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

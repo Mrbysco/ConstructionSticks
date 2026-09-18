@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "constructionstick:template_destruction"
+        "recipes": "constructionstick:template_destruction"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

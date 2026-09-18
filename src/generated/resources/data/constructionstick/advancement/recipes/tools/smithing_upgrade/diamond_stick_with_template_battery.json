@@ -33,7 +33,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "constructionstick:smithing_upgrade/diamond_stick_with_template_battery"
+        "recipes": "constructionstick:smithing_upgrade/diamond_stick_with_template_battery"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

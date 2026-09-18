@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "constructionstick:template_battery"
+        "recipes": "constructionstick:template_battery"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -33,7 +33,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "constructionstick:smithing_upgrade/wooden_stick_with_template_replacement"
+        "recipes": "constructionstick:smithing_upgrade/wooden_stick_with_template_replacement"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
