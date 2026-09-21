@@ -19,5 +19,14 @@ public class ItemTagsGenerator extends ItemTagsProvider {
 	protected void addTags(Provider provider) {
 		this.tag(ModTags.CONSTRUCTION_STICKS).add(ModItems.STICK_WOODEN.get(), ModItems.STICK_COPPER.get(), ModItems.STICK_IRON.get(),
 				ModItems.STICK_DIAMOND.get(), ModItems.STICK_NETHERITE.get());
+
+		this.tag(ModTags.BLACKLISTED_INVENTORIES).add(
+				net.p3pp3rf1y.sophisticatedbackpacks.init.ModItems.BACKPACK.get(),
+				net.p3pp3rf1y.sophisticatedbackpacks.init.ModItems.COPPER_BACKPACK.get(),
+				net.p3pp3rf1y.sophisticatedbackpacks.init.ModItems.IRON_BACKPACK.get(),
+				net.p3pp3rf1y.sophisticatedbackpacks.init.ModItems.GOLD_BACKPACK.get(),
+				net.p3pp3rf1y.sophisticatedbackpacks.init.ModItems.DIAMOND_BACKPACK.get(),
+				net.p3pp3rf1y.sophisticatedbackpacks.init.ModItems.NETHERITE_BACKPACK.get()
+		);
 	}
 }
