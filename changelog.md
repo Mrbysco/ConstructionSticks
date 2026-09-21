@@ -1,3 +1,2 @@
-* Fix JEI information referencing the wrong keybind
-* Change how the upgrades are gathered in the Stick Options screen
-* Hook up Matching to the replacement upgrade
+* Add `constructionsticks:blacklisted_inventories` item tag. Any item in there will not be checked for contents.
+* Add Sophisticated Backpacks to the blacklist tag (temporarily) until I can figure out a fix for high memory usage
