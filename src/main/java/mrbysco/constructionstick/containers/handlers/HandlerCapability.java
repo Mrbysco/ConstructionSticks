@@ -1,6 +1,7 @@
 package mrbysco.constructionstick.containers.handlers;
 
 import mrbysco.constructionstick.api.IContainerHandler;
+import mrbysco.constructionstick.basics.ModTags;
 import mrbysco.constructionstick.containers.ContainerTrace;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -13,6 +14,7 @@ import net.neoforged.neoforge.transfer.transaction.Transaction;
 public class HandlerCapability implements IContainerHandler {
 	@Override
 	public boolean matches(Player player, ItemStack itemStack, ItemStack inventoryStack) {
+		if (itemStack.is(ModTags.BLACKLISTED_INVENTORIES)) return false;
 		return !inventoryStack.isEmpty() && ItemAccess.forStack(inventoryStack).getCapability(Capabilities.Item.ITEM) != null;
 	}
 

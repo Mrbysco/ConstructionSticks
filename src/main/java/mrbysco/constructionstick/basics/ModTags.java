@@ -9,6 +9,7 @@ import net.minecraft.world.level.block.Block;
 
 public class ModTags {
 	public static final TagKey<Item> CONSTRUCTION_STICKS = ItemTags.create(ConstructionStick.modLoc("construction_sticks"));
+	public static final TagKey<Item> BLACKLISTED_INVENTORIES = ItemTags.create(ConstructionStick.modLoc("blacklisted_inventories"));
 
 	public static final TagKey<Block> NON_REPLACEABLE = BlockTags.create(ConstructionStick.modLoc("non_replaceable"));
 	public static final TagKey<Block> NON_PLACABLE = BlockTags.create(ConstructionStick.modLoc("non_placable"));

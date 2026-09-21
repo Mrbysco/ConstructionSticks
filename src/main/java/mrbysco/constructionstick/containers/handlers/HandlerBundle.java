@@ -1,6 +1,7 @@
 package mrbysco.constructionstick.containers.handlers;
 
 import mrbysco.constructionstick.api.IContainerHandler;
+import mrbysco.constructionstick.basics.ModTags;
 import mrbysco.constructionstick.basics.StickUtil;
 import mrbysco.constructionstick.containers.ContainerTrace;
 import net.minecraft.core.component.DataComponents;
@@ -17,6 +18,7 @@ import java.util.stream.Stream;
 public class HandlerBundle implements IContainerHandler {
 	@Override
 	public boolean matches(Player player, ItemStack itemStack, ItemStack inventoryStack) {
+		if (itemStack.is(ModTags.BLACKLISTED_INVENTORIES)) return false;
 		return !inventoryStack.isEmpty() && inventoryStack.getCount() == 1 && inventoryStack.getItem() == Items.BUNDLE;
 	}
 
